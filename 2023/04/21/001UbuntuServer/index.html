@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.1.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.hxygmy.site","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="操作系统：Ubuntu 22.04.4 LTS (GNU&#x2F;Linux 6.5.0-21-generic x86_64)">
+<meta property="og:type" content="article">
+<meta property="og:title" content="服务器纪念">
+<meta property="og:url" content="http://www.hxygmy.site/2023/04/21/001UbuntuServer/index.html">
+<meta property="og:site_name" content="正经人谁写技术博客啊">
+<meta property="og:description" content="操作系统：Ubuntu 22.04.4 LTS (GNU&#x2F;Linux 6.5.0-21-generic x86_64)">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-04-21T05:40:56.000Z">
+<meta property="article:modified_time" content="2024-03-22T13:14:31.155Z">
+<meta property="article:author" content="何晓宇">
+<meta property="article:tag" content="Linux">
+<meta property="article:tag" content="Server">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://www.hxygmy.site/2023/04/21/001UbuntuServer/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>服务器纪念 | 正经人谁写技术博客啊</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">正经人谁写技术博客啊</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">何晓宇的技术博客</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section">首页</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://www.hxygmy.site/2023/04/21/001UbuntuServer/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="何晓宇">
+      <meta itemprop="description" content="技术博客，数据库，Linux，机器学习">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="正经人谁写技术博客啊">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          服务器纪念
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2023-04-21 13:40:56" itemprop="dateCreated datePublished" datetime="2023-04-21T13:40:56+08:00">2023-04-21</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>操作系统：Ubuntu 22.04.4 LTS (GNU&#x2F;Linux 6.5.0-21-generic x86_64)</p>
+<span id="more"></span>
+
+<h1 id="apt"><a href="#apt" class="headerlink" title="apt"></a>apt</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">首先配置源，此部分各个系统版本不同，且随时有可能更新，如果有GUI可以直接使用键鼠在系统设置中操作，如果没有就要上网搜一下。</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">另外如果在安装ubuntu的时候位置选的对，ubuntu可能会在进入系统后自动就配置到清华的软件源。</span></span><br><span class="line">sudo apt update</span><br><span class="line">sudo apt list --upgradable</span><br><span class="line">sudo apt upgrade -y</span><br></pre></td></tr></table></figure>
+
+<h1 id="Vim"><a href="#Vim" class="headerlink" title="Vim"></a>Vim</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install vim -y</span><br><span class="line">sudo vim /etc/vim/vimrc</span><br><span class="line"></span><br><span class="line">set number</span><br><span class="line">set autoindent</span><br><span class="line">set cursorline</span><br><span class="line">set ruler</span><br><span class="line">set tabstop=4</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">显示行号；</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">自动缩进；</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">突出显示当前行；</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">打开状态栏标尺；</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">tab键为4个单位。</span></span><br><span class="line"></span><br><span class="line">vim ~/.bashrc</span><br><span class="line">force_color_prompt=yes</span><br></pre></td></tr></table></figure>
+
+<h1 id="GPG"><a href="#GPG" class="headerlink" title="GPG"></a>GPG</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">很有可能在安装其他依赖的时候就已经安装好了，其实很多通用包不需要安装，一些大型项目会在安装本身的时候安装很多通用包。比如lsb-release gnupg curl wget transport-https net-tools rsync lzrz nodejs等，一些重要的也会单独列出来。</span></span><br><span class="line">sudo apt install gnupg</span><br></pre></td></tr></table></figure>
+
+<h1 id="SSH"><a href="#SSH" class="headerlink" title="SSH"></a>SSH</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install net-tools -y</span><br><span class="line">ifconfig</span><br><span class="line"></span><br><span class="line">sudo apt-get install openssh-server -y</span><br><span class="line">sudo passwd root</span><br><span class="line">ssh-keygen</span><br><span class="line">cd ~/.ssh</span><br><span class="line"></span><br><span class="line">sudo vim /etc/ssh/sshd_config</span><br><span class="line"></span><br><span class="line">PubkeyAuthentication yes</span><br><span class="line">PasswordAuthentication no</span><br><span class="line">PermitRootLogin yes</span><br><span class="line">PermitEmptyPasswords no</span><br><span class="line">MaxAuthTries 4</span><br><span class="line"></span><br><span class="line">sudo systemctl restart ssh</span><br></pre></td></tr></table></figure>
+
+<h1 id="RzSz"><a href="#RzSz" class="headerlink" title="RzSz"></a>RzSz</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install lrzsz</span><br></pre></td></tr></table></figure>
+
+<h1 id="静态IP"><a href="#静态IP" class="headerlink" title="静态IP"></a>静态IP</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">可以直接通过路由器的DHCP分配设置中把ubuntu机器现有的IP地址固定下来。首推通过路由器配置，且软硬路由器都可以简单实现。</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">如果不能，以下是仅通过ubuntu系统内部操作更改静态IP，中文位置都是需要改的。</span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">查看网卡名</span></span><br><span class="line">ip addr</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">找到有ipv4地址的网卡，序号后面紧跟着的就是网卡名，如enp3s0f2，wlp4s0等</span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">sudo vim /etc/netplan/01-network-manager-all.yaml</span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">复制下面的内容</span></span><br><span class="line">network:</span><br><span class="line">  version: 2</span><br><span class="line">  renderer: NetworkManager</span><br><span class="line">  wifis:</span><br><span class="line">    这里写网卡名:</span><br><span class="line">      dhcp4: no</span><br><span class="line">      dhcp6: yes</span><br><span class="line">      addresses: [这里写静态ip/24]</span><br><span class="line">      optional: true</span><br><span class="line">      routes:</span><br><span class="line">        - to: default</span><br><span class="line">          via: 这里写网关，一般是路由器的内网地址，如192.168.1.1</span><br><span class="line">      nameservers:</span><br><span class="line">        addresses: [114.114.114.114, 8.8.8.8]</span><br><span class="line">      access-points: </span><br><span class="line">        无线网名:</span><br><span class="line">          password: 无线网密码</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">修改权限，并更新网卡</span></span><br><span class="line">sudo chmod 600 /etc/netplan/01-network-manager-all.yaml </span><br><span class="line">sudo netplan apply</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">查看当前文件夹下的文件的权限情况</span></span><br><span class="line">ls -l</span><br></pre></td></tr></table></figure>
+
+<h1 id="安全"><a href="#安全" class="headerlink" title="安全"></a>安全</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">合盖不休眠</span></span><br><span class="line">vim /etc/systemd/logind.conf</span><br><span class="line">HandleLidSwitch=lock</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">lock是锁屏，或ignore，无视</span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">禁ping</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">sudo vim /etc/sysctl.conf</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">net.ipv4.icmp_echo_ignore_all = 1</span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">开启地址空间布局随机化 | 入侵防范</span></span><br><span class="line">sysctl -w kernel.randomize_va_space=2</span><br><span class="line">sysctl -p</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">禁用邮件服务</span></span><br><span class="line">systemctl disable postfix</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">防火墙相关命令，开启防火墙之后安全性大大增加。如果要暴露在外网，防火墙是必须的。</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">sudo ufw status</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">sudo ufw status numbered</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">sudo ufw <span class="built_in">enable</span></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">sudo ufw reload</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">sudo ufw <span class="built_in">disable</span></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">sudo ufw allow 8000/tcp</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">sudo ufw allow 8000/udp</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">sudo ufw allow 8000</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">sudo ufw delete 3</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">sudo ufw deny 22/tcp</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">sudo ufw allow 192.168.1.0/24 to any</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="Java"><a href="#Java" class="headerlink" title="Java"></a>Java</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install openjdk-17-jdk -y</span><br></pre></td></tr></table></figure>
+
+<h1 id="Scala"><a href="#Scala" class="headerlink" title="Scala"></a>Scala</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install scala -y</span><br></pre></td></tr></table></figure>
+
+<h1 id="Python"><a href="#Python" class="headerlink" title="Python"></a>Python</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install python3 -y</span><br><span class="line">sudo apt install python3-pip -y</span><br><span class="line">pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple</span><br><span class="line">pip install -i https://pypi.tuna.tsinghua.edu.cn/simple pip -U</span><br><span class="line">pip install numpy pandas matplotlib pyspark jupyter tensorflow pyarrow torch scikit-learn</span><br><span class="line">sudo apt install python-is-python3 -y</span><br></pre></td></tr></table></figure>
+
+<h1 id="PostgreSQL"><a href="#PostgreSQL" class="headerlink" title="PostgreSQL"></a>PostgreSQL</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install -y libpq-dev postgresql postgresql-contrib</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">sudo su postgres</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">psql</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">CREATE USER hxy WITH PASSWORD <span class="string">&#x27;xxxxxxxxx&#x27;</span>;</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">ALTER USER hxy WITH SUPERUSER;</span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">sudo vim /etc/postgresql/14/main/pg_hba.conf</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash"><span class="built_in">local</span>   all             all                                     md5</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">host    all             all             0.0.0.0/0               md5</span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">sudo vim /etc/postgresql/14/main/postgresql.conf</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">listen_addresses = <span class="string">&#x27;*&#x27;</span></span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">sudo service postgresql restart</span></span><br><span class="line"></span><br><span class="line">sudo ufw allow 5432/tcp</span><br></pre></td></tr></table></figure>
+
+<h1 id="MySQL"><a href="#MySQL" class="headerlink" title="MySQL"></a>MySQL</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install mysql-server -y</span><br></pre></td></tr></table></figure>
+
+<h1 id="Sqlite"><a href="#Sqlite" class="headerlink" title="Sqlite"></a>Sqlite</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install sqlite3 -y</span><br></pre></td></tr></table></figure>
+
+<h1 id="C"><a href="#C" class="headerlink" title="C++"></a>C++</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install build-essential gdb -y</span><br></pre></td></tr></table></figure>
+
+<h1 id="Rust"><a href="#Rust" class="headerlink" title="Rust"></a>Rust</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install curl -y</span><br><span class="line">curl --proto &#x27;=https&#x27; --tlsv1.2 -sSf https://sh.rustup.rs | sh</span><br><span class="line">1</span><br><span class="line">source &quot;$HOME/.cargo/env&quot;</span><br></pre></td></tr></table></figure>
+
+<h1 id="Git"><a href="#Git" class="headerlink" title="Git"></a>Git</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install git -y</span><br><span class="line"></span><br><span class="line">git config --list --show-origin</span><br><span class="line">git config --global user.name &quot;hexiaoyu&quot;</span><br><span class="line">git config --global user.email &quot;hexi.aoyu@163.com&quot;</span><br></pre></td></tr></table></figure>
+
+<h1 id="功耗"><a href="#功耗" class="headerlink" title="功耗"></a>功耗</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install gnome-power-manager -y</span><br><span class="line">upower --monitor-detail</span><br></pre></td></tr></table></figure>
+
+<h1 id="Jupyter-Notebook-Server"><a href="#Jupyter-Notebook-Server" class="headerlink" title="Jupyter Notebook Server"></a>Jupyter Notebook Server</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">jupyter-notebook --genetate-config</span><br><span class="line"></span><br><span class="line">jupyter notebook password</span><br><span class="line"></span><br><span class="line">vim ~/.jupyter/jupyter_notebook_config.py</span><br><span class="line"></span><br><span class="line">c.ServerApp.allow_remote_access = True</span><br><span class="line">c.ServerApp.ip=&#x27;*&#x27;</span><br><span class="line">c.ServerApp.open_browser = False</span><br><span class="line">c.ServerApp.port = 8888</span><br><span class="line"></span><br><span class="line">pip install jupyterlab-language-pack-zh-CN</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">后台启动</span></span><br><span class="line">cd /root/code/jupyter</span><br><span class="line">nohup jupyter notebook --allow-root &gt;/dev/null 2&gt;&amp;1 &amp;</span><br><span class="line"></span><br><span class="line">vim /root/.jupyter/jupyter_notebook_config.py</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">找到c.NotebookApp.allow_origin = <span class="string">&#x27;&#x27;</span> 将 <span class="string">&#x27;&#x27;</span> 改为 <span class="string">&#x27;*&#x27;</span></span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">精准找到jupyter，第二列是pid</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">ps ux | grep jupyter</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">杀死PID</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash"><span class="built_in">kill</span> -9</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="Zerotier"><a href="#Zerotier" class="headerlink" title="Zerotier"></a>Zerotier</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">curl -s https://install.zerotier.com | sudo bash</span><br><span class="line">zerotier-cli info</span><br><span class="line">zerotier-cli join xxxxxxx</span><br></pre></td></tr></table></figure>
+
+<h1 id="自写DDNS脚本"><a href="#自写DDNS脚本" class="headerlink" title="自写DDNS脚本"></a>自写DDNS脚本</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"><span class="keyword">import</span> json,urllib</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> typing <span class="keyword">import</span> <span class="type">List</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> alibabacloud_alidns20150109.client <span class="keyword">import</span> Client <span class="keyword">as</span> Alidns20150109Client</span><br><span class="line"><span class="keyword">from</span> alibabacloud_tea_openapi <span class="keyword">import</span> models <span class="keyword">as</span> open_api_models</span><br><span class="line"><span class="keyword">from</span> alibabacloud_alidns20150109 <span class="keyword">import</span> models <span class="keyword">as</span> alidns_20150109_models</span><br><span class="line"><span class="keyword">from</span> alibabacloud_tea_util <span class="keyword">import</span> models <span class="keyword">as</span> util_models</span><br><span class="line"><span class="keyword">from</span> alibabacloud_tea_util.client <span class="keyword">import</span> Client <span class="keyword">as</span> UtilClient</span><br><span class="line"></span><br><span class="line"><span class="comment"># 阿里云的access</span></span><br><span class="line">ID = <span class="string">&#x27;略略略&#x27;</span></span><br><span class="line">SECRET = <span class="string">&#x27;略略略&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Sample</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line"><span class="meta">    @staticmethod</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">create_client</span>(<span class="params"></span></span><br><span class="line"><span class="params">        access_key_id: <span class="built_in">str</span>,</span></span><br><span class="line"><span class="params">        access_key_secret: <span class="built_in">str</span>,</span></span><br><span class="line"><span class="params">    </span>) -&gt; Alidns20150109Client:</span><br><span class="line">        config = open_api_models.Config(</span><br><span class="line">            access_key_id=access_key_id,</span><br><span class="line">            access_key_secret=access_key_secret</span><br><span class="line">        )</span><br><span class="line">        config.endpoint = <span class="string">f&#x27;alidns.cn-hangzhou.aliyuncs.com&#x27;</span></span><br><span class="line">        <span class="keyword">return</span> Alidns20150109Client(config)</span><br><span class="line"></span><br><span class="line"><span class="meta">    @staticmethod</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">main</span>(<span class="params"></span></span><br><span class="line"><span class="params">        args: <span class="type">List</span>[<span class="built_in">str</span>],</span></span><br><span class="line"><span class="params">    </span>) -&gt; <span class="literal">None</span>:</span><br><span class="line">        <span class="comment"># client = Sample.create_client(os.environ[&#x27;ALIBABA_CLOUD_ACCESS_KEY_ID&#x27;], os.environ[&#x27;ALIBABA_CLOUD_ACCESS_KEY_SECRET&#x27;])</span></span><br><span class="line">        client = Sample.create_client(ID, SECRET)</span><br><span class="line">        update_domain_record_request = alidns_20150109_models.UpdateDomainRecordRequest(</span><br><span class="line">            <span class="comment"># 自己查record</span></span><br><span class="line">            record_id=<span class="string">&#x27;略略略&#x27;</span>,</span><br><span class="line">            <span class="comment"># 二级域名</span></span><br><span class="line">            rr=<span class="string">&#x27;略略略&#x27;</span>,</span><br><span class="line">            <span class="comment"># 网卡信息</span></span><br><span class="line">            value=os.popen(<span class="string">&quot;ip -6 addr show dev 略略略 | awk &#x27;/inet6/ &#123;print $2&#125;&#x27; | cut -d&#x27;/&#x27; -f1&quot;</span>).readlines()[<span class="number">1</span>][:-<span class="number">1</span>],</span><br><span class="line">            <span class="built_in">type</span>=<span class="string">&#x27;AAAA&#x27;</span></span><br><span class="line">        )</span><br><span class="line">        runtime = util_models.RuntimeOptions()</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            client.update_domain_record_with_options(update_domain_record_request, runtime)</span><br><span class="line">        <span class="keyword">except</span> Exception <span class="keyword">as</span> error:</span><br><span class="line">            <span class="built_in">print</span>(error.message)</span><br><span class="line">            <span class="built_in">print</span>(error.data.get(<span class="string">&quot;Recommend&quot;</span>))</span><br><span class="line">            UtilClient.assert_as_string(error.message)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    Sample.main(sys.argv[<span class="number">1</span>:])</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><strong>2024年1月12日注释，本部分待更新，该python脚本已经经过大幅优化，但这个版本也是有效的</strong></p>
+<h1 id="Docker"><a href="#Docker" class="headerlink" title="Docker"></a>Docker</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install apt-transport-https ca-certificates curl gnupg lsb-release</span><br><span class="line">curl -fsSL https://mirrors.aliyun.com/docker-ce/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg</span><br><span class="line">echo &quot;deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://mirrors.aliyun.com/docker-ce/linux/ubuntu $(lsb_release -cs) stable&quot; | sudo tee /etc/apt/sources.list.d/docker.list &gt; /dev/null</span><br><span class="line">sudo apt update</span><br><span class="line">sudo apt install docker-ce docker-ce-cli containerd.io docker-compose</span><br><span class="line"></span><br><span class="line">echo &#x27;&#123;&quot;registry-mirrors&quot;: [&quot;http://hub-mirror.c.163.com&quot;]&#125;&#x27; &gt;&gt; /etc/docker/daemon.json</span><br><span class="line">sudo service docker restart</span><br></pre></td></tr></table></figure>
+
+<h1 id="Redis"><a href="#Redis" class="headerlink" title="Redis"></a>Redis</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">Redis 的默认端口为6379，运行完了之后会直接启动。</span></span><br><span class="line">curl -fsSL https://packages.redis.io/gpg | sudo gpg --dearmor -o /usr/share/keyrings/redis-archive-keyring.gpg</span><br><span class="line"></span><br><span class="line">echo &quot;deb [signed-by=/usr/share/keyrings/redis-archive-keyring.gpg] https://packages.redis.io/deb $(lsb_release -cs) main&quot; | sudo tee /etc/apt/sources.list.d/redis.list</span><br><span class="line"></span><br><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get install redis</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">查看redis运行状态</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">`service redis-server status`</span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">进入redis client</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">`redis-cli`</span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">redis配置文件</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">sudo vim /etc/redis/redis.conf</span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">开机自启</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">sudo systemctl <span class="built_in">enable</span> redis-server</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="Jellyfin"><a href="#Jellyfin" class="headerlink" title="Jellyfin"></a>Jellyfin</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">curl https://repo.jellyfin.org/install-debuntu.sh | sudo bash</span><br><span class="line"></span><br><span class="line">ln -s /usr/share/jellyfin/web/ /usr/lib/jellyfin/bin/jellyfin-web</span><br></pre></td></tr></table></figure>
+
+<h1 id="Syncthings"><a href="#Syncthings" class="headerlink" title="Syncthings"></a>Syncthings</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">echo &quot;deb https://apt.syncthing.net/ syncthing stable&quot; | sudo tee /etc/apt/sources.list.d/syncthing.list</span><br><span class="line">curl -s https://syncthing.net/release-key.txt | sudo apt-key add -</span><br><span class="line">sudo apt update</span><br><span class="line">sudo apt install syncthing -y</span><br></pre></td></tr></table></figure>
+
+<h1 id="NextCloud"><a href="#NextCloud" class="headerlink" title="NextCloud"></a>NextCloud</h1><p>TODO</p>
+<h1 id="定时任务"><a href="#定时任务" class="headerlink" title="定时任务"></a>定时任务</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install cron postfix -y</span><br><span class="line">service cron status</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">开启cron日志 找到cron的注释并去掉注释</span></span><br><span class="line">sudo vim /etc/rsyslog.d/50-default.conf</span><br><span class="line">sudo service rsyslog restart</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">查看日志</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash"><span class="built_in">tail</span> -f /var/log/cron.log</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="Airflow"><a href="#Airflow" class="headerlink" title="Airflow"></a>Airflow</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">pip install connexion[swagger-ui]</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">从airflow下载docker-compose.yaml和Dockerfile</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">进入要安装airflow的地方，运行</span></span><br><span class="line">mkdir -p ./dags ./logs ./plugins ./config</span><br><span class="line">echo -e &quot;AIRFLOW_UID=$(id -u)&quot; &gt; .env</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">初始化</span></span><br><span class="line">docker compose up airflow-init</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">运行</span></span><br><span class="line">docker compose up</span><br></pre></td></tr></table></figure>
+
+<p><strong>2023年12月22日Note</strong></p>
+<p>​	<strong>Airflow已经被我弃用了，现在使用DophinScheduler + crontab</strong></p>
+<h1 id="DophinScheduler"><a href="#DophinScheduler" class="headerlink" title="DophinScheduler"></a>DophinScheduler</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">wget https://dlcdn.apache.org/dolphinscheduler/3.2.1/apache-dolphinscheduler-3.2.1-bin.tar.gz</span><br><span class="line"></span><br><span class="line">tar -xvzf apache-dolphinscheduler-3.2.1-bin.tar.gz</span><br><span class="line">cd apache-dolphinscheduler-3.2.1-bin</span><br><span class="line">bash ./bin/dolphinscheduler-daemon.sh start standalone-server</span><br><span class="line">mv apache-dolphinscheduler-3.2.1-bin dolphinscheduler-3.2.1</span><br><span class="line">rm apache-dolphinscheduler-3.2.1-bin.tar.gz</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">采用命令行工具登陆 PostgreSQL</span></span><br><span class="line">psql</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">创建数据库</span></span><br><span class="line">postgres=# CREATE DATABASE dolphinscheduler;</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">修改 &#123;user&#125; 和 &#123;password&#125; 为你希望的用户名和密码</span></span><br><span class="line">postgres=# CREATE USER &#123;user&#125; PASSWORD &#123;password&#125;;</span><br><span class="line">postgres=# ALTER DATABASE dolphinscheduler OWNER TO &#123;user&#125;;</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">退出 PostgreSQL</span></span><br><span class="line">postgres=#\q</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">在终端执行如下命令，向配置文件新增登陆权限，并重载 PostgreSQL 配置，替换 &#123;ip&#125; 为对应的 DS 集群服务器 IP 地址段</span></span><br><span class="line">echo &quot;host    dolphinscheduler  dolphin       127.0.0.1/32            md5&quot; &gt;&gt; /etc/postgresql/14/main/pg_hba.conf</span><br><span class="line"></span><br><span class="line">service postgresql restart</span><br><span class="line"></span><br><span class="line">vim ./bin/env/dolphinscheduler_env.sh</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash"><span class="keyword">for</span> postgresql</span></span><br><span class="line">export DATABASE=postgresql</span><br><span class="line">export SPRING_PROFILES_ACTIVE=$&#123;DATABASE&#125;</span><br><span class="line">export SPRING_DATASOURCE_URL=&quot;jdbc:postgresql://127.0.0.1:5432/dolphinscheduler&quot;</span><br><span class="line">export SPRING_DATASOURCE_USERNAME=dolphin</span><br><span class="line">export SPRING_DATASOURCE_PASSWORD=dolphin</span><br><span class="line"></span><br><span class="line">bash tools/bin/upgrade-schema.sh</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">启动 Standalone Server 服务</span></span><br><span class="line">bash ./bin/dolphinscheduler-daemon.sh start standalone-server</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">停止 Standalone Server 服务</span></span><br><span class="line">bash ./bin/dolphinscheduler-daemon.sh stop standalone-server</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">http://ip:12345/dolphinscheduler/ui</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">admin</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">dolphinscheduler123</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="Hexo"><a href="#Hexo" class="headerlink" title="Hexo"></a>Hexo</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">先安装nodejs</span></span><br><span class="line">apt remove nodejs</span><br><span class="line">apt remove npm</span><br><span class="line">curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -</span><br><span class="line">apt-get install -y nodejs</span><br><span class="line">npm config set registry http://mirrors.cloud.tencent.com/npm/</span><br><span class="line">npm install hexo-cli hexo-server -g</span><br><span class="line"></span><br><span class="line">cd</span><br><span class="line">hexo init ~/hxygmy</span><br><span class="line"></span><br><span class="line">hexo new page tags</span><br></pre></td></tr></table></figure>
+
+<h1 id="Samba"><a href="#Samba" class="headerlink" title="Samba"></a>Samba</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">apt install samba</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">更改想要共享的文件夹权限</span></span><br><span class="line">chmod 777 ./share/</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">备份原来的配置文件</span></span><br><span class="line">cp /etc/samba/smb.conf /etc/samba/smb.bak</span><br><span class="line"></span><br><span class="line">vim /etc/samba/smb.conf</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">[doc]</span><br><span class="line"><span class="meta prompt_">	# </span><span class="language-bash">path为共享文件夹的路径</span> </span><br><span class="line">	path = /</span><br><span class="line">	available = yes</span><br><span class="line">	browseable = yes</span><br><span class="line">	public = yes</span><br><span class="line">	writable = yes</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">创建samba用户</span></span><br><span class="line">touch /etc/samba/smbpasswd</span><br><span class="line">smbpasswd -a hxy</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">密码123</span></span><br><span class="line"></span><br><span class="line">service smbd restart</span><br><span class="line">ufw allow 139/tcp</span><br><span class="line">ufw allow 445/tcp</span><br><span class="line">ufw allow 137/udp</span><br><span class="line">ufw allow 138/udp</span><br><span class="line"></span><br><span class="line">ufw reload</span><br></pre></td></tr></table></figure>
+
+<h1 id="Nginx"><a href="#Nginx" class="headerlink" title="Nginx"></a>Nginx</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">apt install nginx</span><br><span class="line"></span><br><span class="line">vim /etc/nginx/nginx.conf</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">这个配置文件第一行改成</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">user root;</span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">不多写了，也可以单独建.conf文件</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">另外这里有个坑，ipv6端口转发的监听需要[::]:port这样的格式</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="Aria2"><a href="#Aria2" class="headerlink" title="Aria2"></a>Aria2</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">安装Aria2。安装完并不能运行和使用，要进行第二步</span></span><br><span class="line">apt install -y aria2</span><br><span class="line">mkdir /etc/aria2</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">创建一个会话文件，用于断点续传</span></span><br><span class="line">touch /etc/aria2/aria2.session</span><br><span class="line">chmod 777 /etc/aria2/aria2.session</span><br><span class="line"></span><br><span class="line">mkdir /root/data/download</span><br><span class="line">chmod -R 777 /root/data/download</span><br><span class="line"></span><br><span class="line">vim /etc/aria2/aria2.conf</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">Aria2配置。手动配置文件后可以运行，但是仅限于命令行模式；所以需要第三步安装界面。</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">Web端配置。web界面其实是一个独立的网站，然后通过aria2的端口连接来管理aria2的任务和参数。</span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash"><span class="comment"># 文件保存相关 ##</span></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">文件的保存路径(可使用绝对路径或相对路径), 默认: 当前启动位置</span></span><br><span class="line">dir=/root/data/download</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">启用磁盘缓存, 0为禁用缓存, 需1.16以上版本, 默认:16M</span></span><br><span class="line">disk-cache=16M</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">文件预分配方式, 能有效降低磁盘碎片, 默认:prealloc</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">预分配所需时间: none &lt; falloc ? trunc &lt; prealloc</span></span><br><span class="line">file-allocation=prealloc</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">断点续传</span></span><br><span class="line">continue=true</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash"><span class="comment"># 下载连接相关 ##</span></span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">最大同时下载任务数, 运行时可修改, 默认:5</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">max-concurrent-downloads=5</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">同一服务器连接数, 添加时可指定, 默认:1</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">max-connection-per-server=5</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">最小文件分片大小, 添加时可指定, 取值范围1M -1024M, 默认:20M</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">假定size=10M, 文件为20MiB 则使用两个来源下载; 文件为15MiB 则使用一个来源下载</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">min-split-size=10M</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">单个任务最大线程数, 添加时可指定, 默认:5</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash"><span class="built_in">split</span>=5</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">整体下载速度限制, 运行时可修改, 默认:0</span></span><br><span class="line">max-overall-download-limit=0</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">单个任务下载速度限制, 默认:0</span></span><br><span class="line">max-download-limit=0</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">整体上传速度限制, 运行时可修改, 默认:0</span></span><br><span class="line">max-overall-upload-limit=0</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">单个任务上传速度限制, 默认:0</span></span><br><span class="line">max-upload-limit=0</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">禁用IPv6, 默认:<span class="literal">false</span></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">disable-ipv6=<span class="literal">true</span></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">连接超时时间, 默认:60</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash"><span class="built_in">timeout</span>=60</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">最大重试次数, 设置为0表示不限制重试次数, 默认:5</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">max-tries=5</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">设置重试等待的秒数, 默认:0</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">retry-wait=0</span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash"><span class="comment"># 进度保存相关 ##</span></span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">从会话文件中读取下载任务</span></span><br><span class="line">input-file=/etc/aria2/aria2.session</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">在Aria2退出时保存`错误/未完成`的下载任务到会话文件</span></span><br><span class="line">save-session=/etc/aria2/aria2.session</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">定时保存会话, 0为退出时才保存, 需1.16.1以上版本, 默认:0</span></span><br><span class="line">save-session-interval=60</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash"><span class="comment"># RPC相关设置 ##</span></span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">启用RPC, 默认:<span class="literal">false</span></span></span><br><span class="line">enable-rpc=true</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">允许所有来源, 默认:<span class="literal">false</span></span></span><br><span class="line">rpc-allow-origin-all=true</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">允许非外部访问, 默认:<span class="literal">false</span></span></span><br><span class="line">rpc-listen-all=true</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">事件轮询方式, 取值:[epoll, kqueue, port, poll, <span class="keyword">select</span>], 不同系统默认值不同</span></span><br><span class="line">event-poll=select</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">RPC监听端口, 端口被占用时可以修改, 默认:6800</span></span><br><span class="line">rpc-listen-port=6800</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">设置的RPC授权令牌, v1.18.4新增功能, 取代 --rpc-user 和 --rpc-passwd 选项</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">rpc-secret=&lt;TOKEN&gt;</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">是否启用 RPC 服务的 SSL/TLS 加密,</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">启用加密后 RPC 服务需要使用 https 或者 wss 协议连接</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">rpc-secure=<span class="literal">true</span></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">在 RPC 服务中启用 SSL/TLS 加密时的证书文件,</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">使用 PEM 格式时，您必须通过 --rpc-private-key 指定私钥，这里可以是CRT或者其他格式，标准内都支持。</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">rpc-certificate=/path/to/certificate.pem</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">在 RPC 服务中启用 SSL/TLS 加密时的私钥文件</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">rpc-private-key=/path/to/certificate.key</span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash"><span class="comment"># BT/PT下载相关 ##</span></span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">当下载的是一个种子(以.torrent结尾)时, 自动开始BT任务, 默认:<span class="literal">true</span></span></span><br><span class="line">follow-torrent=true</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">BT监听端口, 当端口被屏蔽时使用, 默认:6881-6999</span></span><br><span class="line">listen-port=51413</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">单个种子最大连接数, 默认:55</span></span><br><span class="line">bt-max-peers=55</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">打开DHT功能, PT需要禁用, 默认:<span class="literal">true</span></span></span><br><span class="line">enable-dht=false</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">打开IPv6 DHT功能, PT需要禁用</span></span><br><span class="line">enable-dht6=false</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">DHT网络监听端口, 默认:6881-6999</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">dht-listen-port=6881-6999</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">本地节点查找, PT需要禁用, 默认:<span class="literal">false</span></span></span><br><span class="line">bt-enable-lpd=false</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">种子交换, PT需要禁用, 默认:<span class="literal">true</span></span></span><br><span class="line">enable-peer-exchange=false</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">每个种子限速, 对少种的PT很有用, 默认:50K</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">bt-request-peer-speed-limit=50K</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">客户端伪装, PT需要</span></span><br><span class="line">peer-id-prefix=-TR2770-</span><br><span class="line">user-agent=Transmission/2.77</span><br><span class="line">peer-agent=Transmission/2.77</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">当种子的分享率达到这个数时, 自动停止做种, 0为一直做种, 默认:1.0</span></span><br><span class="line">seed-ratio=2.0</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">强制保存会话, 即使任务已经完成, 默认:<span class="literal">false</span></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">较新的版本开启后会在任务完成后依然保留.aria2文件</span></span><br><span class="line">force-save=false</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">BT校验相关, 默认:<span class="literal">true</span></span></span><br><span class="line">bt-hash-check-seed=true</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">继续之前的BT任务时, 无需再次校验, 默认:<span class="literal">false</span></span></span><br><span class="line">bt-seed-unverified=true</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">保存磁力链接元数据为种子文件(.torrent文件), 默认:<span class="literal">false</span></span></span><br><span class="line">bt-save-metadata=true</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">aria2c --conf-path=/etc/aria2/aria2.conf</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">vim /etc/init.d/aria2c</span></span><br><span class="line"></span><br><span class="line">cd /root/app</span><br><span class="line">wget https://github.com/mayswind/AriaNg/releases/download/1.3.7/AriaNg-1.3.7.zip</span><br><span class="line">unzip -d /root/app/ariang/ AriaNg-1.3.7.zip</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">配置nginx</span></span><br><span class="line">vim /etc/nginx/conf.d/aria2.conf</span><br><span class="line"></span><br><span class="line">server &#123;</span><br><span class="line">	listen 1112;</span><br><span class="line">	listen [::]:1112;</span><br><span class="line"></span><br><span class="line">	location / &#123;</span><br><span class="line">		root /root/app/ariang;</span><br><span class="line">		try_files $uri $uri/ =404;</span><br><span class="line">		index index.html;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">nginx -s reload</span><br><span class="line"></span><br><span class="line">aria2c --conf-path=/etc/aria2/aria2.conf -D</span><br></pre></td></tr></table></figure>
+
+<h1 id="Anaconda"><a href="#Anaconda" class="headerlink" title="Anaconda"></a>Anaconda</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">去清华站下载最新的</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">https://mirrors.tuna.tsinghua.edu.cn/anaconda/archive/</span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">运行shell脚本</span></span><br><span class="line">bash Anaconda3-2024.02-1-Linux-x86_64.sh</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">回车，看协议，同意协议，选择路径，初始化anaconda，完成退出</span></span><br><span class="line"></span><br><span class="line">eval &quot;$(/root/app/anaconda3/bin/conda shell.bash hook)&quot;</span><br><span class="line">conda init</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">建立一个jupyter环境</span></span><br><span class="line">conda create -n jupyter</span><br><span class="line">conda activate jupyter</span><br><span class="line">conda install -c conda-forge mamba -y</span><br><span class="line">mamba install xeus-cling -c conda-forge -y</span><br><span class="line">mamba install jupyterlab -y</span><br><span class="line"></span><br><span class="line">conda config --set auto_activate_base false</span><br><span class="line">conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free/</span><br><span class="line">conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main/</span><br><span class="line">conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/conda-forge/</span><br><span class="line">conda config --show channels</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">配置新的位置到<span class="built_in">which</span> jupyter</span></span><br><span class="line">jupyter kernelspec install /root/app/anaconda3/envs/jupyter/share/jupyter/xcpp11 --sys-prefix</span><br><span class="line">jupyter kernelspec install /root/app/anaconda3/envs/jupyter/share/jupyter/xcpp14 --sys-prefix</span><br><span class="line">jupyter kernelspec install /root/app/anaconda3/envs/jupyter/share/jupyter/xcpp17 --sys-prefix</span><br><span class="line"></span><br><span class="line">python -m ipykernel install --name [环境名]</span><br></pre></td></tr></table></figure>
+
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Linux/" rel="tag"># Linux</a>
+              <a href="/tags/Server/" rel="tag"># Server</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/2023/04/23/002%E8%87%AA%E5%8A%A8%E7%BB%B4%E6%8A%A4%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%84%9A%E6%9C%AC/" rel="next" title="Server自动维护脚本">
+      Server自动维护脚本 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#apt"><span class="nav-number">1.</span> <span class="nav-text">apt</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Vim"><span class="nav-number">2.</span> <span class="nav-text">Vim</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#GPG"><span class="nav-number">3.</span> <span class="nav-text">GPG</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#SSH"><span class="nav-number">4.</span> <span class="nav-text">SSH</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#RzSz"><span class="nav-number">5.</span> <span class="nav-text">RzSz</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%9D%99%E6%80%81IP"><span class="nav-number">6.</span> <span class="nav-text">静态IP</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%89%E5%85%A8"><span class="nav-number">7.</span> <span class="nav-text">安全</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Java"><span class="nav-number">8.</span> <span class="nav-text">Java</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Scala"><span class="nav-number">9.</span> <span class="nav-text">Scala</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Python"><span class="nav-number">10.</span> <span class="nav-text">Python</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#PostgreSQL"><span class="nav-number">11.</span> <span class="nav-text">PostgreSQL</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#MySQL"><span class="nav-number">12.</span> <span class="nav-text">MySQL</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Sqlite"><span class="nav-number">13.</span> <span class="nav-text">Sqlite</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#C"><span class="nav-number">14.</span> <span class="nav-text">C++</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Rust"><span class="nav-number">15.</span> <span class="nav-text">Rust</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Git"><span class="nav-number">16.</span> <span class="nav-text">Git</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8A%9F%E8%80%97"><span class="nav-number">17.</span> <span class="nav-text">功耗</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Jupyter-Notebook-Server"><span class="nav-number">18.</span> <span class="nav-text">Jupyter Notebook Server</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Zerotier"><span class="nav-number">19.</span> <span class="nav-text">Zerotier</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%87%AA%E5%86%99DDNS%E8%84%9A%E6%9C%AC"><span class="nav-number">20.</span> <span class="nav-text">自写DDNS脚本</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Docker"><span class="nav-number">21.</span> <span class="nav-text">Docker</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Redis"><span class="nav-number">22.</span> <span class="nav-text">Redis</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Jellyfin"><span class="nav-number">23.</span> <span class="nav-text">Jellyfin</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Syncthings"><span class="nav-number">24.</span> <span class="nav-text">Syncthings</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#NextCloud"><span class="nav-number">25.</span> <span class="nav-text">NextCloud</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1"><span class="nav-number">26.</span> <span class="nav-text">定时任务</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Airflow"><span class="nav-number">27.</span> <span class="nav-text">Airflow</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#DophinScheduler"><span class="nav-number">28.</span> <span class="nav-text">DophinScheduler</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Hexo"><span class="nav-number">29.</span> <span class="nav-text">Hexo</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Samba"><span class="nav-number">30.</span> <span class="nav-text">Samba</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Nginx"><span class="nav-number">31.</span> <span class="nav-text">Nginx</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Aria2"><span class="nav-number">32.</span> <span class="nav-text">Aria2</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Anaconda"><span class="nav-number">33.</span> <span class="nav-text">Anaconda</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">何晓宇</p>
+  <div class="site-description" itemprop="description">技术博客，数据库，Linux，机器学习</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">5</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Applewald" title="Github → https:&#x2F;&#x2F;github.com&#x2F;Applewald" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>Github</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">何晓宇</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+  <script>
+    (function(){
+      var canonicalURL, curProtocol;
+      //Get the <link> tag
+      var x=document.getElementsByTagName("link");
+		//Find the last canonical URL
+		if(x.length > 0){
+			for (i=0;i<x.length;i++){
+				if(x[i].rel.toLowerCase() == 'canonical' && x[i].href){
+					canonicalURL=x[i].href;
+				}
+			}
+		}
+    //Get protocol
+	    if (!canonicalURL){
+	    	curProtocol = window.location.protocol.split(':')[0];
+	    }
+	    else{
+	    	curProtocol = canonicalURL.split(':')[0];
+	    }
+      //Get current URL if the canonical URL does not exist
+	    if (!canonicalURL) canonicalURL = window.location.href;
+	    //Assign script content. Replace current URL with the canonical URL
+      !function(){var e=/([http|https]:\/\/[a-zA-Z0-9\_\.]+\.baidu\.com)/gi,r=canonicalURL,t=document.referrer;if(!e.test(r)){var n=(String(curProtocol).toLowerCase() === 'https')?"https://sp0.baidu.com/9_Q4simg2RQJ8t7jm9iCKT-xh_/s.gif":"//api.share.baidu.com/s.gif";t?(n+="?r="+encodeURIComponent(document.referrer),r&&(n+="&l="+r)):r&&(n+="?l="+r);var i=new Image;i.src=n}}(window);})();
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>
