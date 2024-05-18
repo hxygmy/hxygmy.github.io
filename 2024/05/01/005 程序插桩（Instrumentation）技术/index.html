@@ -32,7 +32,7 @@
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/hxygmy/pgo/img/202405171835477.png">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/hxygmy/pgo/img/202405131710602.png">
 <meta property="article:published_time" content="2024-04-30T17:34:12.000Z">
-<meta property="article:modified_time" content="2024-05-18T17:23:11.916Z">
+<meta property="article:modified_time" content="2024-05-18T22:32:09.144Z">
 <meta property="article:author" content="何晓宇">
 <meta property="article:tag" content="Paper">
 <meta property="article:tag" content="系统优化">
@@ -371,7 +371,7 @@
 
 <ol start="5">
 <li>Code Cache存储了目标程序的指令以及可能存在的插桩指令。</li>
-<li>总结一下，PIN是一个引擎，负责即时编译、插桩Application；Application是待分析的目标应用程序；Pintool是通过Instrumentation API来实现的自定义插桩规则。这三个不同的部分为了不发生代码重入的冲突，会采用直接保存三份glibc的方式。</li>
+<li>总结一下，PIN是一个引擎，负责即时编译、插桩Application；Application是待分析的目标应用程序；Pintool是通过Instrumentation API来实现的自定义插桩规则。这三个不同的部分会采用直接保存三份glibc的方式来避免发生代码重入的冲突。</li>
 </ol>
 <h4 id="数据流转"><a href="#数据流转" class="headerlink" title="数据流转"></a>数据流转</h4><ol>
 <li><p>PIN通过<code>UNIX ptrace API</code>来注入目标应用程序中，该方式可以把PIN的二进制文件<code>寄生</code>到目标应用程序上去</p>
