@@ -17,18 +17,18 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"www.hxygmy.site","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"hide","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+    var CONFIG = {"hostname":"www.hxygmy.site","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"hide","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"valine","storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="脚本Nginx配置证书其实并不难，获取证书还比较麻烦一点。 域名的服务提供商，如阿里腾讯等，通常会有傻瓜式的SSL证书申请方案，依然是需要准备身份证号和手机验证即可申请。 由于Nginx在代理转发领域的的统治性地位，以下主要记录如何通过Nginx使用SSL证书来达到Https协议访问Web服务的目的。">
+  <meta name="description" content="为网站配置SSL证书，以获取HTTPS访问">
 <meta property="og:type" content="article">
 <meta property="og:title" content="NGINX SSL配置">
 <meta property="og:url" content="http://www.hxygmy.site/2023/04/25/003nginx%20ssl/index.html">
 <meta property="og:site_name" content="正经人谁写技术博客啊">
-<meta property="og:description" content="脚本Nginx配置证书其实并不难，获取证书还比较麻烦一点。 域名的服务提供商，如阿里腾讯等，通常会有傻瓜式的SSL证书申请方案，依然是需要准备身份证号和手机验证即可申请。 由于Nginx在代理转发领域的的统治性地位，以下主要记录如何通过Nginx使用SSL证书来达到Https协议访问Web服务的目的。">
+<meta property="og:description" content="为网站配置SSL证书，以获取HTTPS访问">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2023-04-25T04:11:10.000Z">
-<meta property="article:modified_time" content="2024-05-06T15:04:41.393Z">
+<meta property="article:modified_time" content="2024-05-20T03:53:40.625Z">
 <meta property="article:author" content="何晓宇">
 <meta property="article:tag" content="blog">
 <meta property="article:tag" content="nginx">
@@ -185,7 +185,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>361</span>
+              <span>375</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -204,11 +204,12 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="脚本"><a href="#脚本" class="headerlink" title="脚本"></a>脚本</h2><p>Nginx配置证书其实并不难，获取证书还比较麻烦一点。</p>
-<p>域名的服务提供商，如阿里腾讯等，通常会有傻瓜式的SSL证书申请方案，依然是需要准备身份证号和手机验证即可申请。</p>
-<p>由于Nginx在代理转发领域的的<strong>统治性</strong>地位，以下主要记录如何通过Nginx使用SSL证书来达到Https协议访问Web服务的目的。</p>
+        <p>为网站配置SSL证书，以获取HTTPS访问</p>
 <span id="more"></span>
 
+<h2 id="脚本"><a href="#脚本" class="headerlink" title="脚本"></a>脚本</h2><p>Nginx配置证书其实并不难，获取证书还比较麻烦一点。</p>
+<p>域名的服务提供商，如阿里腾讯等，通常会有傻瓜式的SSL证书申请方案，依然是需要准备身份证号和手机验证即可申请。</p>
+<p>由于Nginx在代理转发领域的的<strong>统治性</strong>地位，以下主要记录如何通过Nginx使用SSL证书来达到Https协议访问Web服务的目的。</p>
 <h4 id="SSL证书长什么样子"><a href="#SSL证书长什么样子" class="headerlink" title="SSL证书长什么样子"></a>SSL证书长什么样子</h4><p>SSL证书有两个文件，文件名叫什么无所谓，扩展名分别为pem和key，这两个文件和ssh的id_rsa类似，毕竟都是使用的rsa算法。</p>
 <p>key文件的结构是</p>
 <figure class="highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">-----BEGIN RSA PRIVATE KEY-----</span><br><span class="line">......</span><br><span class="line">-----END RSA PRIVATE KEY-----</span><br></pre></td></tr></table></figure>
@@ -237,7 +238,7 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2023/04/23/002%E8%87%AA%E5%8A%A8%E7%BB%B4%E6%8A%A4%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%84%9A%E6%9C%AC/" rel="prev" title="Server自动维护脚本">
+    <a href="/2023/04/23/002Automated%20maintenance%20server%20scripts/" rel="prev" title="Server自动维护脚本">
       <i class="fa fa-chevron-left"></i> Server自动维护脚本
     </a></div>
       <div class="post-nav-item">
@@ -332,6 +333,9 @@
   <div class="links-of-author motion-element">
       <span class="links-of-author-item">
         <a href="https://github.com/hxygmy" title="Github → https:&#x2F;&#x2F;github.com&#x2F;hxygmy" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>Github</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:hexi.aoyu@163.com" title="E-Mail → mailto:hexi.aoyu@163.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
       </span>
   </div>
 
