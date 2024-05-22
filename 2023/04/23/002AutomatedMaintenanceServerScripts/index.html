@@ -20,22 +20,21 @@
     var CONFIG = {"hostname":"www.hxygmy.site","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"hide","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"valine","storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="X86-64指令集下软件动静指令分布统计工具">
+  <meta name="description" content="Ubuntu22的每日自动维护脚本">
 <meta property="og:type" content="article">
-<meta property="og:title" content="X86-64下的指令分布统计工具">
-<meta property="og:url" content="http://www.hxygmy.site/2024/05/21/006%20Instruction%20Distribution%20Statistics%20Tool/index.html">
+<meta property="og:title" content="Server自动维护脚本">
+<meta property="og:url" content="http://www.hxygmy.site/2023/04/23/002AutomatedMaintenanceServerScripts/index.html">
 <meta property="og:site_name" content="正经人谁写技术博客啊">
-<meta property="og:description" content="X86-64指令集下软件动静指令分布统计工具">
+<meta property="og:description" content="Ubuntu22的每日自动维护脚本">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2024-05-21T01:22:12.000Z">
-<meta property="article:modified_time" content="2024-05-22T03:49:35.577Z">
+<meta property="article:published_time" content="2023-04-23T03:21:13.000Z">
+<meta property="article:modified_time" content="2024-05-22T03:49:35.000Z">
 <meta property="article:author" content="何晓宇">
-<meta property="article:tag" content="Paper">
-<meta property="article:tag" content="系统优化">
-<meta property="article:tag" content="指令">
+<meta property="article:tag" content="Linux">
+<meta property="article:tag" content="Script">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://www.hxygmy.site/2024/05/21/006%20Instruction%20Distribution%20Statistics%20Tool/">
+<link rel="canonical" href="http://www.hxygmy.site/2023/04/23/002AutomatedMaintenanceServerScripts/">
 
 
 <script id="page-configurations">
@@ -48,7 +47,7 @@
   };
 </script>
 
-  <title>X86-64下的指令分布统计工具 | 正经人谁写技术博客啊</title>
+  <title>Server自动维护脚本 | 正经人谁写技术博客啊</title>
   
 
 
@@ -154,7 +153,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://www.hxygmy.site/2024/05/21/006%20Instruction%20Distribution%20Statistics%20Tool/">
+    <link itemprop="mainEntityOfPage" href="http://www.hxygmy.site/2023/04/23/002AutomatedMaintenanceServerScripts/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/favicon.ico">
@@ -167,7 +166,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          X86-64下的指令分布统计工具
+          Server自动维护脚本
         </h1>
 
         <div class="post-meta">
@@ -177,7 +176,7 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2024-05-21 09:22:12" itemprop="dateCreated datePublished" datetime="2024-05-21T09:22:12+08:00">2024-05-21</time>
+              <time title="创建时间：2023-04-23 11:21:13" itemprop="dateCreated datePublished" datetime="2023-04-23T11:21:13+08:00">2023-04-23</time>
             </span>
 
           <br>
@@ -186,7 +185,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>43</span>
+              <span>211</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -205,13 +204,18 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <center>X86-64指令集下软件动静指令分布统计工具</center>
+        <center>Ubuntu22的每日自动维护脚本</center>
 
 <span id="more"></span>
 
-<p>一、<code>X86-64</code>指令的分类</p>
-<p>二、静态分析工具</p>
-<p>三、动态分析工具</p>
+<p><strong>Ubuntu服务器</strong>每日凌晨五点自动重启，更新apt，更新github的DNS，配合crontab实现自动化。</p>
+<p>本脚本不可直接使用，需要更改<strong>github_host备份文件的位置</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">day=$(date +&quot;%d&quot;)</span><br><span class="line">hour=$(date +&quot;%H&quot;)</span><br><span class="line">datetime=$(date +&quot;%Y年%m月%d日 %H:%M:%S&quot;)</span><br><span class="line">echo &quot;===================$&#123;datetime&#125;===================&quot;</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">五点</span></span><br><span class="line">if [ &quot;$&#123;hour&#125;&quot; = &quot;05&quot; ]</span><br><span class="line">then</span><br><span class="line">	echo &quot;===================升级apt==============================&quot;</span><br><span class="line">	apt update</span><br><span class="line">	apt upgrade -y</span><br><span class="line"></span><br><span class="line">	echo &quot;===================升级github hosts=====================&quot;</span><br><span class="line">	rm -f github_host备份文件的位置</span><br><span class="line">	wget -O github_host备份文件的位置 https://raw.hellogithub.com/hosts</span><br><span class="line">	cp /etc/hosts /etc/hosts.backup</span><br><span class="line">	start=$(awk &#x27;/GitHub520 Host Start/&#123;print NR&#125;&#x27; /etc/hosts)</span><br><span class="line">	end=$(awk &#x27;/GitHub520 Host End/&#123;print NR&#125;&#x27; /etc/hosts)</span><br><span class="line">	sed -i &quot;$&#123;start&#125;,$&#123;end&#125;d&quot; /etc/hosts</span><br><span class="line">	cat github_host备份文件的位置 &gt;&gt; /etc/hosts</span><br><span class="line">	cat /etc/hosts | grep &quot;Update time&quot;</span><br><span class="line">	echo &quot;===================github hosts更新完成===================\n&quot;</span><br><span class="line">fi</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">重启</span></span><br><span class="line">init 6</span><br></pre></td></tr></table></figure>
+
+<h2 id="crontab定时指令"><a href="#crontab定时指令" class="headerlink" title="crontab定时指令"></a>crontab定时指令</h2><p>如下，每天凌晨五点执行该脚本</p>
+<blockquote>
+<p>0 5 *&#x2F;1 * * sh $SCRIPTS&#x2F;apt_upgrade.sh</p>
+</blockquote>
 
     </div>
 
@@ -221,9 +225,8 @@
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/Paper/" rel="tag"># Paper</a>
-              <a href="/tags/%E7%B3%BB%E7%BB%9F%E4%BC%98%E5%8C%96/" rel="tag"># 系统优化</a>
-              <a href="/tags/%E6%8C%87%E4%BB%A4/" rel="tag"># 指令</a>
+              <a href="/tags/Linux/" rel="tag"># Linux</a>
+              <a href="/tags/Script/" rel="tag"># Script</a>
           </div>
 
         
@@ -232,10 +235,13 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2024/05/01/005%20%E7%A8%8B%E5%BA%8F%E6%8F%92%E6%A1%A9%EF%BC%88Instrumentation%EF%BC%89%E6%8A%80%E6%9C%AF/" rel="prev" title="程序插桩（Instrumentation）技术">
-      <i class="fa fa-chevron-left"></i> 程序插桩（Instrumentation）技术
+    <a href="/2023/04/21/001UbuntuServer/" rel="prev" title="服务器纪念">
+      <i class="fa fa-chevron-left"></i> 服务器纪念
     </a></div>
-      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/2023/04/25/003NginxSsl/" rel="next" title="NGINX SSL配置">
+      NGINX SSL配置 <i class="fa fa-chevron-right"></i>
+    </a></div>
     </div>
       </footer>
     
@@ -294,6 +300,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#crontab%E5%AE%9A%E6%97%B6%E6%8C%87%E4%BB%A4"><span class="nav-number">1.</span> <span class="nav-text">crontab定时指令</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -308,7 +315,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
           <a href="/archives">
-          <span class="site-state-item-count">6</span>
+          <span class="site-state-item-count">7</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

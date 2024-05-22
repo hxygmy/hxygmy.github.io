@@ -20,21 +20,21 @@
     var CONFIG = {"hostname":"www.hxygmy.site","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"hide","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"valine","storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="Ubuntu22的每日自动维护脚本">
+  <meta name="description" content="A good way to learn both English and Database System, maybe it is also good Interview materials.">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Server自动维护脚本">
-<meta property="og:url" content="http://www.hxygmy.site/2023/04/23/002Automated%20maintenance%20server%20scripts/index.html">
+<meta property="og:title" content="10 Most Representative Professional Terms in Database Systems">
+<meta property="og:url" content="http://www.hxygmy.site/2024/03/21/00410MostRepresentativeProfessionalTermsinDatabaseSystems/index.html">
 <meta property="og:site_name" content="正经人谁写技术博客啊">
-<meta property="og:description" content="Ubuntu22的每日自动维护脚本">
+<meta property="og:description" content="A good way to learn both English and Database System, maybe it is also good Interview materials.">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2023-04-23T03:21:13.000Z">
-<meta property="article:modified_time" content="2024-05-22T03:49:35.577Z">
+<meta property="article:published_time" content="2024-03-20T16:38:02.000Z">
+<meta property="article:modified_time" content="2024-05-22T03:49:35.000Z">
 <meta property="article:author" content="何晓宇">
-<meta property="article:tag" content="Linux">
-<meta property="article:tag" content="Script">
+<meta property="article:tag" content="blog">
+<meta property="article:tag" content="DatabaseSystem">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://www.hxygmy.site/2023/04/23/002Automated%20maintenance%20server%20scripts/">
+<link rel="canonical" href="http://www.hxygmy.site/2024/03/21/00410MostRepresentativeProfessionalTermsinDatabaseSystems/">
 
 
 <script id="page-configurations">
@@ -47,7 +47,7 @@
   };
 </script>
 
-  <title>Server自动维护脚本 | 正经人谁写技术博客啊</title>
+  <title>10 Most Representative Professional Terms in Database Systems | 正经人谁写技术博客啊</title>
   
 
 
@@ -153,7 +153,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://www.hxygmy.site/2023/04/23/002Automated%20maintenance%20server%20scripts/">
+    <link itemprop="mainEntityOfPage" href="http://www.hxygmy.site/2024/03/21/00410MostRepresentativeProfessionalTermsinDatabaseSystems/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/favicon.ico">
@@ -166,7 +166,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          Server自动维护脚本
+          10 Most Representative Professional Terms in Database Systems
         </h1>
 
         <div class="post-meta">
@@ -176,7 +176,7 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2023-04-23 11:21:13" itemprop="dateCreated datePublished" datetime="2023-04-23T11:21:13+08:00">2023-04-23</time>
+              <time title="创建时间：2024-03-21 00:38:02" itemprop="dateCreated datePublished" datetime="2024-03-21T00:38:02+08:00">2024-03-21</time>
             </span>
 
           <br>
@@ -185,14 +185,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>211</span>
+              <span>1.2k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
+              <span>4 分钟</span>
             </span>
 
         </div>
@@ -204,18 +204,60 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <center>Ubuntu22的每日自动维护脚本</center>
+        <center>A good way to learn both English and Database System, maybe it is also good Interview materials.</center>
 
 <span id="more"></span>
 
-<p><strong>Ubuntu服务器</strong>每日凌晨五点自动重启，更新apt，更新github的DNS，配合crontab实现自动化。</p>
-<p>本脚本不可直接使用，需要更改<strong>github_host备份文件的位置</strong></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">day=$(date +&quot;%d&quot;)</span><br><span class="line">hour=$(date +&quot;%H&quot;)</span><br><span class="line">datetime=$(date +&quot;%Y年%m月%d日 %H:%M:%S&quot;)</span><br><span class="line">echo &quot;===================$&#123;datetime&#125;===================&quot;</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">五点</span></span><br><span class="line">if [ &quot;$&#123;hour&#125;&quot; = &quot;05&quot; ]</span><br><span class="line">then</span><br><span class="line">	echo &quot;===================升级apt==============================&quot;</span><br><span class="line">	apt update</span><br><span class="line">	apt upgrade -y</span><br><span class="line"></span><br><span class="line">	echo &quot;===================升级github hosts=====================&quot;</span><br><span class="line">	rm -f github_host备份文件的位置</span><br><span class="line">	wget -O github_host备份文件的位置 https://raw.hellogithub.com/hosts</span><br><span class="line">	cp /etc/hosts /etc/hosts.backup</span><br><span class="line">	start=$(awk &#x27;/GitHub520 Host Start/&#123;print NR&#125;&#x27; /etc/hosts)</span><br><span class="line">	end=$(awk &#x27;/GitHub520 Host End/&#123;print NR&#125;&#x27; /etc/hosts)</span><br><span class="line">	sed -i &quot;$&#123;start&#125;,$&#123;end&#125;d&quot; /etc/hosts</span><br><span class="line">	cat github_host备份文件的位置 &gt;&gt; /etc/hosts</span><br><span class="line">	cat /etc/hosts | grep &quot;Update time&quot;</span><br><span class="line">	echo &quot;===================github hosts更新完成===================\n&quot;</span><br><span class="line">fi</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">重启</span></span><br><span class="line">init 6</span><br></pre></td></tr></table></figure>
-
-<h2 id="crontab定时指令"><a href="#crontab定时指令" class="headerlink" title="crontab定时指令"></a>crontab定时指令</h2><p>如下，每天凌晨五点执行该脚本</p>
-<blockquote>
-<p>0 5 *&#x2F;1 * * sh $SCRIPTS&#x2F;apt_upgrade.sh</p>
-</blockquote>
+<h3 id="V1"><a href="#V1" class="headerlink" title="V1"></a>V1</h3><ol>
+<li><p><strong>Primary Key</strong>: A primary key is a unique identifier for each record in a database table. It ensures that each row in the table is uniquely identified and indexed for fast retrieval. (Source: “Database System Concepts” by Abraham Silberschatz, Henry F. Korth, and S. Sudarshan)</p>
+</li>
+<li><p><strong>Foreign Key</strong>: A foreign key is a field or a group of fields in a database table that uniquely identifies a record in another table. It establishes a link or a relationship between two tables, enforcing referential integrity constraints. (Source: “Database System Concepts” by Abraham Silberschatz, Henry F. Korth, and S. Sudarshan)</p>
+</li>
+<li><p><strong>Transaction</strong>: A transaction is a logical unit of work that contains one or more database operations, such as insert, update, or delete. It ensures that all operations within the transaction are completed successfully or rolled back if any operation fails, maintaining the ACID properties. (Source: “Database Management Systems” by Raghu Ramakrishnan and Johannes Gehrke)</p>
+</li>
+<li><p><strong>Query Optimization</strong>: Query optimization is the process of selecting the most efficient execution plan for a given query to improve database performance. It involves analyzing various execution strategies, estimating costs, and choosing the optimal plan based on factors such as indexes, join methods, and access paths. (Source: “Database System Concepts” by Abraham Silberschatz, Henry F. Korth, and S. Sudarshan)</p>
+</li>
+<li><p><strong>View</strong>: A view is a virtual table that is derived from one or more base tables or other views. It represents a subset of the data in the database and is defined by a query. Views provide a way to simplify complex queries, enforce security policies, and present data in a customized format. (Source: “Database Management Systems” by Raghu Ramakrishnan and Johannes Gehrke)</p>
+</li>
+<li><p><strong>Index</strong>: An index is a data structure that improves the speed of data retrieval operations on a database table. It is created on one or more columns of a table to facilitate quick lookup of rows based on the indexed column values. Indexes can significantly enhance query performance but may incur overhead during data modification operations. (Source: “Database System Concepts” by Abraham Silberschatz, Henry F. Korth, and S. Sudarshan)</p>
+</li>
+<li><p><strong>Trigger</strong>: A trigger is a database object that automatically executes a set of actions in response to certain events, such as insert, update, or delete operations on a table. Triggers are useful for enforcing business rules, maintaining data integrity, and auditing changes to the database. (Source: “Database Management Systems” by Raghu Ramakrishnan and Johannes Gehrke)</p>
+</li>
+<li><p><strong>Normalization</strong>: Normalization is the process of organizing data in a database to minimize redundancy and dependency by dividing large tables into smaller, related tables and defining relationships between them. It helps to eliminate data anomalies and improve data integrity and consistency. (Source: “Database System Concepts” by Abraham Silberschatz, Henry F. Korth, and S. Sudarshan)</p>
+</li>
+<li><p><strong>Redundancy</strong>: Redundancy refers to the duplication of data in a database, which can lead to wasted storage space, increased maintenance overhead, and data inconsistency. It is important to minimize redundancy to ensure data integrity and avoid anomalies such as update anomalies, insertion anomalies, and deletion anomalies. (Source: “Database Management Systems” by Raghu Ramakrishnan and Johannes Gehrke)</p>
+</li>
+<li><p><strong>ACID Properties</strong>: ACID (Atomicity, Consistency, Isolation, Durability) properties are the four essential characteristics of a transaction in a database management system:</p>
+</li>
+</ol>
+<ul>
+<li>Atomicity ensures that all operations within a transaction are completed successfully or rolled back as a single unit.</li>
+<li>Consistency ensures that the database remains in a valid state before and after the transaction.</li>
+<li>Isolation ensures that the execution of one transaction does not interfere with the execution of other concurrent transactions.</li>
+<li>Durability ensures that the changes made by a committed transaction are permanently saved and will not be lost, even in the event of a system failure. (Source: “Database System Concepts” by Abraham Silberschatz, Henry F. Korth, and S. Sudarshan)</li>
+</ul>
+<h3 id="V2"><a href="#V2" class="headerlink" title="V2"></a>V2</h3><ol>
+<li><p><strong>Primary Key</strong>: A unique key in a database table that identifies each record&#x2F;row. It ensures that each row in the table has a unique value for the primary key column, and it cannot be NULL. (Source: “Database System Concepts,” Chapter 2.1)</p>
+</li>
+<li><p><strong>Transaction</strong>: A logical unit of work performed within a database management system (DBMS) that either completely commits or rolls back, ensuring database consistency. It is a sequence of one or more SQL statements that access and possibly modify the contents of a database. (Source: “Database System Concepts,” Chapter 13.1)</p>
+</li>
+<li><p><strong>Query Optimization</strong>: The process of selecting an efficient execution plan for a given SQL query by the DBMS. The optimizer transforms and rewrites the query, considering factors like table sizes, existence of indexes, and data statistics, to find the most effective way to retrieve the desired data. (Source: “Database System Concepts,” Chapter 12.2)</p>
+</li>
+<li><p><strong>Index</strong>: A data structure that improves the speed of data retrieval operations in a database table. An index creates a separate entry for selected columns of a table (or the entire table) and stores them in a way that facilitates faster access. (Source: “Database System Concepts,” Chapter 8.1)</p>
+</li>
+<li><p><strong>Foreign Key</strong>: A field in one table that refers to the primary key in another table. It establishes a relationship between two tables and ensures referential integrity, meaning that the values in the foreign key column must correspond to existing values in the referenced primary key column. (Source: “Database System Concepts,” Chapter 2.2)</p>
+</li>
+<li><p><strong>Stored Procedure</strong>: A precompiled set of SQL statements that are stored in the database and can be executed by specifying its name. It can accept parameters, return data, and contain complex control-of-flow statements. Stored procedures are used to encapsulate frequently used or complex operations. (Source: “Database System Concepts,” Chapter 18.1)</p>
+</li>
+<li><p><strong>Trigger</strong>: A special type of stored procedure that automatically executes when a specified event occurs in a database, such as an INSERT, UPDATE, or DELETE operation on a table. Triggers are used to maintain data integrity, perform logging, or execute other operations related to data changes. (Source: “Database System Concepts,” Chapter 19.1)</p>
+</li>
+<li><p><strong>View</strong>: A virtual table based on the result of an SQL query. Views do not store data physically; they present a customized perspective of the data from one or more tables. Views can simplify complex queries, hide data complexity, and provide security by restricting access to certain columns or rows. (Source: “Database System Concepts,” Chapter 11.1)</p>
+</li>
+<li><p><strong>Cursor</strong>: A database object that enables row-by-row navigation through a result set. Cursors are used when applications need to process query results one row at a time, rather than retrieving the entire result set at once. They provide a mechanism for controlling the traversal and manipulation of data within a result set. (Source: “Database System Concepts,” Chapter 14.1)</p>
+</li>
+<li><p><strong>Isolation Level</strong>: A property that defines how a transaction controls concurrent read and write operations. Different isolation levels provide varying degrees of concurrency control and data consistency guarantees, potentially affecting performance. Common isolation levels include Read Uncommitted, Read Committed, Repeatable Read, and Serializable. (Source: “Database System Concepts,” Chapter 13.3)</p>
+</li>
+</ol>
 
     </div>
 
@@ -225,8 +267,8 @@
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/Linux/" rel="tag"># Linux</a>
-              <a href="/tags/Script/" rel="tag"># Script</a>
+              <a href="/tags/blog/" rel="tag"># blog</a>
+              <a href="/tags/DatabaseSystem/" rel="tag"># DatabaseSystem</a>
           </div>
 
         
@@ -235,12 +277,12 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2023/04/21/001UbuntuServer/" rel="prev" title="服务器纪念">
-      <i class="fa fa-chevron-left"></i> 服务器纪念
+    <a href="/2023/04/25/003NginxSsl/" rel="prev" title="NGINX SSL配置">
+      <i class="fa fa-chevron-left"></i> NGINX SSL配置
     </a></div>
       <div class="post-nav-item">
-    <a href="/2023/04/25/003nginx%20ssl/" rel="next" title="NGINX SSL配置">
-      NGINX SSL配置 <i class="fa fa-chevron-right"></i>
+    <a href="/2024/05/01/005%20%E7%A8%8B%E5%BA%8F%E6%8F%92%E6%A1%A9%EF%BC%88Instrumentation%EF%BC%89%E6%8A%80%E6%9C%AF/" rel="next" title="程序插桩（Instrumentation）技术">
+      程序插桩（Instrumentation）技术 <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
@@ -300,7 +342,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#crontab%E5%AE%9A%E6%97%B6%E6%8C%87%E4%BB%A4"><span class="nav-number">1.</span> <span class="nav-text">crontab定时指令</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#V1"><span class="nav-number">1.</span> <span class="nav-text">V1</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#V2"><span class="nav-number">2.</span> <span class="nav-text">V2</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -315,7 +357,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
           <a href="/archives">
-          <span class="site-state-item-count">6</span>
+          <span class="site-state-item-count">7</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
