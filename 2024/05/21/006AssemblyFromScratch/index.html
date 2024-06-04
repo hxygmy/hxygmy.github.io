@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.1.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico">
+  <link rel="mask-icon" href="/images/favicon.ico" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.hxygmy.site","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"hide","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"valine","storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="指令的汇编基础知识，从代码到可执行文件的流程">
+<meta property="og:type" content="article">
+<meta property="og:title" content="汇编指令基础">
+<meta property="og:url" content="http://www.hxygmy.site/2024/05/21/006AssemblyFromScratch/index.html">
+<meta property="og:site_name" content="正经人谁写技术博客啊">
+<meta property="og:description" content="指令的汇编基础知识，从代码到可执行文件的流程">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://raw.githubusercontent.com/hxygmy/pgo/main/img/202405312204061.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/hxygmy/pgo/main/img/202406022007423.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/hxygmy/pgo/main/img/202406022009128.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/hxygmy/pgo/main/img/202406022027830.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/hxygmy/pgo/main/img/202406022028329.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/hxygmy/pgo/main/img/202406041521691.png">
+<meta property="article:published_time" content="2024-05-21T03:16:02.000Z">
+<meta property="article:modified_time" content="2024-06-04T08:58:40.000Z">
+<meta property="article:author" content="何晓宇">
+<meta property="article:tag" content="系统优化">
+<meta property="article:tag" content="指令">
+<meta property="article:tag" content="汇编">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/hxygmy/pgo/main/img/202405312204061.png">
+
+<link rel="canonical" href="http://www.hxygmy.site/2024/05/21/006AssemblyFromScratch/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>汇编指令基础 | 正经人谁写技术博客啊</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">正经人谁写技术博客啊</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">何晓宇的技术博客</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://www.hxygmy.site/2024/05/21/006AssemblyFromScratch/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/favicon.ico">
+      <meta itemprop="name" content="何晓宇">
+      <meta itemprop="description" content="技术博客，系统优化，编译器，指令集">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="正经人谁写技术博客啊">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          汇编指令基础
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2024-05-21 11:16:02" itemprop="dateCreated datePublished" datetime="2024-05-21T11:16:02+08:00">2024-05-21</time>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>2.6k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>10 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <center>指令的汇编基础知识，从代码到可执行文件的流程</center>
+
+<span id="more"></span>
+
+<h3 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h3><p>指令(instruction)的执行依托于计算机体系结构的通力合作。在第1节先介绍指令是如何在计算机体系结构下运行的。第2节对汇编进行简单介绍。第3节对汇编、链接、加载的工具链进行介绍。</p>
+<p>这些知识是为了对现代程序的执行过程有一个更加底层的理解，且由于这些知识对细节的要求比较高，所以能对系统优化有更清晰的认识。</p>
+<h3 id="1-计算机体系结构"><a href="#1-计算机体系结构" class="headerlink" title="1. 计算机体系结构"></a>1. 计算机体系结构</h3><p><img src="https://raw.githubusercontent.com/hxygmy/pgo/main/img/202405312204061.png" alt="image-20240531220434969"></p>
+<p>现代计算机中包含的主要组件如图，CPU是计算的核心，RAM为**主存(Primary Storage)**，</p>
+<p>我们熟知的固态硬盘、机械硬盘等为**二级存储(Secondary Storage)**。</p>
+<p>CPU内部又包含多级**缓存(Cache Memory)**和寄存器(Register)。</p>
+<p>这些看起来略显复杂的架构其实只是为了让CPU更快地处理数据，本质上来说，以上所述元件都是把数据的流转速度进行多次加速给CPU进行处理。</p>
+<h4 id="1-1-数据存储方式-X86-64"><a href="#1-1-数据存储方式-X86-64" class="headerlink" title="1.1 数据存储方式(X86_64)"></a>1.1 数据存储方式(X86_64)</h4><p>不同<strong>指令集架构（ISA，Instruction-Set Architecture）</strong>中数据存储的方式是不同的，<strong>在X86_64架构中</strong>，数据按照以下大小进行存储：</p>
+<p><img src="https://raw.githubusercontent.com/hxygmy/pgo/main/img/202406022007423.png" alt="image-20240602200653337"></p>
+<p>不同的语言中又使用了各自封装的存储类型，但底层存储依然是以上几种存储方式。例如，在C&#x2F;C++中：</p>
+<p><img src="https://raw.githubusercontent.com/hxygmy/pgo/main/img/202406022009128.png" alt="image-20240602200922057"></p>
+<h4 id="1-2-CPU"><a href="#1-2-CPU" class="headerlink" title="1.2 CPU"></a>1.2 CPU</h4><p>CPU(Central Process Unit)，直接翻译为核心处理装置，我们通常翻译为中央处理器，是计算机体系结构的核心，它负责处理一条条指令。</p>
+<p>寄存器(Register)与缓存(Cache Memory)是CPU的组成部分。</p>
+<p>在对指令学习的过程中，对寄存器的理解是前置知识中最重要的部分。</p>
+<h5 id="1-2-1-寄存器"><a href="#1-2-1-寄存器" class="headerlink" title="1.2.1 寄存器"></a>1.2.1 寄存器</h5><p>寄存器是CPU<strong>临时存放</strong>与<strong>处理</strong>数据的位置。</p>
+<figure class="highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">⭐提出问题：</span><br><span class="line">ISA与CPU中寄存器的设计是一一对应的吗？X86-64指令集架构因为历史原因有多个名字(X86-64/X86_64/x64/AMD64/Intel 64)，它们之间有什么细微的差别吗？</span><br><span class="line"></span><br><span class="line">解决思路：</span><br><span class="line">可能需要详细理解一些知识之后才能完全解答，简单的解答可以先去维基百科了解。</span><br><span class="line"></span><br><span class="line">20240601更新：</span><br><span class="line">ISA指导CPU的设计。</span><br><span class="line">ISA详细规定了寄存器的数量与功能，不同的ISA通常不能使用同一套寄存器的设计。</span><br><span class="line"></span><br><span class="line">X86-64的历史比较复杂。</span><br><span class="line">总体来说，目前市场上最流行的的64位CISC从源头上看是由AMD设计的基于IA-32的扩展ISA。</span><br><span class="line">微软使用x64，Linux系统多数使用AMD64来指代该指令集。</span><br><span class="line">它们之间细微的差别目前来看应该是存在的，但是也许要更加深入的学习才能完全解答这个问题。</span><br></pre></td></tr></table></figure>
+
+<p>在使用X86_64指令集的CPU中，有以下几种主要的**通用寄存器(GPRs, General Purpose Registers)**：</p>
+<p><img src="https://raw.githubusercontent.com/hxygmy/pgo/main/img/202406022027830.png" alt="image-20240602202736796"></p>
+<p><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Processor_register">Processor register - Wikipedia</a></p>
+<p>其中<code>rax/rbx/rcx/rdx</code>允许低位部分直接作为单独的寄存器存放数据：</p>
+<p><img src="https://raw.githubusercontent.com/hxygmy/pgo/main/img/202406022028329.png" alt="image-20240602202851307"></p>
+<p>这其中的一些寄存器的作用如下：</p>
+<p>RSP堆栈寄存器、RBP基本指针寄存器、RIP指令指针寄存器。这些寄存器都是64位的。</p>
+<p>此外<strong>XMM</strong>寄存器是一个128bit的寄存器，主要用于支持浮点运算和SMID（Single Instruction Multiple Data），关于SMID这里不做详细展开。该寄存器推出于SSE指令集。后来Intel推出AVX&#x2F;AVX2等指令集中，引入了256bit的YMM寄存器作为XMM的扩展，并与XMM兼容。</p>
+<p>此处仅对寄存器有一个大概的概念即可，深入学习需要投入专门的时间与精力。我把它放入下一个阶段进行学习。</p>
+<h5 id="1-2-2-高速缓存（Cache-Memory）"><a href="#1-2-2-高速缓存（Cache-Memory）" class="headerlink" title="1.2.2 高速缓存（Cache Memory）"></a>1.2.2 高速缓存（Cache Memory）</h5><p>指CPU中的高速缓冲存储器，在2024年的今天，指的是CPU架构中的三级缓存。访问内存时，会通过总线提取数据到CPU中的Cache Memory中，随后提交给CPU核心进行处理。Cache Memory中的数据访问速度比对内存的访问快得多。</p>
+<h4 id="1-3-主存（Main-Memory）"><a href="#1-3-主存（Main-Memory）" class="headerlink" title="1.3 主存（Main Memory）"></a>1.3 主存（Main Memory）</h4><p>即平时所说的内存。它是一系列连续的字节存储位，可以通过一个个字节进行寻址。</p>
+<p>内存地址是反向的(<strong>little-endian</strong>)，指物理地址的最后一位编号最小，第一位编号最大。</p>
+<p>如十进制的17000000，翻译为16进制为0x01036640，实际存储在内存中时是40660301，占用4个字节，第一个字节为最低位40，第二个字节为66，第三个03，第四个为最高位01。</p>
+<h4 id="1-4-程序在内存中的布局"><a href="#1-4-程序在内存中的布局" class="headerlink" title="1.4 程序在内存中的布局"></a>1.4 程序在内存中的布局</h4><p>一个运行中的程序所需要的数据都要放入内存中供CPU存取，而操作系统会给每个程序都分配一个独立的内存空间，在这个内存空间中的程序通常以以下的方式进行布局：</p>
+<p><img src="https://raw.githubusercontent.com/hxygmy/pgo/main/img/202406041521691.png" alt="image-20240604152141609"></p>
+<p>**BSS(Block Started by Symbol)**是未初始化的数据存放的位置。</p>
+<p>Data是全局变量存放的位置。</p>
+<p>text是存放指令的区域，通常为只读。</p>
+<p>stack&#x2F;heap是大名鼎鼎的内存堆栈区域。</p>
+<figure class="highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">⭐提出问题：</span><br><span class="line">1.内存堆栈为什么要高栈低堆并且相向生长？</span><br><span class="line">2.内存布局为什么要这样设计，是约定俗成还是有这样做比较好的原因？假如我交换data和text区域会有问题吗？</span><br><span class="line">3.堆栈是动态分配的，那在一开始OS分配内存的时候如何确保有足够的空间不发生StackOverflow？</span><br><span class="line"></span><br><span class="line">解决思路：</span><br><span class="line">这里可以找到一个比较好的答案，但是看完仍然有疑问。</span><br><span class="line">https://stackoverflow.com/questions/79923/what-and-where-are-the-stack-and-heap</span><br><span class="line">问题3在把问题表达出来的时候就已经想到答案了。</span><br><span class="line">对于栈来说有虚拟内存技术的存在，对于堆来说malloc是一开始就写入代码的。</span><br><span class="line">MMU存在的意义就是对于这种情况的预防。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">20240601更新：</span><br><span class="line">堆和栈有各自存在的必要性，栈先进后出的特性对于函数调用来说非常方便，堆是程序员手动申请的内存空间，它们都需要敏捷地确定当前地址的位置，使用相向生长的方式可以不必严格地设定各自的地址限制。</span><br><span class="line">对于栈来说，有专门的寄存器RSP来查找位置，速度非常快，对于堆来说略难管理一些。但是高栈低堆而不是高堆低栈主要是历史沿袭的原因。</span><br><span class="line">内存布局顺序的规划也是历史沿袭的原因。</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-汇编入门"><a href="#2-汇编入门" class="headerlink" title="2. 汇编入门"></a>2. 汇编入门</h3><p>此部分需要提前了解一些编码知识，如原码反码补码等。还需要一些进制转换的知识。</p>
+<h4 id="2-1-注释"><a href="#2-1-注释" class="headerlink" title="2.1 注释"></a>2.1 注释</h4><p>英文分号(;)注释</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">;注释</span><br><span class="line">const1	equ	 100	;这一行是汇编代码，后面也可以用分号接注释</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-2-数值的写法"><a href="#2-2-数值的写法" class="headerlink" title="2.2 数值的写法"></a>2.2 数值的写法</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">;默认10进制</span><br><span class="line">const1		equ	 	100</span><br><span class="line"></span><br><span class="line">;16进制表示的100，16进制需要在前面加上0x</span><br><span class="line">const2		equ	 	0x64</span><br><span class="line"></span><br><span class="line">;8进制表示的100，8进制需要在后面加上q</span><br><span class="line">const3		equ	 	144q</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-3-定义一个常数"><a href="#2-3-定义一个常数" class="headerlink" title="2.3 定义一个常数"></a>2.3 定义一个常数</h4><p>上面的关键字<code>equ</code>就是等于的意思<br><code>&lt;常数名&gt;		equ		&lt;常数值&gt;</code></p>
+<p>常数没有类型的概念，常数就是一个数值。</p>
+<p>编译器会选择适合的大小对常数进行存储。比如10000可以存储到word或double-word大小的空间中，但是byte由于是8bits，最大只能表示到128所以不会把10000存入到byte大小的空间中。</p>
+<h4 id="2-4-定义一个变量-data"><a href="#2-4-定义一个变量-data" class="headerlink" title="2.4 定义一个变量(data)"></a>2.4 定义一个变量(data)</h4><p><code>&lt;变量名&gt;				&lt;类型&gt;				&lt;初始值&gt;</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">section	.data						; 表示以下存储在data区域</span><br><span class="line">bVar		db		10 				; byte variable</span><br><span class="line">cVar		db		&quot;H&quot;	 			; single character</span><br><span class="line">strng 		db 		&quot;Hello World&quot; 	; string</span><br><span class="line">wVar 		dw 		5000 			; 16-bit variable</span><br><span class="line">dVar		dd		50000			; 32-bit variable</span><br><span class="line">arr			dd		100, 200, 300	; 3 element array</span><br><span class="line">flt1		dd		3.14159			; 32-bit float</span><br><span class="line">qVar		dq		1000000000		; 64-bit variable</span><br></pre></td></tr></table></figure>
+
+<p>需要注意，<code>db/dw/dd/dq</code>分别代表了<code>byte/word/double-word/Quadword</code>大小的变量，并不是像高级编程语言中的<strong>类型</strong>一样的概念，这里关注的是<strong>大小</strong>。而第3行中的Hello World是一个字符串，其实是一个char列表，每一个字符各自存储于8bit的空间中。第6行中也是100,200,300三个元素存储于三个dd的空间中作为列表而存在。</p>
+<h4 id="2-5-声明一个未初始化的变量-BSS"><a href="#2-5-声明一个未初始化的变量-BSS" class="headerlink" title="2.5 声明一个未初始化的变量(BSS)"></a>2.5 声明一个未初始化的变量(BSS)</h4><p>在上节对BSS(Block Started by Symbol)有简单介绍，该位置存储未初始化的变量，用以下方式声明：</p>
+<p><code>&lt;变量名&gt;				&lt;类型&gt;				&lt;数量&gt;</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">section	.bss		; 表示以下存储在bss区域</span><br><span class="line">bArr	resb	10 	; 10 element byte array</span><br><span class="line">wArr	resw	50 	; 50 element word array</span><br><span class="line">dArr	resd	100 ; 100 element double array</span><br><span class="line">qArr	resq	200 ; 200 element quad array</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-6-汇编代码-text"><a href="#2-6-汇编代码-text" class="headerlink" title="2.6 汇编代码(text)"></a>2.6 汇编代码(text)</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">section	.text		; 表示以下存储在text区域</span><br><span class="line"></span><br><span class="line">;使用standard system linker时以下两行表示程序的入口</span><br><span class="line">global _start		</span><br><span class="line">_start:</span><br><span class="line">	mov 	al,		byte [bVar1]	; 一条简单汇编的指令</span><br></pre></td></tr></table></figure>
+
+<p>由于指令集的复杂性，汇编代码中其他部分的将放在后面学习指令集的时候继续进行。</p>
+<h3 id="3-工具链"><a href="#3-工具链" class="headerlink" title="3. 工具链"></a>3. 工具链</h3><p>把代码编译成可执行程序的过程中所需要的工具称为工具链。</p>
+<p>对于汇编语言，工具链有多种选择，通常包括<strong>汇编器Assembler、链接器Linker、加载器Loader、调试器Debugger</strong>。</p>
+<ul>
+<li><p><strong>汇编器Assembler</strong>将人类可读的源文件转换为对象文件。</p>
+</li>
+<li><p>这些对象文件通常由<strong>链接器Linker</strong>转换成可执行文件。</p>
+</li>
+<li><p><strong>加载器Loader</strong>将可执行文件加载到内存中。</p>
+</li>
+<li><p><strong>调试器Debugger</strong>用于调试程序。</p>
+</li>
+</ul>
+<figure class="highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">心得20240602：</span><br><span class="line">在计算机科学中最重要的好像是对概念的理解。</span><br><span class="line">有一些很常见，但是由于太过于常见，实际上并不懂的概念。</span><br><span class="line">比如堆栈是内存中给程序运行用的一片区域，但是稍微深入一点就不是两句话能说清的。</span><br><span class="line">比如汇编是一种低级编程语言，但是assembly这个词也像是一个把程序分区组装到内存中的一个过程。</span><br><span class="line">作为一门工科，计算机好像尤其需要“探索语言之美”。</span><br><span class="line">也许是我没有接触到Science而是Engineering。</span><br></pre></td></tr></table></figure>
+
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E7%B3%BB%E7%BB%9F%E4%BC%98%E5%8C%96/" rel="tag"># 系统优化</a>
+              <a href="/tags/%E6%8C%87%E4%BB%A4/" rel="tag"># 指令</a>
+              <a href="/tags/%E6%B1%87%E7%BC%96/" rel="tag"># 汇编</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2024/05/01/005%20%E7%A8%8B%E5%BA%8F%E6%8F%92%E6%A1%A9%EF%BC%88Instrumentation%EF%BC%89%E6%8A%80%E6%9C%AF/" rel="prev" title="程序插桩（Instrumentation）技术">
+      <i class="fa fa-chevron-left"></i> 程序插桩（Instrumentation）技术
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2024/05/22/007InstructionDistributionStatisticsTool/" rel="next" title="X86-64下的指令分布统计工具">
+      X86-64下的指令分布统计工具 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Overview"><span class="nav-number">1.</span> <span class="nav-text">Overview</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84"><span class="nav-number">2.</span> <span class="nav-text">1. 计算机体系结构</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1-%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8%E6%96%B9%E5%BC%8F-X86-64"><span class="nav-number">2.1.</span> <span class="nav-text">1.1 数据存储方式(X86_64)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-CPU"><span class="nav-number">2.2.</span> <span class="nav-text">1.2 CPU</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-2-1-%E5%AF%84%E5%AD%98%E5%99%A8"><span class="nav-number">2.2.1.</span> <span class="nav-text">1.2.1 寄存器</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#1-2-2-%E9%AB%98%E9%80%9F%E7%BC%93%E5%AD%98%EF%BC%88Cache-Memory%EF%BC%89"><span class="nav-number">2.2.2.</span> <span class="nav-text">1.2.2 高速缓存（Cache Memory）</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-3-%E4%B8%BB%E5%AD%98%EF%BC%88Main-Memory%EF%BC%89"><span class="nav-number">2.3.</span> <span class="nav-text">1.3 主存（Main Memory）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-4-%E7%A8%8B%E5%BA%8F%E5%9C%A8%E5%86%85%E5%AD%98%E4%B8%AD%E7%9A%84%E5%B8%83%E5%B1%80"><span class="nav-number">2.4.</span> <span class="nav-text">1.4 程序在内存中的布局</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E6%B1%87%E7%BC%96%E5%85%A5%E9%97%A8"><span class="nav-number">3.</span> <span class="nav-text">2. 汇编入门</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-%E6%B3%A8%E9%87%8A"><span class="nav-number">3.1.</span> <span class="nav-text">2.1 注释</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-%E6%95%B0%E5%80%BC%E7%9A%84%E5%86%99%E6%B3%95"><span class="nav-number">3.2.</span> <span class="nav-text">2.2 数值的写法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-3-%E5%AE%9A%E4%B9%89%E4%B8%80%E4%B8%AA%E5%B8%B8%E6%95%B0"><span class="nav-number">3.3.</span> <span class="nav-text">2.3 定义一个常数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-4-%E5%AE%9A%E4%B9%89%E4%B8%80%E4%B8%AA%E5%8F%98%E9%87%8F-data"><span class="nav-number">3.4.</span> <span class="nav-text">2.4 定义一个变量(data)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-5-%E5%A3%B0%E6%98%8E%E4%B8%80%E4%B8%AA%E6%9C%AA%E5%88%9D%E5%A7%8B%E5%8C%96%E7%9A%84%E5%8F%98%E9%87%8F-BSS"><span class="nav-number">3.5.</span> <span class="nav-text">2.5 声明一个未初始化的变量(BSS)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-6-%E6%B1%87%E7%BC%96%E4%BB%A3%E7%A0%81-text"><span class="nav-number">3.6.</span> <span class="nav-text">2.6 汇编代码(text)</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E5%B7%A5%E5%85%B7%E9%93%BE"><span class="nav-number">4.</span> <span class="nav-text">3. 工具链</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="何晓宇"
+      src="/images/favicon.ico">
+  <p class="site-author-name" itemprop="name">何晓宇</p>
+  <div class="site-description" itemprop="description">技术博客，系统优化，编译器，指令集</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">7</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/hxygmy" title="Github → https:&#x2F;&#x2F;github.com&#x2F;hxygmy" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>Github</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:hexi.aoyu@163.com" title="E-Mail → mailto:hexi.aoyu@163.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">何晓宇</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">15k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">54 分钟</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+  <script>
+    (function(){
+      var canonicalURL, curProtocol;
+      //Get the <link> tag
+      var x=document.getElementsByTagName("link");
+		//Find the last canonical URL
+		if(x.length > 0){
+			for (i=0;i<x.length;i++){
+				if(x[i].rel.toLowerCase() == 'canonical' && x[i].href){
+					canonicalURL=x[i].href;
+				}
+			}
+		}
+    //Get protocol
+	    if (!canonicalURL){
+	    	curProtocol = window.location.protocol.split(':')[0];
+	    }
+	    else{
+	    	curProtocol = canonicalURL.split(':')[0];
+	    }
+      //Get current URL if the canonical URL does not exist
+	    if (!canonicalURL) canonicalURL = window.location.href;
+	    //Assign script content. Replace current URL with the canonical URL
+      !function(){var e=/([http|https]:\/\/[a-zA-Z0-9\_\.]+\.baidu\.com)/gi,r=canonicalURL,t=document.referrer;if(!e.test(r)){var n=(String(curProtocol).toLowerCase() === 'https')?"https://sp0.baidu.com/9_Q4simg2RQJ8t7jm9iCKT-xh_/s.gif":"//api.share.baidu.com/s.gif";t?(n+="?r="+encodeURIComponent(document.referrer),r&&(n+="&l="+r)):r&&(n+="?l="+r);var i=new Image;i.src=n}}(window);})();
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>
