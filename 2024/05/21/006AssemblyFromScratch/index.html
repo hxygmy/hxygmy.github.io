@@ -33,8 +33,11 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/hxygmy/pgo/main/img/202406022027830.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/hxygmy/pgo/main/img/202406022028329.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/hxygmy/pgo/main/img/202406041521691.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/hxygmy/pgo/main/img/202406052233300.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/hxygmy/pgo/main/img/202406052239699.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/hxygmy/pgo/main/img/202406052258089.png">
 <meta property="article:published_time" content="2024-05-21T03:16:02.000Z">
-<meta property="article:modified_time" content="2024-06-04T08:58:40.000Z">
+<meta property="article:modified_time" content="2024-06-05T15:23:36.000Z">
 <meta property="article:author" content="何晓宇">
 <meta property="article:tag" content="系统优化">
 <meta property="article:tag" content="指令">
@@ -191,7 +194,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2024-06-04 16:58:40" itemprop="dateModified" datetime="2024-06-04T16:58:40+08:00">2024-06-04</time>
+                <time title="修改时间：2024-06-05 23:23:36" itemprop="dateModified" datetime="2024-06-05T23:23:36+08:00">2024-06-05</time>
               </span>
 
           <br>
@@ -200,14 +203,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>2.6k</span>
+              <span>3.5k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>10 分钟</span>
+              <span>13 分钟</span>
             </span>
 
         </div>
@@ -284,16 +287,79 @@
 <h3 id="3-工具链"><a href="#3-工具链" class="headerlink" title="3. 工具链"></a>3. 工具链</h3><p>把代码编译成可执行程序的过程中所需要的工具称为工具链。</p>
 <p>对于汇编语言，工具链有多种选择，通常包括<strong>汇编器Assembler、链接器Linker、加载器Loader、调试器Debugger</strong>。</p>
 <ul>
-<li><p><strong>汇编器Assembler</strong>将人类可读的源文件转换为对象文件。</p>
+<li><strong>汇编器Assembler</strong>将人类可读的源文件转换为对象文件。</li>
+<li>这些对象文件通常由<strong>链接器Linker</strong>转换成可执行文件。</li>
+<li><strong>加载器Loader</strong>将可执行文件加载到内存中。</li>
+<li><strong>调试器Debugger</strong>用于调试程序。</li>
+</ul>
+<p>下图展示了Assemble-&gt;Link-&gt;Load的过程</p>
+<p><img src="https://raw.githubusercontent.com/hxygmy/pgo/main/img/202406052233300.png" alt="image-20240605223307189"></p>
+<h4 id="3-1-汇编器"><a href="#3-1-汇编器" class="headerlink" title="3.1 汇编器"></a>3.1 汇编器</h4><p>以一条真实的汇编器在Ubuntu下执行的命令为例：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yasm -g dwarf2 -f elf64 example.asm -l example.lst</span><br></pre></td></tr></table></figure>
+
+<p>以下解释命令的含义</p>
+<ul>
+<li><p>yasm：一个开源汇编器，支持x86_64指令集的汇编，更多介绍参见<a target="_blank" rel="noopener" href="https://yasm.tortall.net/">官方网站</a>。本文使用当前最新版1.3.0</p>
+<p><img src="https://raw.githubusercontent.com/hxygmy/pgo/main/img/202406052239699.png" alt="image-20240605223911671"></p>
 </li>
-<li><p>这些对象文件通常由<strong>链接器Linker</strong>转换成可执行文件。</p>
+<li><p>-g dwarf2：表示选择dwarf2作为debug格式</p>
 </li>
-<li><p><strong>加载器Loader</strong>将可执行文件加载到内存中。</p>
+<li><p>-f elf64：表示输出对象格式为elf64</p>
 </li>
-<li><p><strong>调试器Debugger</strong>用于调试程序。</p>
+<li><p>example.asm：指已经写好的汇编代码文件，yasm对它进行汇编</p>
+</li>
+<li><p>-l example.lst：指创建一个名为example.lst的列表文件方便后期调试，列表文件在上图中也出现了，它存储了汇编程序列表数据以方便查找指令，文件内容示例如下图，可以很方便地理解它是什么。</p>
+<p><img src="https://raw.githubusercontent.com/hxygmy/pgo/main/img/202406052258089.png" alt="image-20240605225853037"></p>
 </li>
 </ul>
+<p>汇编的过程通常包括<strong>两步</strong>：</p>
+<ul>
+<li><p>第一步：</p>
+<ul>
+<li><p>创建符号表</p>
+<p>符号表是程序中的每一个变量名、标签和符号的列表，它还包括相对地址，上图即为符号表。</p>
+</li>
+<li><p>解析宏（Macro）</p>
+<p>宏可以理解为对一系列指令的封装</p>
+</li>
+<li><p>解析<strong>仅含常量的表达式</strong>（Constant Expression）</p>
+<p>例如<code>mov rax, buff+5</code>这条指令，如果<code>buff</code>是一个已经定义好的常量，在第一步中可以直接解析完成</p>
+</li>
+</ul>
+</li>
+<li><p>第二步：</p>
+<ul>
+<li>生成最终的代码</li>
+<li>创建列表文件(如果需要生成的话)</li>
+<li>创建对象文件(即最终的.o文件)</li>
+</ul>
+<figure class="highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">⭐提出问题：</span><br><span class="line">资料显示这里其实还有一个</span><br><span class="line">直接汇编指令(Assembler Directives)</span><br><span class="line">的指令，这个指令被汇编器执行而不是转化为CPU指令。</span><br><span class="line">那么，不转化为CPU指令是如何被汇编器执行的？</span><br><span class="line"></span><br><span class="line">解决思路：</span><br><span class="line">暂时搁置，写完这篇之后再补充学习。</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h4 id="3-2-链接器"><a href="#3-2-链接器" class="headerlink" title="3.2 链接器"></a>3.2 链接器</h4><p>同样的方式：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ld -g -o example example.o</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>ld：指GNU Linker，使用率很高的一个链接器，古神，<a target="_blank" rel="noopener" href="https://ftp.gnu.org/old-gnu/Manuals/ld-2.9.1/html_mono/ld.html">GNU的LD手册</a>居然于1998年更新。</p>
+</li>
+<li><p>-g：表示输出调试信息</p>
+</li>
+<li><p>-o example：创建一个叫做example的可执行文件</p>
+</li>
+<li><p>example.o：汇编器汇编好的对象文件，可以有多个，比如</p>
+<p><code>ld -g -o example example.o a.o b.o</code></p>
+</li>
+</ul>
+<p><strong>外部调用问题</strong></p>
+<p>在汇编生成的object file对应的列表文件中，有些调用了外部的变量或函数无法确认需要调用的地址，就会使用一个R字符来标记。</p>
+<p>链接器会在链接的过程中对有R标记的指令进行解析，确定目标的地址。</p>
+<p>在C&#x2F;C++中，R标记类似于extern关键字，在当前文件中没有这个函数或变量，就使用extern关键字声明它在外部已经定义好了，可以通过编译。</p>
+<p><strong>动态链接问题</strong></p>
+<p>即某些符号的解析推迟到程序执行时。 实际的指令不在可执行文件中，而是在运行时根据需要进行解析和访问。即模块化了程序，可以有些通用的库拿出来等运行时再访问，这样对库的实现的优化也可以不必重新链接。缺点是库升级时如果不兼容之前的接口就会破坏程序运行，对于有些严格测试性能的程序可能很不友好。</p>
+<p>windows中，这些库的后缀一般是dll，linux中一般为so。</p>
+<h4 id="3-3-加载器"><a href="#3-3-加载器" class="headerlink" title="3.3 加载器"></a>3.3 加载器</h4><p>加载器其实是OS的一部分，指把可执行文件从Secondary Storage（硬盘）调入Main Memory（内存）并创建新的进程、标记可执行。然后OS来决定对进程的调度。</p>
 <figure class="highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">心得20240602：</span><br><span class="line">在计算机科学中最重要的好像是对概念的理解。</span><br><span class="line">有一些很常见，但是由于太过于常见，实际上并不懂的概念。</span><br><span class="line">比如堆栈是内存中给程序运行用的一片区域，但是稍微深入一点就不是两句话能说清的。</span><br><span class="line">比如汇编是一种低级编程语言，但是assembly这个词也像是一个把程序分区组装到内存中的一个过程。</span><br><span class="line">作为一门工科，计算机好像尤其需要“探索语言之美”。</span><br><span class="line">也许是我没有接触到Science而是Engineering。</span><br></pre></td></tr></table></figure>
+
+
 
 
     </div>
@@ -380,7 +446,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Overview"><span class="nav-number">1.</span> <span class="nav-text">Overview</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84"><span class="nav-number">2.</span> <span class="nav-text">1. 计算机体系结构</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1-%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8%E6%96%B9%E5%BC%8F-X86-64"><span class="nav-number">2.1.</span> <span class="nav-text">1.1 数据存储方式(X86_64)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-CPU"><span class="nav-number">2.2.</span> <span class="nav-text">1.2 CPU</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-2-1-%E5%AF%84%E5%AD%98%E5%99%A8"><span class="nav-number">2.2.1.</span> <span class="nav-text">1.2.1 寄存器</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#1-2-2-%E9%AB%98%E9%80%9F%E7%BC%93%E5%AD%98%EF%BC%88Cache-Memory%EF%BC%89"><span class="nav-number">2.2.2.</span> <span class="nav-text">1.2.2 高速缓存（Cache Memory）</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-3-%E4%B8%BB%E5%AD%98%EF%BC%88Main-Memory%EF%BC%89"><span class="nav-number">2.3.</span> <span class="nav-text">1.3 主存（Main Memory）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-4-%E7%A8%8B%E5%BA%8F%E5%9C%A8%E5%86%85%E5%AD%98%E4%B8%AD%E7%9A%84%E5%B8%83%E5%B1%80"><span class="nav-number">2.4.</span> <span class="nav-text">1.4 程序在内存中的布局</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E6%B1%87%E7%BC%96%E5%85%A5%E9%97%A8"><span class="nav-number">3.</span> <span class="nav-text">2. 汇编入门</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-%E6%B3%A8%E9%87%8A"><span class="nav-number">3.1.</span> <span class="nav-text">2.1 注释</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-%E6%95%B0%E5%80%BC%E7%9A%84%E5%86%99%E6%B3%95"><span class="nav-number">3.2.</span> <span class="nav-text">2.2 数值的写法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-3-%E5%AE%9A%E4%B9%89%E4%B8%80%E4%B8%AA%E5%B8%B8%E6%95%B0"><span class="nav-number">3.3.</span> <span class="nav-text">2.3 定义一个常数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-4-%E5%AE%9A%E4%B9%89%E4%B8%80%E4%B8%AA%E5%8F%98%E9%87%8F-data"><span class="nav-number">3.4.</span> <span class="nav-text">2.4 定义一个变量(data)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-5-%E5%A3%B0%E6%98%8E%E4%B8%80%E4%B8%AA%E6%9C%AA%E5%88%9D%E5%A7%8B%E5%8C%96%E7%9A%84%E5%8F%98%E9%87%8F-BSS"><span class="nav-number">3.5.</span> <span class="nav-text">2.5 声明一个未初始化的变量(BSS)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-6-%E6%B1%87%E7%BC%96%E4%BB%A3%E7%A0%81-text"><span class="nav-number">3.6.</span> <span class="nav-text">2.6 汇编代码(text)</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E5%B7%A5%E5%85%B7%E9%93%BE"><span class="nav-number">4.</span> <span class="nav-text">3. 工具链</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Overview"><span class="nav-number">1.</span> <span class="nav-text">Overview</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84"><span class="nav-number">2.</span> <span class="nav-text">1. 计算机体系结构</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1-%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8%E6%96%B9%E5%BC%8F-X86-64"><span class="nav-number">2.1.</span> <span class="nav-text">1.1 数据存储方式(X86_64)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-CPU"><span class="nav-number">2.2.</span> <span class="nav-text">1.2 CPU</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-2-1-%E5%AF%84%E5%AD%98%E5%99%A8"><span class="nav-number">2.2.1.</span> <span class="nav-text">1.2.1 寄存器</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#1-2-2-%E9%AB%98%E9%80%9F%E7%BC%93%E5%AD%98%EF%BC%88Cache-Memory%EF%BC%89"><span class="nav-number">2.2.2.</span> <span class="nav-text">1.2.2 高速缓存（Cache Memory）</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-3-%E4%B8%BB%E5%AD%98%EF%BC%88Main-Memory%EF%BC%89"><span class="nav-number">2.3.</span> <span class="nav-text">1.3 主存（Main Memory）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-4-%E7%A8%8B%E5%BA%8F%E5%9C%A8%E5%86%85%E5%AD%98%E4%B8%AD%E7%9A%84%E5%B8%83%E5%B1%80"><span class="nav-number">2.4.</span> <span class="nav-text">1.4 程序在内存中的布局</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E6%B1%87%E7%BC%96%E5%85%A5%E9%97%A8"><span class="nav-number">3.</span> <span class="nav-text">2. 汇编入门</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-%E6%B3%A8%E9%87%8A"><span class="nav-number">3.1.</span> <span class="nav-text">2.1 注释</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-%E6%95%B0%E5%80%BC%E7%9A%84%E5%86%99%E6%B3%95"><span class="nav-number">3.2.</span> <span class="nav-text">2.2 数值的写法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-3-%E5%AE%9A%E4%B9%89%E4%B8%80%E4%B8%AA%E5%B8%B8%E6%95%B0"><span class="nav-number">3.3.</span> <span class="nav-text">2.3 定义一个常数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-4-%E5%AE%9A%E4%B9%89%E4%B8%80%E4%B8%AA%E5%8F%98%E9%87%8F-data"><span class="nav-number">3.4.</span> <span class="nav-text">2.4 定义一个变量(data)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-5-%E5%A3%B0%E6%98%8E%E4%B8%80%E4%B8%AA%E6%9C%AA%E5%88%9D%E5%A7%8B%E5%8C%96%E7%9A%84%E5%8F%98%E9%87%8F-BSS"><span class="nav-number">3.5.</span> <span class="nav-text">2.5 声明一个未初始化的变量(BSS)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-6-%E6%B1%87%E7%BC%96%E4%BB%A3%E7%A0%81-text"><span class="nav-number">3.6.</span> <span class="nav-text">2.6 汇编代码(text)</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E5%B7%A5%E5%85%B7%E9%93%BE"><span class="nav-number">4.</span> <span class="nav-text">3. 工具链</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1-%E6%B1%87%E7%BC%96%E5%99%A8"><span class="nav-number">4.1.</span> <span class="nav-text">3.1 汇编器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-%E9%93%BE%E6%8E%A5%E5%99%A8"><span class="nav-number">4.2.</span> <span class="nav-text">3.2 链接器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-3-%E5%8A%A0%E8%BD%BD%E5%99%A8"><span class="nav-number">4.3.</span> <span class="nav-text">3.3 加载器</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -446,12 +512,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">15k</span>
+    <span title="站点总字数">16k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">54 分钟</span>
+    <span title="站点阅读时长">57 分钟</span>
 </div>
 
         
