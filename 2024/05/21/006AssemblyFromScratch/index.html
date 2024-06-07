@@ -37,7 +37,7 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/hxygmy/pgo/main/img/202406052239699.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/hxygmy/pgo/main/img/202406052258089.png">
 <meta property="article:published_time" content="2024-05-21T03:16:02.000Z">
-<meta property="article:modified_time" content="2024-06-05T15:23:36.000Z">
+<meta property="article:modified_time" content="2024-06-07T14:08:59.000Z">
 <meta property="article:author" content="何晓宇">
 <meta property="article:tag" content="系统优化">
 <meta property="article:tag" content="指令">
@@ -194,7 +194,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2024-06-05 23:23:36" itemprop="dateModified" datetime="2024-06-05T23:23:36+08:00">2024-06-05</time>
+                <time title="修改时间：2024-06-07 22:08:59" itemprop="dateModified" datetime="2024-06-07T22:08:59+08:00">2024-06-07</time>
               </span>
 
           <br>
@@ -203,7 +203,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>3.5k</span>
+              <span>3.6k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -241,7 +241,7 @@
 <p>寄存器(Register)与缓存(Cache Memory)是CPU的组成部分。</p>
 <p>在对指令学习的过程中，对寄存器的理解是前置知识中最重要的部分。</p>
 <h5 id="1-2-1-寄存器"><a href="#1-2-1-寄存器" class="headerlink" title="1.2.1 寄存器"></a>1.2.1 寄存器</h5><p>寄存器是CPU<strong>临时存放</strong>与<strong>处理</strong>数据的位置。</p>
-<figure class="highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">⭐提出问题：</span><br><span class="line">ISA与CPU中寄存器的设计是一一对应的吗？X86-64指令集架构因为历史原因有多个名字(X86-64/X86_64/x64/AMD64/Intel 64)，它们之间有什么细微的差别吗？</span><br><span class="line"></span><br><span class="line">解决思路：</span><br><span class="line">可能需要详细理解一些知识之后才能完全解答，简单的解答可以先去维基百科了解。</span><br><span class="line"></span><br><span class="line">20240601更新：</span><br><span class="line">ISA指导CPU的设计。</span><br><span class="line">ISA详细规定了寄存器的数量与功能，不同的ISA通常不能使用同一套寄存器的设计。</span><br><span class="line"></span><br><span class="line">X86-64的历史比较复杂。</span><br><span class="line">总体来说，目前市场上最流行的的64位CISC从源头上看是由AMD设计的基于IA-32的扩展ISA。</span><br><span class="line">微软使用x64，Linux系统多数使用AMD64来指代该指令集。</span><br><span class="line">它们之间细微的差别目前来看应该是存在的，但是也许要更加深入的学习才能完全解答这个问题。</span><br></pre></td></tr></table></figure>
+<figure class="highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">⭐提出问题：</span><br><span class="line">ISA与CPU中寄存器的设计是一一对应的吗？X86-64指令集架构因为历史原因有多个名字(X86-64/X86_64/x64/AMD64/Intel 64)，它们之间有什么细微的差别吗？</span><br><span class="line"></span><br><span class="line">解决思路：</span><br><span class="line">可能需要详细理解一些知识之后才能完全解答，简单的解答可以先去维基百科了解。</span><br><span class="line"></span><br><span class="line">20240601更新：</span><br><span class="line">不同的CPU有不同的微架构，微架构指的是CPU厂商设计的CPU架构，如AMD的ZEN、Intel的Lake，它们都支持X86_64指令集，但是物理上的设计不同。高效的微架构能够提升指令执行速度并提高能效。</span><br><span class="line">寄存器的设计和所支持的ISA息息相关，但是并不是严格对应，不同的微架构的设计中可能不同。</span><br><span class="line"></span><br><span class="line">X86-64的历史比较复杂。</span><br><span class="line">总体来说，目前市场上最流行的的64位CISC从源头上看是由AMD设计的基于IA-32的扩展ISA。</span><br><span class="line">微软使用x64，Linux系统多数使用AMD64来指代该指令集。</span><br><span class="line">它们之间细微的差别目前来看应该是存在的，但是也许要更加深入的学习才能完全解答这个问题。</span><br></pre></td></tr></table></figure>
 
 <p>在使用X86_64指令集的CPU中，有以下几种主要的**通用寄存器(GPRs, General Purpose Registers)**：</p>
 <p><img src="https://raw.githubusercontent.com/hxygmy/pgo/main/img/202406022027830.png" alt="image-20240602202736796"></p>
