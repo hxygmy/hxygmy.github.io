@@ -22,13 +22,13 @@
 
   <meta name="description" content="X86-64指令集的基本概述，不包括一些高级指令和限制模式指令">
 <meta property="og:type" content="article">
-<meta property="og:title" content="X86-64指令基础">
+<meta property="og:title" content="X86-64指令集概述">
 <meta property="og:url" content="http://www.hxygmy.site/2024/06/18/007X86-64ISAOverview/index.html">
 <meta property="og:site_name" content="正经人谁写技术博客啊">
 <meta property="og:description" content="X86-64指令集的基本概述，不包括一些高级指令和限制模式指令">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-06-17T23:33:01.000Z">
-<meta property="article:modified_time" content="2024-06-19T16:17:09.000Z">
+<meta property="article:modified_time" content="2024-06-19T16:25:00.000Z">
 <meta property="article:author" content="何晓宇">
 <meta property="article:tag" content="系统优化">
 <meta property="article:tag" content="指令集">
@@ -48,7 +48,7 @@
   };
 </script>
 
-  <title>X86-64指令基础 | 正经人谁写技术博客啊</title>
+  <title>X86-64指令集概述 | 正经人谁写技术博客啊</title>
   
 
 
@@ -167,7 +167,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          X86-64指令基础
+          X86-64指令集概述
         </h1>
 
         <div class="post-meta">
@@ -184,7 +184,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2024-06-20 00:17:09" itemprop="dateModified" datetime="2024-06-20T00:17:09+08:00">2024-06-20</time>
+                <time title="修改时间：2024-06-20 00:25:00" itemprop="dateModified" datetime="2024-06-20T00:25:00+08:00">2024-06-20</time>
               </span>
 
           <br>
@@ -193,7 +193,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>925</span>
+              <span>902</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -224,9 +224,9 @@
 <li>逻辑指令 Logical Instructions</li>
 <li>控制指令 Control Instructions</li>
 </ul>
-<p>基本上是一些整数操作，文末附上本章所有用到的指令的列表。</p>
+<p>基本上是一些整数操作，文末附上本文所有用到的指令的列表。</p>
 <h3 id="1-操作数的表示方法-Operands-Notation"><a href="#1-操作数的表示方法-Operands-Notation" class="headerlink" title="1. 操作数的表示方法 Operands Notation"></a>1. 操作数的表示方法 Operands Notation</h3><p>一般来说，一条指令由指令或操作本身（如加法、减法、乘法等）和操作数(operand)组成。</p>
-<p><strong>操作数：指要被操作的数据的来源与结果的&#x3D;&#x3D;<em>位置</em>&#x3D;&#x3D;。</strong></p>
+<p><strong>操作数：指要被操作的数据的来源与结果的<em>位置</em>。</strong></p>
 <figure class="highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">这里语言匮乏无法解释的更清楚，</span><br><span class="line">不在此处纠结此概念继续学习在下一节会容易理解。</span><br><span class="line">此概念很重要。</span><br></pre></td></tr></table></figure>
 
 <table>
@@ -237,49 +237,48 @@
 </tr>
 </thead>
 <tbody><tr>
-<td><reg></td>
+<td>&lt;reg&gt;</td>
 <td>寄存器操作数，寄存器中的数据</td>
 </tr>
 <tr>
-<td><reg8>,<reg16>,<br /><reg32>,<reg64></td>
+<td>&lt;reg8&gt;,&lt;reg16&gt;,<br />&lt;reg32&gt;,&lt;reg64&gt;</td>
 <td>规定了具体大小的寄存器操作数，比如<br />reg8表示大小为一个字节的寄存器(al bl等)<br />reg16表示大小为两个字节的寄存器(ax bx等)</td>
 </tr>
 <tr>
-<td><dest></td>
+<td>&lt;dest&gt;</td>
 <td>目标操作数(destination)，寄存器或内存中的数据。<br />根据具体指令，其内容将会被新结果覆盖</td>
 </tr>
 <tr>
-<td><RXdest></td>
+<td>&lt;RXdest&gt;</td>
 <td>浮点目标操作数，同上</td>
 </tr>
 <tr>
-<td><src></td>
+<td>&lt;src&gt;</td>
 <td>源操作数，该操作数的值不会被指令改变</td>
 </tr>
 <tr>
-<td><imm></td>
+<td>&lt;imm&gt;</td>
 <td>立即数(immediate value)，一个即刻生效的临时值<br />可指定进制，默认为十进制</td>
 </tr>
 <tr>
-<td><mem></td>
+<td>&lt;mem&gt;</td>
 <td>内存操作数，可以是变量名或者内存地址</td>
 </tr>
 <tr>
-<td><op> 或 <operand></td>
+<td>&lt;op&gt; 或 &lt;operand&gt;</td>
 <td>操作数</td>
 </tr>
 <tr>
-<td><op8>,<op16>,<br /><op32>,<op64></td>
+<td>&lt;op8&gt;,&lt;op16&gt;,<br />&lt;op32&gt;,&lt;op64&gt;</td>
 <td>规定了具体大小的操作数</td>
 </tr>
 <tr>
-<td><label></td>
+<td>&lt;label&gt;</td>
 <td>程序的标签</td>
 </tr>
 </tbody></table>
 <h3 id="2-数据移动指令-Data-Movement"><a href="#2-数据移动指令-Data-Movement" class="headerlink" title="2. 数据移动指令 Data Movement"></a>2. 数据移动指令 Data Movement</h3><p>通常情况下，数据必须从 RAM 移入 CPU 寄存器才能进行运算。计算完成后，可将结果从寄存器赋值到变量中。这种基本的数据移动操作是通过移动指令(Data Movement)来完成的。移动指令的一般形式为:</p>
 <p><code>mov &lt;dest&gt;, &lt;src&gt;</code></p>
-<p>源操作数被复制到目标操作数中。源操作数的值保持不变。</p>
 <p>比如：</p>
 <p><code>mov eax, dword [myVar]</code></p>
 <ul>
@@ -292,7 +291,7 @@
 </ul>
 <p>目标操作数和源操作数的大小必须相同。</p>
 <p>目标操作数不能是立即数。</p>
-<p>两个操作数都不能是内存。</p>
+<p>两个操作数不能同时为内存。</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">; 以下两条指令表示bAns = bNum, 因为两个操作数不能都是内存，所以需要分开写</span><br><span class="line">mov al, byte [bNum] ; 把内存中的数据移动到al寄存器</span><br><span class="line">mov byte [bAns], al ; 把al寄存器中的数据移动到内存</span><br></pre></td></tr></table></figure>
 
 <p>寄存器的高位如果没有用到，将会被赋值为0。</p>
@@ -306,7 +305,7 @@
 </li>
 </ul>
 <p><strong>示例</strong>：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">mov     ax,                       42</span><br><span class="line">mov     cl,                       byte [bvar]</span><br><span class="line">mov     dword [dVar],    eax</span><br><span class="line">mov     qword [qVar],    rdx</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">mov     ax,              42</span><br><span class="line">mov     cl,              byte [bvar]</span><br><span class="line">mov     dword [dVar],    eax</span><br><span class="line">mov     qword [qVar],    rdx</span><br></pre></td></tr></table></figure>
 
 <h3 id="3-转换指令-Conversion-Instructions"><a href="#3-转换指令-Conversion-Instructions" class="headerlink" title="3. 转换指令 Conversion Instructions"></a>3. 转换指令 Conversion Instructions</h3><h3 id="4-算术指令-Arithmetic-Instructions"><a href="#4-算术指令-Arithmetic-Instructions" class="headerlink" title="4. 算术指令 Arithmetic Instructions"></a>4. 算术指令 Arithmetic Instructions</h3><h3 id="5-逻辑指令-Logical-Instructions"><a href="#5-逻辑指令-Logical-Instructions" class="headerlink" title="5. 逻辑指令 Logical Instructions"></a>5. 逻辑指令 Logical Instructions</h3><h3 id="6-控制指令-Control-Instructions"><a href="#6-控制指令-Control-Instructions" class="headerlink" title="6. 控制指令 Control Instructions"></a>6. 控制指令 Control Instructions</h3>
     </div>
@@ -328,8 +327,8 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2024/05/21/006AssemblyFromScratch/" rel="prev" title="汇编指令基础">
-      <i class="fa fa-chevron-left"></i> 汇编指令基础
+    <a href="/2024/05/21/006AssemblyFromScratch/" rel="prev" title="汇编基础">
+      <i class="fa fa-chevron-left"></i> 汇编基础
     </a></div>
       <div class="post-nav-item">
     <a href="/2024/06/19/008InstructionDistributionStatisticsTool/" rel="next" title="X86-64下的指令分布统计工具">
