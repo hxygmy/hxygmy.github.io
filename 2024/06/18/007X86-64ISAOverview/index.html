@@ -20,20 +20,22 @@
     var CONFIG = {"hostname":"www.hxygmy.site","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"hide","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"valine","storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="A good way to learn both English and Database System, maybe it is also good Interview materials.">
+  <meta name="description" content="X86-64指令集的基本概述，不包括一些高级指令和限制模式指令">
 <meta property="og:type" content="article">
-<meta property="og:title" content="10 Most Representative Professional Terms in Database Systems">
-<meta property="og:url" content="http://www.hxygmy.site/2024/03/21/004-10MostRepresentativeProfessionalTermsinDatabaseSystems/index.html">
+<meta property="og:title" content="X86-64指令基础">
+<meta property="og:url" content="http://www.hxygmy.site/2024/06/18/007X86-64ISAOverview/index.html">
 <meta property="og:site_name" content="正经人谁写技术博客啊">
-<meta property="og:description" content="A good way to learn both English and Database System, maybe it is also good Interview materials.">
+<meta property="og:description" content="X86-64指令集的基本概述，不包括一些高级指令和限制模式指令">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2024-03-20T16:38:02.000Z">
-<meta property="article:modified_time" content="2024-06-19T14:40:22.000Z">
+<meta property="article:published_time" content="2024-06-17T23:33:01.000Z">
+<meta property="article:modified_time" content="2024-06-19T16:17:09.000Z">
 <meta property="article:author" content="何晓宇">
-<meta property="article:tag" content="DatabaseSystem">
+<meta property="article:tag" content="系统优化">
+<meta property="article:tag" content="指令集">
+<meta property="article:tag" content="X86-64">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://www.hxygmy.site/2024/03/21/004-10MostRepresentativeProfessionalTermsinDatabaseSystems/">
+<link rel="canonical" href="http://www.hxygmy.site/2024/06/18/007X86-64ISAOverview/">
 
 
 <script id="page-configurations">
@@ -46,7 +48,7 @@
   };
 </script>
 
-  <title>10 Most Representative Professional Terms in Database Systems | 正经人谁写技术博客啊</title>
+  <title>X86-64指令基础 | 正经人谁写技术博客啊</title>
   
 
 
@@ -152,7 +154,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://www.hxygmy.site/2024/03/21/004-10MostRepresentativeProfessionalTermsinDatabaseSystems/">
+    <link itemprop="mainEntityOfPage" href="http://www.hxygmy.site/2024/06/18/007X86-64ISAOverview/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/favicon.ico">
@@ -165,7 +167,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          10 Most Representative Professional Terms in Database Systems
+          X86-64指令基础
         </h1>
 
         <div class="post-meta">
@@ -175,14 +177,14 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2024-03-21 00:38:02" itemprop="dateCreated datePublished" datetime="2024-03-21T00:38:02+08:00">2024-03-21</time>
+              <time title="创建时间：2024-06-18 07:33:01" itemprop="dateCreated datePublished" datetime="2024-06-18T07:33:01+08:00">2024-06-18</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2024-06-19 22:40:22" itemprop="dateModified" datetime="2024-06-19T22:40:22+08:00">2024-06-19</time>
+                <time title="修改时间：2024-06-20 00:17:09" itemprop="dateModified" datetime="2024-06-20T00:17:09+08:00">2024-06-20</time>
               </span>
 
           <br>
@@ -191,14 +193,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>1.2k</span>
+              <span>925</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>4 分钟</span>
+              <span>3 分钟</span>
             </span>
 
         </div>
@@ -210,61 +212,103 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <center>A good way to learn both English and Database System, maybe it is also good Interview materials.</center>
+        <center>X86-64指令集的基本概述，不包括一些高级指令和限制模式指令</center>
 
 <span id="more"></span>
 
-<h3 id="V1"><a href="#V1" class="headerlink" title="V1"></a>V1</h3><ol>
-<li><p><strong>Primary Key</strong>: A primary key is a unique identifier for each record in a database table. It ensures that each row in the table is uniquely identified and indexed for fast retrieval. (Source: “Database System Concepts” by Abraham Silberschatz, Henry F. Korth, and S. Sudarshan)</p>
-</li>
-<li><p><strong>Foreign Key</strong>: A foreign key is a field or a group of fields in a database table that uniquely identifies a record in another table. It establishes a link or a relationship between two tables, enforcing referential integrity constraints. (Source: “Database System Concepts” by Abraham Silberschatz, Henry F. Korth, and S. Sudarshan)</p>
-</li>
-<li><p><strong>Transaction</strong>: A transaction is a logical unit of work that contains one or more database operations, such as insert, update, or delete. It ensures that all operations within the transaction are completed successfully or rolled back if any operation fails, maintaining the ACID properties. (Source: “Database Management Systems” by Raghu Ramakrishnan and Johannes Gehrke)</p>
-</li>
-<li><p><strong>Query Optimization</strong>: Query optimization is the process of selecting the most efficient execution plan for a given query to improve database performance. It involves analyzing various execution strategies, estimating costs, and choosing the optimal plan based on factors such as indexes, join methods, and access paths. (Source: “Database System Concepts” by Abraham Silberschatz, Henry F. Korth, and S. Sudarshan)</p>
-</li>
-<li><p><strong>View</strong>: A view is a virtual table that is derived from one or more base tables or other views. It represents a subset of the data in the database and is defined by a query. Views provide a way to simplify complex queries, enforce security policies, and present data in a customized format. (Source: “Database Management Systems” by Raghu Ramakrishnan and Johannes Gehrke)</p>
-</li>
-<li><p><strong>Index</strong>: An index is a data structure that improves the speed of data retrieval operations on a database table. It is created on one or more columns of a table to facilitate quick lookup of rows based on the indexed column values. Indexes can significantly enhance query performance but may incur overhead during data modification operations. (Source: “Database System Concepts” by Abraham Silberschatz, Henry F. Korth, and S. Sudarshan)</p>
-</li>
-<li><p><strong>Trigger</strong>: A trigger is a database object that automatically executes a set of actions in response to certain events, such as insert, update, or delete operations on a table. Triggers are useful for enforcing business rules, maintaining data integrity, and auditing changes to the database. (Source: “Database Management Systems” by Raghu Ramakrishnan and Johannes Gehrke)</p>
-</li>
-<li><p><strong>Normalization</strong>: Normalization is the process of organizing data in a database to minimize redundancy and dependency by dividing large tables into smaller, related tables and defining relationships between them. It helps to eliminate data anomalies and improve data integrity and consistency. (Source: “Database System Concepts” by Abraham Silberschatz, Henry F. Korth, and S. Sudarshan)</p>
-</li>
-<li><p><strong>Redundancy</strong>: Redundancy refers to the duplication of data in a database, which can lead to wasted storage space, increased maintenance overhead, and data inconsistency. It is important to minimize redundancy to ensure data integrity and avoid anomalies such as update anomalies, insertion anomalies, and deletion anomalies. (Source: “Database Management Systems” by Raghu Ramakrishnan and Johannes Gehrke)</p>
-</li>
-<li><p><strong>ACID Properties</strong>: ACID (Atomicity, Consistency, Isolation, Durability) properties are the four essential characteristics of a transaction in a database management system:</p>
-</li>
-</ol>
+<h3 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h3><p>本文首先介绍操作数的表示方法，然后各个章节将按照以下的分类方式对X86-64指令集依次进行介绍：</p>
 <ul>
-<li>Atomicity ensures that all operations within a transaction are completed successfully or rolled back as a single unit.</li>
-<li>Consistency ensures that the database remains in a valid state before and after the transaction.</li>
-<li>Isolation ensures that the execution of one transaction does not interfere with the execution of other concurrent transactions.</li>
-<li>Durability ensures that the changes made by a committed transaction are permanently saved and will not be lost, even in the event of a system failure. (Source: “Database System Concepts” by Abraham Silberschatz, Henry F. Korth, and S. Sudarshan)</li>
+<li>数据移动 Data Movement</li>
+<li>转换指令 Conversion Instructions</li>
+<li>算术指令 Arithmetic Instructions</li>
+<li>逻辑指令 Logical Instructions</li>
+<li>控制指令 Control Instructions</li>
 </ul>
-<h3 id="V2"><a href="#V2" class="headerlink" title="V2"></a>V2</h3><ol>
-<li><p><strong>Primary Key</strong>: A unique key in a database table that identifies each record&#x2F;row. It ensures that each row in the table has a unique value for the primary key column, and it cannot be NULL. (Source: “Database System Concepts,” Chapter 2.1)</p>
-</li>
-<li><p><strong>Transaction</strong>: A logical unit of work performed within a database management system (DBMS) that either completely commits or rolls back, ensuring database consistency. It is a sequence of one or more SQL statements that access and possibly modify the contents of a database. (Source: “Database System Concepts,” Chapter 13.1)</p>
-</li>
-<li><p><strong>Query Optimization</strong>: The process of selecting an efficient execution plan for a given SQL query by the DBMS. The optimizer transforms and rewrites the query, considering factors like table sizes, existence of indexes, and data statistics, to find the most effective way to retrieve the desired data. (Source: “Database System Concepts,” Chapter 12.2)</p>
-</li>
-<li><p><strong>Index</strong>: A data structure that improves the speed of data retrieval operations in a database table. An index creates a separate entry for selected columns of a table (or the entire table) and stores them in a way that facilitates faster access. (Source: “Database System Concepts,” Chapter 8.1)</p>
-</li>
-<li><p><strong>Foreign Key</strong>: A field in one table that refers to the primary key in another table. It establishes a relationship between two tables and ensures referential integrity, meaning that the values in the foreign key column must correspond to existing values in the referenced primary key column. (Source: “Database System Concepts,” Chapter 2.2)</p>
-</li>
-<li><p><strong>Stored Procedure</strong>: A precompiled set of SQL statements that are stored in the database and can be executed by specifying its name. It can accept parameters, return data, and contain complex control-of-flow statements. Stored procedures are used to encapsulate frequently used or complex operations. (Source: “Database System Concepts,” Chapter 18.1)</p>
-</li>
-<li><p><strong>Trigger</strong>: A special type of stored procedure that automatically executes when a specified event occurs in a database, such as an INSERT, UPDATE, or DELETE operation on a table. Triggers are used to maintain data integrity, perform logging, or execute other operations related to data changes. (Source: “Database System Concepts,” Chapter 19.1)</p>
-</li>
-<li><p><strong>View</strong>: A virtual table based on the result of an SQL query. Views do not store data physically; they present a customized perspective of the data from one or more tables. Views can simplify complex queries, hide data complexity, and provide security by restricting access to certain columns or rows. (Source: “Database System Concepts,” Chapter 11.1)</p>
-</li>
-<li><p><strong>Cursor</strong>: A database object that enables row-by-row navigation through a result set. Cursors are used when applications need to process query results one row at a time, rather than retrieving the entire result set at once. They provide a mechanism for controlling the traversal and manipulation of data within a result set. (Source: “Database System Concepts,” Chapter 14.1)</p>
-</li>
-<li><p><strong>Isolation Level</strong>: A property that defines how a transaction controls concurrent read and write operations. Different isolation levels provide varying degrees of concurrency control and data consistency guarantees, potentially affecting performance. Common isolation levels include Read Uncommitted, Read Committed, Repeatable Read, and Serializable. (Source: “Database System Concepts,” Chapter 13.3)</p>
-</li>
-</ol>
+<p>基本上是一些整数操作，文末附上本章所有用到的指令的列表。</p>
+<h3 id="1-操作数的表示方法-Operands-Notation"><a href="#1-操作数的表示方法-Operands-Notation" class="headerlink" title="1. 操作数的表示方法 Operands Notation"></a>1. 操作数的表示方法 Operands Notation</h3><p>一般来说，一条指令由指令或操作本身（如加法、减法、乘法等）和操作数(operand)组成。</p>
+<p><strong>操作数：指要被操作的数据的来源与结果的&#x3D;&#x3D;<em>位置</em>&#x3D;&#x3D;。</strong></p>
+<figure class="highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">这里语言匮乏无法解释的更清楚，</span><br><span class="line">不在此处纠结此概念继续学习在下一节会容易理解。</span><br><span class="line">此概念很重要。</span><br></pre></td></tr></table></figure>
 
+<table>
+<thead>
+<tr>
+<th>操作数的表示方法</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><reg></td>
+<td>寄存器操作数，寄存器中的数据</td>
+</tr>
+<tr>
+<td><reg8>,<reg16>,<br /><reg32>,<reg64></td>
+<td>规定了具体大小的寄存器操作数，比如<br />reg8表示大小为一个字节的寄存器(al bl等)<br />reg16表示大小为两个字节的寄存器(ax bx等)</td>
+</tr>
+<tr>
+<td><dest></td>
+<td>目标操作数(destination)，寄存器或内存中的数据。<br />根据具体指令，其内容将会被新结果覆盖</td>
+</tr>
+<tr>
+<td><RXdest></td>
+<td>浮点目标操作数，同上</td>
+</tr>
+<tr>
+<td><src></td>
+<td>源操作数，该操作数的值不会被指令改变</td>
+</tr>
+<tr>
+<td><imm></td>
+<td>立即数(immediate value)，一个即刻生效的临时值<br />可指定进制，默认为十进制</td>
+</tr>
+<tr>
+<td><mem></td>
+<td>内存操作数，可以是变量名或者内存地址</td>
+</tr>
+<tr>
+<td><op> 或 <operand></td>
+<td>操作数</td>
+</tr>
+<tr>
+<td><op8>,<op16>,<br /><op32>,<op64></td>
+<td>规定了具体大小的操作数</td>
+</tr>
+<tr>
+<td><label></td>
+<td>程序的标签</td>
+</tr>
+</tbody></table>
+<h3 id="2-数据移动指令-Data-Movement"><a href="#2-数据移动指令-Data-Movement" class="headerlink" title="2. 数据移动指令 Data Movement"></a>2. 数据移动指令 Data Movement</h3><p>通常情况下，数据必须从 RAM 移入 CPU 寄存器才能进行运算。计算完成后，可将结果从寄存器赋值到变量中。这种基本的数据移动操作是通过移动指令(Data Movement)来完成的。移动指令的一般形式为:</p>
+<p><code>mov &lt;dest&gt;, &lt;src&gt;</code></p>
+<p>源操作数被复制到目标操作数中。源操作数的值保持不变。</p>
+<p>比如：</p>
+<p><code>mov eax, dword [myVar]</code></p>
+<ul>
+<li>mov指该指令为数据移动指令</li>
+<li>eax指要把数据移动到eax寄存器中</li>
+<li>dword指的是源数据是一个dword类型的数据，中括号中的myVar指的是该数据在内存中的位置。<ul>
+<li>中括号表示该内存地址处的值，如果没有中括号且省略了dword来表示大小，即<code>mov eax, myVar</code>，则myVar将表示内存地址本身，编译器也不会报错，也许是个潜在的坑。这部分可以扩展出寻址模式，但这里还是不去深挖了。</li>
+</ul>
+</li>
+</ul>
+<p>目标操作数和源操作数的大小必须相同。</p>
+<p>目标操作数不能是立即数。</p>
+<p>两个操作数都不能是内存。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">; 以下两条指令表示bAns = bNum, 因为两个操作数不能都是内存，所以需要分开写</span><br><span class="line">mov al, byte [bNum] ; 把内存中的数据移动到al寄存器</span><br><span class="line">mov byte [bAns], al ; 把al寄存器中的数据移动到内存</span><br></pre></td></tr></table></figure>
+
+<p>寄存器的高位如果没有用到，将会被赋值为0。</p>
+<p><strong>总结</strong>：</p>
+<ul>
+<li><p>两个操作数不能同时为内存</p>
+</li>
+<li><p>目标操作数不能是立即数</p>
+</li>
+<li><p>如果寄存器中有高位，将会被重置为0</p>
+</li>
+</ul>
+<p><strong>示例</strong>：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">mov     ax,                       42</span><br><span class="line">mov     cl,                       byte [bvar]</span><br><span class="line">mov     dword [dVar],    eax</span><br><span class="line">mov     qword [qVar],    rdx</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-转换指令-Conversion-Instructions"><a href="#3-转换指令-Conversion-Instructions" class="headerlink" title="3. 转换指令 Conversion Instructions"></a>3. 转换指令 Conversion Instructions</h3><h3 id="4-算术指令-Arithmetic-Instructions"><a href="#4-算术指令-Arithmetic-Instructions" class="headerlink" title="4. 算术指令 Arithmetic Instructions"></a>4. 算术指令 Arithmetic Instructions</h3><h3 id="5-逻辑指令-Logical-Instructions"><a href="#5-逻辑指令-Logical-Instructions" class="headerlink" title="5. 逻辑指令 Logical Instructions"></a>5. 逻辑指令 Logical Instructions</h3><h3 id="6-控制指令-Control-Instructions"><a href="#6-控制指令-Control-Instructions" class="headerlink" title="6. 控制指令 Control Instructions"></a>6. 控制指令 Control Instructions</h3>
     </div>
 
     
@@ -273,7 +317,9 @@
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/DatabaseSystem/" rel="tag"># DatabaseSystem</a>
+              <a href="/tags/%E7%B3%BB%E7%BB%9F%E4%BC%98%E5%8C%96/" rel="tag"># 系统优化</a>
+              <a href="/tags/%E6%8C%87%E4%BB%A4%E9%9B%86/" rel="tag"># 指令集</a>
+              <a href="/tags/X86-64/" rel="tag"># X86-64</a>
           </div>
 
         
@@ -282,12 +328,12 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2023/04/25/003NginxSsl/" rel="prev" title="NGINX SSL配置">
-      <i class="fa fa-chevron-left"></i> NGINX SSL配置
+    <a href="/2024/05/21/006AssemblyFromScratch/" rel="prev" title="汇编指令基础">
+      <i class="fa fa-chevron-left"></i> 汇编指令基础
     </a></div>
       <div class="post-nav-item">
-    <a href="/2024/05/01/005%20%E7%A8%8B%E5%BA%8F%E6%8F%92%E6%A1%A9%EF%BC%88Instrumentation%EF%BC%89%E6%8A%80%E6%9C%AF/" rel="next" title="程序插桩（Instrumentation）技术">
-      程序插桩（Instrumentation）技术 <i class="fa fa-chevron-right"></i>
+    <a href="/2024/06/19/008InstructionDistributionStatisticsTool/" rel="next" title="X86-64下的指令分布统计工具">
+      X86-64下的指令分布统计工具 <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
@@ -347,7 +393,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#V1"><span class="nav-number">1.</span> <span class="nav-text">V1</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#V2"><span class="nav-number">2.</span> <span class="nav-text">V2</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Overview"><span class="nav-number">1.</span> <span class="nav-text">Overview</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E6%93%8D%E4%BD%9C%E6%95%B0%E7%9A%84%E8%A1%A8%E7%A4%BA%E6%96%B9%E6%B3%95-Operands-Notation"><span class="nav-number">2.</span> <span class="nav-text">1. 操作数的表示方法 Operands Notation</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E6%95%B0%E6%8D%AE%E7%A7%BB%E5%8A%A8%E6%8C%87%E4%BB%A4-Data-Movement"><span class="nav-number">3.</span> <span class="nav-text">2. 数据移动指令 Data Movement</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E8%BD%AC%E6%8D%A2%E6%8C%87%E4%BB%A4-Conversion-Instructions"><span class="nav-number">4.</span> <span class="nav-text">3. 转换指令 Conversion Instructions</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E7%AE%97%E6%9C%AF%E6%8C%87%E4%BB%A4-Arithmetic-Instructions"><span class="nav-number">5.</span> <span class="nav-text">4. 算术指令 Arithmetic Instructions</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-%E9%80%BB%E8%BE%91%E6%8C%87%E4%BB%A4-Logical-Instructions"><span class="nav-number">6.</span> <span class="nav-text">5. 逻辑指令 Logical Instructions</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-%E6%8E%A7%E5%88%B6%E6%8C%87%E4%BB%A4-Control-Instructions"><span class="nav-number">7.</span> <span class="nav-text">6. 控制指令 Control Instructions</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
