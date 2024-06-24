@@ -28,8 +28,9 @@
 <meta property="og:description" content="X86-64指令集的基本概述，不包括一些高级指令和限制模式指令">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://raw.githubusercontent.com/hxygmy/pgo/main/img/202406212011232.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/hxygmy/pgo/main/img/202406242236954.png">
 <meta property="article:published_time" content="2024-06-17T23:33:01.000Z">
-<meta property="article:modified_time" content="2024-06-23T06:52:01.000Z">
+<meta property="article:modified_time" content="2024-06-24T15:07:44.000Z">
 <meta property="article:author" content="何晓宇">
 <meta property="article:tag" content="系统优化">
 <meta property="article:tag" content="指令集">
@@ -186,7 +187,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2024-06-23 14:52:01" itemprop="dateModified" datetime="2024-06-23T14:52:01+08:00">2024-06-23</time>
+                <time title="修改时间：2024-06-24 23:07:44" itemprop="dateModified" datetime="2024-06-24T23:07:44+08:00">2024-06-24</time>
               </span>
 
           <br>
@@ -195,14 +196,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>2.2k</span>
+              <span>3.5k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>8 分钟</span>
+              <span>13 分钟</span>
             </span>
 
         </div>
@@ -395,7 +396,7 @@ movsx  &lt;reg32&gt;,  &lt;op16&gt;
 movsx  &lt;reg64&gt;,  &lt;op8&gt;
 movsx  &lt;reg64&gt;,  &lt;op16&gt;
 movsxd &lt;reg64&gt;,  &lt;op32&gt;
-<figure class="highlight x86asm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">### <span class="number">4</span>. 整数算术指令 Integer Arithmetic Instructions</span><br><span class="line"></span><br><span class="line">整数算术指令是在整数值上执行加减乘除操作的指令。</span><br><span class="line"></span><br><span class="line">本节将会很长。</span><br><span class="line"></span><br><span class="line">#### <span class="number">4.1</span> 加法</span><br><span class="line"></span><br><span class="line">通用加法指令为：</span><br><span class="line"></span><br><span class="line"><span class="string">`add &lt;dest&gt;, &lt;src&gt;`</span></span><br><span class="line"></span><br><span class="line">这条指令的意思是<span class="string">`dest = dest + src`</span>，同样需要满足一些条件</span><br><span class="line"></span><br><span class="line">- dest与src必须大小相同</span><br><span class="line">- dest不能是imm</span><br><span class="line">- 两个operands不能同时为内存</span><br><span class="line"></span><br><span class="line">举例：</span><br><span class="line"></span><br><span class="line">~~~assembly</span><br><span class="line"><span class="comment">; 定义以下变量</span></span><br><span class="line">bNum1     <span class="built_in">db</span>    <span class="number">42</span></span><br><span class="line">bNum2     <span class="built_in">db</span>    <span class="number">73</span></span><br><span class="line">bAns      <span class="built_in">db</span>    <span class="number">0</span></span><br><span class="line"></span><br><span class="line">wNum1     <span class="built_in">dw</span>    <span class="number">4321</span></span><br><span class="line">wNum2     <span class="built_in">dw</span>    <span class="number">1234</span></span><br><span class="line">wAns      <span class="built_in">dw</span>    <span class="number">0</span></span><br><span class="line"></span><br><span class="line">dNum1     <span class="built_in">dd</span>    <span class="number">42000</span></span><br><span class="line">dNum2     <span class="built_in">dd</span>    <span class="number">73000</span></span><br><span class="line">dAns      <span class="built_in">dd</span>    <span class="number">0</span></span><br><span class="line"></span><br><span class="line">qNum1     <span class="built_in">dq</span>    <span class="number">42000000</span></span><br><span class="line">qNum2     <span class="built_in">dq</span>    <span class="number">73000000</span></span><br><span class="line">qAns      <span class="built_in">dq</span>    <span class="number">0</span></span><br><span class="line"></span><br><span class="line"><span class="comment">; 我们进行以下的运算</span></span><br><span class="line"><span class="comment">; bAns = bNum1 + bNum2</span></span><br><span class="line"><span class="comment">; wAns = wNum1 + wNum2</span></span><br><span class="line"><span class="comment">; dAns = dNum1 + dNum2</span></span><br><span class="line"><span class="comment">; qAns = qNum1 + qNum2</span></span><br><span class="line"><span class="comment">; 使用指令应该以以下的方式进行</span></span><br><span class="line"></span><br><span class="line"><span class="comment">; 1. bAns = bNum1 + bNum2</span></span><br><span class="line"><span class="keyword">mov</span>      <span class="built_in">al</span>,            <span class="built_in">byte</span> [bNum1]</span><br><span class="line"><span class="keyword">add</span>      <span class="built_in">al</span>,            <span class="built_in">byte</span> [bNum2]</span><br><span class="line"><span class="keyword">mov</span>      <span class="built_in">byte</span> [bAns],   <span class="built_in">al</span></span><br><span class="line"></span><br><span class="line"><span class="comment">; 2. wAns = wNum1 + wNum2</span></span><br><span class="line"><span class="keyword">mov</span>      <span class="built_in">ax</span>,             <span class="built_in">word</span> [wNum1]</span><br><span class="line"><span class="keyword">add</span>      <span class="built_in">ax</span>,             <span class="built_in">word</span> [wNum2]</span><br><span class="line"><span class="keyword">mov</span>      <span class="built_in">word</span> [wAns],    <span class="built_in">ax</span></span><br><span class="line"></span><br><span class="line"><span class="comment">; 3. dAns = dNum1 + dNum2</span></span><br><span class="line"><span class="keyword">mov</span>      <span class="built_in">eax</span>,            <span class="built_in">dword</span> [dNum1]</span><br><span class="line"><span class="keyword">add</span>      <span class="built_in">eax</span>,            <span class="built_in">dword</span> [dNum2]</span><br><span class="line"><span class="keyword">mov</span>      <span class="built_in">dword</span> [dAns],   <span class="built_in">eax</span></span><br><span class="line"></span><br><span class="line"><span class="comment">; 4. qAns = qNum1 + qNum2</span></span><br><span class="line"><span class="keyword">mov</span>      <span class="built_in">rax</span>,            <span class="built_in">qword</span> [qNum1]</span><br><span class="line"><span class="keyword">add</span>      <span class="built_in">rax</span>,            <span class="built_in">qword</span> [qNum2]</span><br><span class="line"><span class="keyword">mov</span>      <span class="built_in">qword</span> [qAns],   <span class="built_in">rax</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight x86asm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">### <span class="number">4</span>. 整数算术指令 Integer Arithmetic Instructions</span><br><span class="line"></span><br><span class="line">整数算术指令是在整数值上执行加减乘除操作的指令。</span><br><span class="line"></span><br><span class="line">本节将会很长。</span><br><span class="line"></span><br><span class="line">#### <span class="number">4.1</span> 加法</span><br><span class="line"></span><br><span class="line">通用加法指令为：</span><br><span class="line"></span><br><span class="line"><span class="string">`add &lt;dest&gt;, &lt;src&gt;`</span></span><br><span class="line"></span><br><span class="line">意义为：<span class="string">`dest = dest + src`</span>，同样需要满足一些条件</span><br><span class="line"></span><br><span class="line">- dest与src必须大小相同</span><br><span class="line">- dest不能是imm</span><br><span class="line">- 两个operands不能同时为内存</span><br><span class="line"></span><br><span class="line">举例：</span><br><span class="line"></span><br><span class="line">~~~assembly</span><br><span class="line"><span class="comment">; 定义以下变量</span></span><br><span class="line">bNum1     <span class="built_in">db</span>    <span class="number">42</span></span><br><span class="line">bNum2     <span class="built_in">db</span>    <span class="number">73</span></span><br><span class="line">bAns      <span class="built_in">db</span>    <span class="number">0</span></span><br><span class="line"></span><br><span class="line">wNum1     <span class="built_in">dw</span>    <span class="number">4321</span></span><br><span class="line">wNum2     <span class="built_in">dw</span>    <span class="number">1234</span></span><br><span class="line">wAns      <span class="built_in">dw</span>    <span class="number">0</span></span><br><span class="line"></span><br><span class="line">dNum1     <span class="built_in">dd</span>    <span class="number">42000</span></span><br><span class="line">dNum2     <span class="built_in">dd</span>    <span class="number">73000</span></span><br><span class="line">dAns      <span class="built_in">dd</span>    <span class="number">0</span></span><br><span class="line"></span><br><span class="line">qNum1     <span class="built_in">dq</span>    <span class="number">42000000</span></span><br><span class="line">qNum2     <span class="built_in">dq</span>    <span class="number">73000000</span></span><br><span class="line">qAns      <span class="built_in">dq</span>    <span class="number">0</span></span><br><span class="line"></span><br><span class="line"><span class="comment">; 我们进行以下的运算</span></span><br><span class="line"><span class="comment">; bAns = bNum1 + bNum2</span></span><br><span class="line"><span class="comment">; wAns = wNum1 + wNum2</span></span><br><span class="line"><span class="comment">; dAns = dNum1 + dNum2</span></span><br><span class="line"><span class="comment">; qAns = qNum1 + qNum2</span></span><br><span class="line"><span class="comment">; 使用指令应该以以下的方式进行</span></span><br><span class="line"></span><br><span class="line"><span class="comment">; 1. bAns = bNum1 + bNum2</span></span><br><span class="line"><span class="keyword">mov</span>      <span class="built_in">al</span>,            <span class="built_in">byte</span> [bNum1]</span><br><span class="line"><span class="keyword">add</span>      <span class="built_in">al</span>,            <span class="built_in">byte</span> [bNum2]</span><br><span class="line"><span class="keyword">mov</span>      <span class="built_in">byte</span> [bAns],   <span class="built_in">al</span></span><br><span class="line"></span><br><span class="line"><span class="comment">; 2. wAns = wNum1 + wNum2</span></span><br><span class="line"><span class="keyword">mov</span>      <span class="built_in">ax</span>,             <span class="built_in">word</span> [wNum1]</span><br><span class="line"><span class="keyword">add</span>      <span class="built_in">ax</span>,             <span class="built_in">word</span> [wNum2]</span><br><span class="line"><span class="keyword">mov</span>      <span class="built_in">word</span> [wAns],    <span class="built_in">ax</span></span><br><span class="line"></span><br><span class="line"><span class="comment">; 3. dAns = dNum1 + dNum2</span></span><br><span class="line"><span class="keyword">mov</span>      <span class="built_in">eax</span>,            <span class="built_in">dword</span> [dNum1]</span><br><span class="line"><span class="keyword">add</span>      <span class="built_in">eax</span>,            <span class="built_in">dword</span> [dNum2]</span><br><span class="line"><span class="keyword">mov</span>      <span class="built_in">dword</span> [dAns],   <span class="built_in">eax</span></span><br><span class="line"></span><br><span class="line"><span class="comment">; 4. qAns = qNum1 + qNum2</span></span><br><span class="line"><span class="keyword">mov</span>      <span class="built_in">rax</span>,            <span class="built_in">qword</span> [qNum1]</span><br><span class="line"><span class="keyword">add</span>      <span class="built_in">rax</span>,            <span class="built_in">qword</span> [qNum2]</span><br><span class="line"><span class="keyword">mov</span>      <span class="built_in">qword</span> [qAns],   <span class="built_in">rax</span></span><br></pre></td></tr></table></figure>
 </code></pre>
 </li>
 </ul>
@@ -403,12 +404,8 @@ movsxd &lt;reg64&gt;,  &lt;op32&gt;
 </ul>
 <p>这里的qword、dword、word、byte可以省略，但是写进来是一个好的习惯。</p>
 <p>此外还有一条递增指令：</p>
-<ul>
-<li><p><code>inc      &lt;op&gt;</code></p>
-</li>
-<li><p>意为<code>op = op + 1</code></p>
-</li>
-</ul>
+<p><code>inc      &lt;op&gt;</code></p>
+<p>意义为：<code>op = op + 1</code></p>
 <p>这条指令与add指令加1的时候起到同样的效果，需要注意，inc指令必须指定操作数的大小，即byte word dword qword等不能省略：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">inc    rax                   ; rax = rax + 1</span><br><span class="line">inc    byte [bNum]           ; bNum = bNum + 1</span><br><span class="line">inc    word [wNum]           ; wNum = wNum + 1</span><br><span class="line">inc    dword [dNum]          ; dNum = dNum + 1</span><br><span class="line">inc    qword [qNum]          ; qNum = qNum + 1</span><br></pre></td></tr></table></figure>
 
@@ -437,8 +434,101 @@ movsxd &lt;reg64&gt;,  &lt;op32&gt;
 <td>inc                             word [wVvar]<br />inc                             rax<br />inc                             dword [dVar]<br />inc                             qword [qVar]</td>
 </tr>
 </tbody></table>
-<h5 id="4-1-1-带进位的加法"><a href="#4-1-1-带进位的加法" class="headerlink" title="4.1.1 带进位的加法"></a>4.1.1 带进位的加法</h5><p>带进位的加法是一个特殊的加法指令，是ADD指令的扩展，与ADD指令不同的是，它还会把rFlags寄存器中的值加进来</p>
-<h3 id="5-逻辑指令-Logical-Instructions"><a href="#5-逻辑指令-Logical-Instructions" class="headerlink" title="5. 逻辑指令 Logical Instructions"></a>5. 逻辑指令 Logical Instructions</h3><h3 id="6-控制指令-Control-Instructions"><a href="#6-控制指令-Control-Instructions" class="headerlink" title="6. 控制指令 Control Instructions"></a>6. 控制指令 Control Instructions</h3>
+<h5 id="4-1-1-带进位的加法"><a href="#4-1-1-带进位的加法" class="headerlink" title="4.1.1 带进位的加法"></a>4.1.1 带进位的加法</h5><p>带进位的加法(ADC, Addtion with Carry)是一个特殊的加法指令，是ADD指令的扩展，与ADD指令不同的是，它还会在进行加法运算的时候检查标志寄存器rFlags中的CF位，该位的作用为记录上一步计算中是否存在进位。在二进制中如果最高位都是1，相加后会的值会溢出，如果发生溢出就说明此次运算发生了进位，会被记录在CF位中。ADD与ADC都可能会更新CF的值。</p>
+<p>指令的形式为：</p>
+<p><code>adc &lt;dest&gt;, &lt;src&gt;</code></p>
+<p>意义为：dest &#x3D; dest + src + carryBit</p>
+<p>举例：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">; 定义两个128bit的变量，在后面的指令中将它们相加</span><br><span class="line">; 由于64bit的CPU中寄存器最多64位，所以该运算会用到更多的寄存器</span><br><span class="line">dquad1    ddq       0x1A000000000000000</span><br><span class="line">dquad2    ddq       0x2C000000000000000</span><br><span class="line">dqSum     ddq       0</span><br><span class="line"></span><br><span class="line">; rax是一个64位寄存器，先把dquad1放入rax</span><br><span class="line">mov       rax,      qword [dquad1]</span><br><span class="line">; 然后把dquad1加上8个字节就会得到高位的地址(little-endian)</span><br><span class="line">mov       rdx,      qword [dquad1+8]</span><br><span class="line">; 这两部之后rdx和rax共同存储了dquad1</span><br><span class="line"></span><br><span class="line">; 先相加低位，add指令也会更新CF</span><br><span class="line">add       rax,      qword [dquad2]</span><br><span class="line">; 再相加高位，使用adc可以判断前一步add中有没有产生进位</span><br><span class="line">adc       rdx,      qword [dquad2+8]</span><br><span class="line"></span><br><span class="line">; 把相加后的值写入dqSum中</span><br><span class="line">mov       qword [dqSum],    rax</span><br><span class="line">mov       qword [dqSum+8],  rdx</span><br><span class="line">; 高位也有可能发生溢出，需要程序员自己来保证没有错误</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th align="center">指令</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">adc &lt;dest&gt;, &lt;src&gt;</td>
+<td>dest &#x3D; dest + src<br />- 两个操作数不能同时为内存<br />- dest不能为imm</td>
+</tr>
+<tr>
+<td align="center">举例</td>
+<td>adc rcx,                    qword [dVvar1]<br />adc rax,                    42</td>
+</tr>
+</tbody></table>
+<h4 id="4-2-减法"><a href="#4-2-减法" class="headerlink" title="4.2 减法"></a>4.2 减法</h4><p>通用减法指令为：</p>
+<p><code>sub &lt;dest&gt;, &lt;src&gt;</code></p>
+<p>意义为：dest &#x3D; dest - src</p>
+<p>一些注意事项：</p>
+<ul>
+<li>dest和src不能同时为内存</li>
+<li>dest不能是imm</li>
+<li>dest和src必须大小一致</li>
+</ul>
+<p>举例：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">; 定义变量</span><br><span class="line">bNum1 db 73</span><br><span class="line">bNum2 db 42</span><br><span class="line">bAns  db 0</span><br><span class="line"></span><br><span class="line">wNum1 dw 1234</span><br><span class="line">wNum2 dw 4321</span><br><span class="line">wAns  dw 0</span><br><span class="line"></span><br><span class="line">dNum1 dd 73000</span><br><span class="line">dNum2 dd 42000</span><br><span class="line">dAns  dd 0</span><br><span class="line"></span><br><span class="line">qNum1 dq 73000000</span><br><span class="line">qNum2 dq 73000000</span><br><span class="line">qAns  dd 0</span><br><span class="line"></span><br><span class="line">; bAns = bNum1 - bNum2</span><br><span class="line">mov   al,           byte [bNum1]</span><br><span class="line">sub   al,           byte [bNum2]</span><br><span class="line">mov   byte [bAns],  al</span><br><span class="line"></span><br><span class="line">; wAns = wNum1 – wNum2</span><br><span class="line">mov   ax,           word [wNum1]</span><br><span class="line">sub   ax,           word [wNum2]</span><br><span class="line">mov   word [wAns],  ax</span><br><span class="line"></span><br><span class="line">; dAns = dNum1 – dNum2</span><br><span class="line">mov   eax,          dword [dNum1]</span><br><span class="line">sub   eax,          dword [dNum2]</span><br><span class="line">mov   dword [dAns], eax</span><br><span class="line"></span><br><span class="line">; qAns = qNum1 - qNum2</span><br><span class="line">mov   rax,          qword [qNum1]</span><br><span class="line">sub   rax,          qword [qNum2]</span><br><span class="line">mov   qword [qAns], rax</span><br></pre></td></tr></table></figure>
+
+<p>同样地，byte、word、dword、qword这些可以省略，但中括号不能省略。</p>
+<p>同样地，有一个递减指令：</p>
+<p><code>dec &lt;operand&gt;</code></p>
+<p>意义为：operand &#x3D; operand - 1</p>
+<p>使用时不能省略大小定义。</p>
+<p>总结：</p>
+<table>
+<thead>
+<tr>
+<th align="center">指令</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">sub &lt;dest&gt;, &lt;src&gt;</td>
+<td>dest &#x3D; dest - src<br />- 两个操作数不能同时为内存<br />- dest不能为imm</td>
+</tr>
+<tr>
+<td align="center">举例</td>
+<td>sub cx,                      word [wVvar]<br />sub rax,                    42<br />sub dword [dVar],  eax<br />sub qword [qVar],  300</td>
+</tr>
+<tr>
+<td align="center">dec &lt;operand&gt;</td>
+<td>operand &#x3D; operand - 1</td>
+</tr>
+<tr>
+<td align="center">举例</td>
+<td>dec                             word [wVvar]<br />dec                             rax<br />dec                             dword [dVar]<br />dec                             qword [qVar]</td>
+</tr>
+</tbody></table>
+<h4 id="4-3-乘法"><a href="#4-3-乘法" class="headerlink" title="4.3 乘法"></a>4.3 乘法</h4><p>在整数乘法中，整数的格式是否为带符号的整数有不同的运算规则。指令也分为无符号整数乘法指令mul，和有符号乘法指令imul。</p>
+<p>乘法的结果通常会使占用的大小翻倍，比如1byte的整数乘以1byte的整数会变成2byte的整数，4byte的整数乘以4byte的整数会变成8byte的整数。</p>
+<p>程序员需要自己来判断寄存器与内存是否发生溢出。</p>
+<h5 id="4-3-1-无符号乘法"><a href="#4-3-1-无符号乘法" class="headerlink" title="4.3.1 无符号乘法"></a>4.3.1 无符号乘法</h5><p>通用无符号乘法指令为：</p>
+<p><code>mul &lt;src&gt;</code></p>
+<p>意义为：把A寄存器（al\ax\eax\rax，取决于src的大小）中的值与src相乘，结果放入A寄存器，根据结果的大小也有可能存入D寄存器。下图给出了寄存器与各个大小的操作数相乘的情况：</p>
+<p><img src="https://raw.githubusercontent.com/hxygmy/pgo/main/img/202406242236954.png" alt="image-20240624223619837"></p>
+<p>如图所示，A寄存器和D寄存器有时会混用，可能会造成混乱。</p>
+<p>例如，当一个 rax（64 位）乘以另一个64位操作数时，乘法指令会提供一个quadword结果（128 位）。这在处理非常大的数字时非常有用。由于 64 位体系结构只有 64 位寄存器，128 位结果必须放在两个不同的四字（64 位）寄存器中，rdx 表示高阶结果，rax 表示低阶结果，通常写成 rdx:rax。</p>
+<p>而ax（32位）乘以另一个32位操作数时，虽然有eax寄存器更方便使用，但是实际上还是会使用dx:ax来存储结果，这样做是为了兼容以前的程序。</p>
+<p>举例：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">bNumA  db   42</span><br><span class="line">bNumB  db   73</span><br><span class="line">wAns   dw   0</span><br><span class="line">wAns1  dw   0</span><br><span class="line"></span><br><span class="line">wNumA  dw   4321</span><br><span class="line">wNumB  dw   1234</span><br><span class="line">dAns2  dd   0</span><br><span class="line"></span><br><span class="line">dNumA  dd   42000</span><br><span class="line">dNumB  dd   73000</span><br><span class="line">qAns3  dq   0</span><br><span class="line"></span><br><span class="line">qNumA  dq   420000</span><br><span class="line">qNumB  dq   730000</span><br><span class="line">dqAns4 ddq  0</span><br><span class="line"></span><br><span class="line">; wAns = bNumA^2</span><br><span class="line">mov    al,               byte [bNumA]</span><br><span class="line">mul    al                         ; 结果放在ax</span><br><span class="line">mov    word [wAns],      ax</span><br><span class="line"></span><br><span class="line">; wAns1 = bNumA * bNumB</span><br><span class="line">mov    al,               byte [bNumA]</span><br><span class="line">mul    byte [bNumB]               ; 结果放在ax</span><br><span class="line">mov    word [wAns1],     ax</span><br><span class="line"></span><br><span class="line">; dAns2 = wNumA * wNumB</span><br><span class="line">mov    ax,               byte [wNumA]</span><br><span class="line">mul    word [wNumB]               ; 结果放在dx:ax</span><br><span class="line">mov    word [dAns2],     ax</span><br><span class="line">mov    word [dAns2+2],   dx</span><br><span class="line"></span><br><span class="line">; qAns3 = dNumA * dNumB</span><br><span class="line">mov    eax,              dword [dNumA]</span><br><span class="line">mul    dword [dNumB]              ; 结果放在edx:eax</span><br><span class="line">mov    dword [qAns3],    eax</span><br><span class="line">mov    dword [qAns3+4],  edx</span><br><span class="line"></span><br><span class="line">; dqAns4 = qNumA * qNumB</span><br><span class="line">mov    rax,              qword [qNumA]</span><br><span class="line">mul    qword [qNumB]              ; 结果放在rdx:rax</span><br><span class="line">mov    qword [dqAns4],   rax</span><br><span class="line">mov    qword [dqAns4+8], rdx</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th align="center">指令</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">mul &lt;src&gt;<br />mul &lt;op8&gt;<br />mul &lt;op16&gt;<br />mul &lt;op32&gt;<br />mul &lt;op64&gt;</td>
+<td>把A寄存器的值与src相乘，可能产生不同的结果<br />ax &#x3D; al * src<br />dx:ax &#x3D; ax * src<br />edx:eax &#x3D; eax * src<br />rdx:rax &#x3D; rax * src<br />src不能为imm</td>
+</tr>
+<tr>
+<td align="center">举例</td>
+<td>mul word [wVvar]<br />mul al <br />mul dword [dVar]<br />mul qword [qVar]</td>
+</tr>
+</tbody></table>
+<h5 id="4-3-2-有符号乘法"><a href="#4-3-2-有符号乘法" class="headerlink" title="4.3.2 有符号乘法"></a>4.3.2 有符号乘法</h5><h3 id="5-逻辑指令-Logical-Instructions"><a href="#5-逻辑指令-Logical-Instructions" class="headerlink" title="5. 逻辑指令 Logical Instructions"></a>5. 逻辑指令 Logical Instructions</h3><h3 id="6-控制指令-Control-Instructions"><a href="#6-控制指令-Control-Instructions" class="headerlink" title="6. 控制指令 Control Instructions"></a>6. 控制指令 Control Instructions</h3>
     </div>
 
     
@@ -523,7 +613,7 @@ movsxd &lt;reg64&gt;,  &lt;op32&gt;
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Overview"><span class="nav-number">1.</span> <span class="nav-text">Overview</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E6%93%8D%E4%BD%9C%E6%95%B0%E7%9A%84%E8%A1%A8%E7%A4%BA%E6%96%B9%E6%B3%95-Operands-Notation"><span class="nav-number">2.</span> <span class="nav-text">1. 操作数的表示方法 Operands Notation</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E6%95%B0%E6%8D%AE%E7%A7%BB%E5%8A%A8%E6%8C%87%E4%BB%A4-Data-Movement"><span class="nav-number">3.</span> <span class="nav-text">2. 数据移动指令 Data Movement</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E8%BD%AC%E6%8D%A2%E6%8C%87%E4%BB%A4-Conversion-Instructions"><span class="nav-number">4.</span> <span class="nav-text">3. 转换指令 Conversion Instructions</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1-%E7%BC%A9%E5%B0%8F%E8%BD%AC%E6%8D%A2-Narrowing-Conversions"><span class="nav-number">4.1.</span> <span class="nav-text">3.1 缩小转换(Narrowing Conversions)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-%E6%89%A9%E5%A4%A7%E8%BD%AC%E6%8D%A2-Widening-Conversions"><span class="nav-number">4.2.</span> <span class="nav-text">3.2 扩大转换(Widening Conversions)</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#4-1-1-%E5%B8%A6%E8%BF%9B%E4%BD%8D%E7%9A%84%E5%8A%A0%E6%B3%95"><span class="nav-number">4.2.1.</span> <span class="nav-text">4.1.1 带进位的加法</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-%E9%80%BB%E8%BE%91%E6%8C%87%E4%BB%A4-Logical-Instructions"><span class="nav-number">5.</span> <span class="nav-text">5. 逻辑指令 Logical Instructions</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-%E6%8E%A7%E5%88%B6%E6%8C%87%E4%BB%A4-Control-Instructions"><span class="nav-number">6.</span> <span class="nav-text">6. 控制指令 Control Instructions</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Overview"><span class="nav-number">1.</span> <span class="nav-text">Overview</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E6%93%8D%E4%BD%9C%E6%95%B0%E7%9A%84%E8%A1%A8%E7%A4%BA%E6%96%B9%E6%B3%95-Operands-Notation"><span class="nav-number">2.</span> <span class="nav-text">1. 操作数的表示方法 Operands Notation</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E6%95%B0%E6%8D%AE%E7%A7%BB%E5%8A%A8%E6%8C%87%E4%BB%A4-Data-Movement"><span class="nav-number">3.</span> <span class="nav-text">2. 数据移动指令 Data Movement</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E8%BD%AC%E6%8D%A2%E6%8C%87%E4%BB%A4-Conversion-Instructions"><span class="nav-number">4.</span> <span class="nav-text">3. 转换指令 Conversion Instructions</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1-%E7%BC%A9%E5%B0%8F%E8%BD%AC%E6%8D%A2-Narrowing-Conversions"><span class="nav-number">4.1.</span> <span class="nav-text">3.1 缩小转换(Narrowing Conversions)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-%E6%89%A9%E5%A4%A7%E8%BD%AC%E6%8D%A2-Widening-Conversions"><span class="nav-number">4.2.</span> <span class="nav-text">3.2 扩大转换(Widening Conversions)</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#4-1-1-%E5%B8%A6%E8%BF%9B%E4%BD%8D%E7%9A%84%E5%8A%A0%E6%B3%95"><span class="nav-number">4.2.1.</span> <span class="nav-text">4.1.1 带进位的加法</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-2-%E5%87%8F%E6%B3%95"><span class="nav-number">4.3.</span> <span class="nav-text">4.2 减法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-3-%E4%B9%98%E6%B3%95"><span class="nav-number">4.4.</span> <span class="nav-text">4.3 乘法</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#4-3-1-%E6%97%A0%E7%AC%A6%E5%8F%B7%E4%B9%98%E6%B3%95"><span class="nav-number">4.4.1.</span> <span class="nav-text">4.3.1 无符号乘法</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4-3-2-%E6%9C%89%E7%AC%A6%E5%8F%B7%E4%B9%98%E6%B3%95"><span class="nav-number">4.4.2.</span> <span class="nav-text">4.3.2 有符号乘法</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-%E9%80%BB%E8%BE%91%E6%8C%87%E4%BB%A4-Logical-Instructions"><span class="nav-number">5.</span> <span class="nav-text">5. 逻辑指令 Logical Instructions</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-%E6%8E%A7%E5%88%B6%E6%8C%87%E4%BB%A4-Control-Instructions"><span class="nav-number">6.</span> <span class="nav-text">6. 控制指令 Control Instructions</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -589,12 +679,12 @@ movsxd &lt;reg64&gt;,  &lt;op32&gt;
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">18k</span>
+    <span title="站点总字数">19k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">1:06</span>
+    <span title="站点阅读时长">1:11</span>
 </div>
 
         
