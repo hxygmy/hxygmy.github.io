@@ -27,14 +27,14 @@
 <meta property="og:site_name" content="正经人谁写技术博客啊">
 <meta property="og:description" content="GO 语言第一周学习，对比CPP和Java设计角度的区别">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://www.hxygmy.site/assets/image-20250912051042889.png">
-<meta property="article:published_time" content="2025-09-10T14:59:46.000Z">
-<meta property="article:modified_time" content="2025-09-11T21:39:34.000Z">
+<meta property="og:image" content="https://raw.githubusercontent.com/hxygmy/pgo/main/img/202509120552363.png">
+<meta property="article:published_time" content="2025-09-10T13:59:46.000Z">
+<meta property="article:modified_time" content="2025-09-11T21:57:16.000Z">
 <meta property="article:author" content="何晓宇">
 <meta property="article:tag" content="Golang">
 <meta property="article:tag" content="SOLE">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://www.hxygmy.site/assets/image-20250912051042889.png">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/hxygmy/pgo/main/img/202509120552363.png">
 
 <link rel="canonical" href="http://www.hxygmy.site/2025/09/10/011Go%E8%AF%AD%E8%A8%80%E5%AF%B9%E6%AF%94CPP%E5%92%8CJava%E7%9A%84%E5%88%9D%E6%AD%A5%E7%90%86%E8%A7%A3/">
 
@@ -178,14 +178,14 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2025-09-10 22:59:46" itemprop="dateCreated datePublished" datetime="2025-09-10T22:59:46+08:00">2025-09-10</time>
+              <time title="创建时间：2025-09-10 21:59:46" itemprop="dateCreated datePublished" datetime="2025-09-10T21:59:46+08:00">2025-09-10</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2025-09-12 05:39:34" itemprop="dateModified" datetime="2025-09-12T05:39:34+08:00">2025-09-12</time>
+                <time title="修改时间：2025-09-12 05:57:16" itemprop="dateModified" datetime="2025-09-12T05:57:16+08:00">2025-09-12</time>
               </span>
 
           <br>
@@ -194,7 +194,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>1.1k</span>
+              <span>1.2k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -238,14 +238,48 @@
 </ul>
 <figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;fmt&quot;</span></span><br><span class="line">	<span class="string">&quot;sync&quot;</span></span><br><span class="line">	<span class="string">&quot;time&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> goroutine_nums = <span class="number">100</span></span><br><span class="line"><span class="keyword">const</span> increase_per_goroutine = <span class="number">1000</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	count, time := only_go_routine()</span><br><span class="line">	fmt.Printf(<span class="string">&quot;only go routine: count: %d  time: %v \n&quot;</span>, count, time)</span><br><span class="line">	count, time = use_mutex()</span><br><span class="line">	fmt.Printf(<span class="string">&quot;use mutex:       count: %d  time: %v \n&quot;</span>, count, time)</span><br><span class="line">	count, time = use_channel()</span><br><span class="line">	fmt.Printf(<span class="string">&quot;use channel:     count: %d  time: %v \n&quot;</span>, count, time)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 1. 仅使用 goroutine 不使用 channel 和锁</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">only_go_routine</span><span class="params">()</span></span> (<span class="type">int</span>, time.Duration) &#123;</span><br><span class="line">	start := time.Now()</span><br><span class="line"></span><br><span class="line">	<span class="comment">// WaitGroup 本质上是一个协程计数器</span></span><br><span class="line">	<span class="comment">// 通过 Add 方法增加计数，通过 Done 方法减少计数</span></span><br><span class="line">	<span class="comment">// 通过 Wait 方法阻塞当前协程，直到计数器归零</span></span><br><span class="line">	<span class="keyword">var</span> wg sync.WaitGroup</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 这是一个计数器，放在这个函数的作用域中，让所有的 goroutine 竞争使用这个计数器</span></span><br><span class="line">	<span class="keyword">var</span> count <span class="type">int</span></span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span> i := <span class="number">0</span>; i &lt; goroutine_nums; i++ &#123;</span><br><span class="line">		wg.Add(<span class="number">1</span>)</span><br><span class="line">        </span><br><span class="line">		<span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">			<span class="keyword">for</span> j := <span class="number">0</span>; j &lt; increase_per_goroutine; j++ &#123;</span><br><span class="line">				count++</span><br><span class="line">			&#125;</span><br><span class="line">			wg.Done()</span><br><span class="line">		&#125;()</span><br><span class="line">	&#125;</span><br><span class="line">	wg.Wait()</span><br><span class="line">	<span class="keyword">return</span> count, time.Since(start)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 2. 使用 mutex</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">use_mutex</span><span class="params">()</span></span> (<span class="type">int</span>, time.Duration) &#123;</span><br><span class="line">	start := time.Now()</span><br><span class="line">	<span class="keyword">var</span> wg sync.WaitGroup</span><br><span class="line">	<span class="keyword">var</span> mu sync.Mutex</span><br><span class="line">	<span class="keyword">var</span> count <span class="type">int</span></span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span> i := <span class="number">0</span>; i &lt; goroutine_nums; i++ &#123;</span><br><span class="line">		wg.Add(<span class="number">1</span>)</span><br><span class="line">		<span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">			<span class="keyword">for</span> j := <span class="number">0</span>; j &lt; increase_per_goroutine; j++ &#123;</span><br><span class="line">				<span class="comment">// 几乎不用解释，和cpp的写法基本一致</span></span><br><span class="line">				mu.Lock()</span><br><span class="line">				count++</span><br><span class="line">				mu.Unlock()</span><br><span class="line">			&#125;</span><br><span class="line">			wg.Done()</span><br><span class="line">		&#125;()</span><br><span class="line">	&#125;</span><br><span class="line">	wg.Wait()</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> count, time.Since(start)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 3. 使用 goroutine + channel</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">use_channel</span><span class="params">()</span></span> (<span class="type">int</span>, time.Duration) &#123;</span><br><span class="line">	start := time.Now()</span><br><span class="line">	<span class="keyword">var</span> wg sync.WaitGroup</span><br><span class="line">	<span class="comment">// 创建一个 channel</span></span><br><span class="line">	ch := <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="type">int</span>)</span><br><span class="line">	<span class="comment">// 计数器</span></span><br><span class="line">	<span class="keyword">var</span> count <span class="type">int</span></span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span> i := <span class="number">0</span>; i &lt; goroutine_nums; i++ &#123;</span><br><span class="line">		wg.Add(<span class="number">1</span>)</span><br><span class="line">		<span class="comment">// 创建一个局部计数器</span></span><br><span class="line">		localCount := <span class="number">0</span></span><br><span class="line">		<span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">			<span class="keyword">for</span> j := <span class="number">0</span>; j &lt; increase_per_goroutine; j++ &#123;</span><br><span class="line">				<span class="comment">// 通过 ch &lt;- 1 将数据发送到 channel 中</span></span><br><span class="line">				localCount++</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="comment">// 把局部计数器的值发送到 channel 中</span></span><br><span class="line">			ch &lt;- localCount</span><br><span class="line">			wg.Done()</span><br><span class="line">		&#125;()</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">// 创建一个 goroutine，用于关闭 channel, 这里必须放入协程中来关闭channel，不然由于ch是无缓冲的，主协程会被阻塞，导致死锁</span></span><br><span class="line">	<span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">		<span class="comment">// 等待所有 goroutine 执行完毕</span></span><br><span class="line">		wg.Wait()</span><br><span class="line">		<span class="comment">// 关闭 channel</span></span><br><span class="line">		<span class="built_in">close</span>(ch)</span><br><span class="line">	&#125;()</span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span> c := <span class="keyword">range</span> ch &#123;</span><br><span class="line">		count += c</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> count, time.Since(start)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h2 id="3-验证"><a href="#3-验证" class="headerlink" title="3. 验证"></a>3. 验证</h2><p><img src="/assets/image-20250912051042889.png" alt="image-20250912051042889"></p>
+<h2 id="3-验证"><a href="#3-验证" class="headerlink" title="3. 验证"></a>3. 验证</h2><p><img src="https://raw.githubusercontent.com/hxygmy/pgo/main/img/202509120552363.png" alt="image-20250912051042889"></p>
 <p>可以看到当仅使用 goroutine 的时候，计算结果出现了一次错误，这说明程序没有做好资源竞争的管理，根本就是错误的。</p>
 <p>而使用mutex时，它的耗时通常是最长的，这是因为锁竞争情况非常严重，频繁加解锁导致大量时间消耗在锁竞争上。这其实也体现了让runtime去做调度比自己管理mutex还是要强很多的。</p>
 <p>当使用goroutine + channel 的时候，程序比较容易理解，同时由于无锁（表面上），runtime调度起来压力比较小，性能表现还不错。</p>
 <p>这个用例其实有很多缺点，但是拿来对比效果还不错。</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>仅使用 goroutine</th>
+<th>使用 <code>sync.Mutex</code></th>
+<th>使用 <code>goroutine + channel</code></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>线程安全</strong></td>
+<td>不安全</td>
+<td>安全</td>
+<td>安全</td>
+</tr>
+<tr>
+<td><strong>性能表现</strong></td>
+<td>快（但结果错误，无参考价值）</td>
+<td>慢（频繁加解锁，锁竞争严重）</td>
+<td>最快（无锁、并行计算、通信开销低）</td>
+</tr>
+<tr>
+<td><strong>性能瓶颈</strong></td>
+<td>数据竞争导致结果错误</td>
+<td>锁竞争 + 调度开销</td>
+<td>channel 通信和 goroutine 启动开销</td>
+</tr>
+<tr>
+<td><strong>代码可读性</strong></td>
+<td>简单（但错误）</td>
+<td>本case比较简单，但通常较难</td>
+<td>稍复杂（需理解 channel 和 WaitGroup 协作），但结构清晰</td>
+</tr>
+</tbody></table>
 <h2 id="4-待探索问题"><a href="#4-待探索问题" class="headerlink" title="4. 待探索问题"></a>4. 待探索问题</h2><ul>
 <li>channel缓冲区大小对性能的影响</li>
-<li>仅 goroutine 的情况下 runtime 是如何进行调度的</li>
+<li>仅 goroutine 的情况下 runtime 如何调度存在数据竞争的 goroutine</li>
 <li>使用工具来更详细地分析内部竞争</li>
 <li>使用go内置的埋点方法来继续进行学习</li>
 <li>用 pprof &#x2F; trace 工具可视化这三种模式下的 goroutine 阻塞与锁竞争</li>
