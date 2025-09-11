@@ -20,17 +20,21 @@
     var CONFIG = {"hostname":"www.hxygmy.site","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"hide","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"valine","storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="技术博客，系统优化，编译器，指令集">
-<meta property="og:type" content="website">
-<meta property="og:title" content="正经人谁写技术博客啊">
-<meta property="og:url" content="http://www.hxygmy.site/tags/DatabaseSystem/index.html">
+  <meta name="description" content="GO 语言第一周学习，对比CPP和Java设计角度的区别">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Go 语言并发机制的初步理解">
+<meta property="og:url" content="http://www.hxygmy.site/2025/09/10/011Go%E8%AF%AD%E8%A8%80%E5%AF%B9%E6%AF%94CPP%E5%92%8CJava%E7%9A%84%E5%88%9D%E6%AD%A5%E7%90%86%E8%A7%A3/index.html">
 <meta property="og:site_name" content="正经人谁写技术博客啊">
-<meta property="og:description" content="技术博客，系统优化，编译器，指令集">
+<meta property="og:description" content="GO 语言第一周学习，对比CPP和Java设计角度的区别">
 <meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2025-09-10T14:59:46.000Z">
+<meta property="article:modified_time" content="2025-09-11T21:04:23.000Z">
 <meta property="article:author" content="何晓宇">
+<meta property="article:tag" content="Golang">
+<meta property="article:tag" content="SOLE">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://www.hxygmy.site/tags/DatabaseSystem/">
+<link rel="canonical" href="http://www.hxygmy.site/2025/09/10/011Go%E8%AF%AD%E8%A8%80%E5%AF%B9%E6%AF%94CPP%E5%92%8CJava%E7%9A%84%E5%88%9D%E6%AD%A5%E7%90%86%E8%A7%A3/">
 
 
 <script id="page-configurations">
@@ -38,12 +42,12 @@
   CONFIG.page = {
     sidebar: "",
     isHome : false,
-    isPost : false,
+    isPost : true,
     lang   : 'zh-CN'
   };
 </script>
 
-  <title>标签: DatabaseSystem | 正经人谁写技术博客啊</title>
+  <title>Go 语言并发机制的初步理解 | 正经人谁写技术博客啊</title>
   
 
 
@@ -142,51 +146,124 @@
         <div class="content-wrap">
           
 
-          <div class="content tag">
+          <div class="content post posts-expand">
             
 
+    
   
   
-  
-  <div class="post-block">
-    <div class="posts-collapse">
-      <div class="collection-title">
-        <h2 class="collection-header">DatabaseSystem
-          <small>标签</small>
-        </h2>
-      </div>
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://www.hxygmy.site/2025/09/10/011Go%E8%AF%AD%E8%A8%80%E5%AF%B9%E6%AF%94CPP%E5%92%8CJava%E7%9A%84%E5%88%9D%E6%AD%A5%E7%90%86%E8%A7%A3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/favicon.ico">
+      <meta itemprop="name" content="何晓宇">
+      <meta itemprop="description" content="技术博客，系统优化，编译器，指令集">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="正经人谁写技术博客啊">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Go 语言并发机制的初步理解
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2025-09-10 22:59:46" itemprop="dateCreated datePublished" datetime="2025-09-10T22:59:46+08:00">2025-09-10</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2025-09-12 05:04:23" itemprop="dateModified" datetime="2025-09-12T05:04:23+08:00">2025-09-12</time>
+              </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>255</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-    <div class="collection-year">
-      <span class="collection-header">2024</span>
+        <center> GO 语言第一周学习，对比CPP和Java设计角度的区别 </center>
+
+<span id="more"></span>
+
+<h1 id="Go-语言并发机制的初步理解"><a href="#Go-语言并发机制的初步理解" class="headerlink" title="Go 语言并发机制的初步理解"></a>Go 语言并发机制的初步理解</h1><p>摘要：Go用channel来实现了感受上的无锁并发，实际上runtime才真正在管理并发和锁。这是一种相当优雅的封装。</p>
+<h2 id="1-Go语言的并发机制"><a href="#1-Go语言的并发机制" class="headerlink" title="1. Go语言的并发机制"></a>1. Go语言的并发机制</h2><p>Go程序中实现并发主要有两种机制</p>
+<ul>
+<li>通过 <strong>Go协程(Go routine)</strong> 和 <strong>信道(channel)</strong> 的协作来实现并发</li>
+<li>通过同步原语，如 <strong>sync.Mutex</strong> 等来实现并发，这是对 channel 机制的补充</li>
+</ul>
+<p>协程与信道机制的设计来自一条重要的设计哲学：</p>
+<blockquote>
+<p><strong>“Do not communicate by sharing memory; instead, share memory by communicating.”</strong><br> （不要通过共享内存来通信，通过通信来共享内存。）—Effective Go</p>
+</blockquote>
+<p>以下代码，我写了一个并发计数器，分别使用三种并发方式来进行对照</p>
+<ul>
+<li>仅  goroutine 无 channel</li>
+<li>通过 sync.Mutex 来保护共享内存</li>
+<li>通过 goroutine + channel</li>
+</ul>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="2-并发机制对比"><a href="#2-并发机制对比" class="headerlink" title="2. 并发机制对比"></a>2. 并发机制对比</h2><h2 id="3-验证"><a href="#3-验证" class="headerlink" title="3. 验证"></a>3. 验证</h2>
     </div>
 
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+    
+    
+    
 
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2024-03-21T00:38:02+08:00"
-              content="2024-03-21">
-          03-21
-        </time>
-      </div>
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Golang/" rel="tag"># Golang</a>
+              <a href="/tags/SOLE/" rel="tag"># SOLE</a>
+          </div>
 
-      <div class="post-title">
-          <a class="post-title-link" href="/2024/03/21/004-10MostRepresentativeProfessionalTermsinDatabaseSystems/" itemprop="url">
-            <span itemprop="name">10 Most Representative Professional Terms in Database Systems</span>
-          </a>
-      </div>
+        
 
-    </header>
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2025/06/26/010SPEC%20CPU2017%20All%20Cases/" rel="prev" title="SPEC CPU 2017 单独运行测试用例">
+      <i class="fa fa-chevron-left"></i> SPEC CPU 2017 单独运行测试用例
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
   </article>
-
-    </div>
-  </div>
   
   
-  
-
   
 
 
@@ -239,6 +316,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Go-%E8%AF%AD%E8%A8%80%E5%B9%B6%E5%8F%91%E6%9C%BA%E5%88%B6%E7%9A%84%E5%88%9D%E6%AD%A5%E7%90%86%E8%A7%A3"><span class="nav-number">1.</span> <span class="nav-text">Go 语言并发机制的初步理解</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-Go%E8%AF%AD%E8%A8%80%E7%9A%84%E5%B9%B6%E5%8F%91%E6%9C%BA%E5%88%B6"><span class="nav-number">1.1.</span> <span class="nav-text">1. Go语言的并发机制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E5%B9%B6%E5%8F%91%E6%9C%BA%E5%88%B6%E5%AF%B9%E6%AF%94"><span class="nav-number">1.2.</span> <span class="nav-text">2. 并发机制对比</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E9%AA%8C%E8%AF%81"><span class="nav-number">1.3.</span> <span class="nav-text">3. 验证</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
