@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.1.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico">
+  <link rel="mask-icon" href="/images/favicon.ico" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.hxygmy.site","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"hide","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"valine","storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="分析Go官方源码库总结得出的优质Go基准测试的几个准则">
+<meta property="og:type" content="article">
+<meta property="og:title" content="从Go官方Benchmark到Benchmark的设计范式">
+<meta property="og:url" content="http://www.hxygmy.site/2025/09/18/012Benchmark%E7%9A%84%E8%AE%BE%E8%AE%A1%E8%8C%83%E5%BC%8F/index.html">
+<meta property="og:site_name" content="正经人谁写技术博客啊">
+<meta property="og:description" content="分析Go官方源码库总结得出的优质Go基准测试的几个准则">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2025-09-17T23:45:32.000Z">
+<meta property="article:modified_time" content="2025-09-19T15:42:22.000Z">
+<meta property="article:author" content="何晓宇">
+<meta property="article:tag" content="Golang">
+<meta property="article:tag" content="SOLE">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://www.hxygmy.site/2025/09/18/012Benchmark%E7%9A%84%E8%AE%BE%E8%AE%A1%E8%8C%83%E5%BC%8F/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>从Go官方Benchmark到Benchmark的设计范式 | 正经人谁写技术博客啊</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">正经人谁写技术博客啊</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">何晓宇的技术博客</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://www.hxygmy.site/2025/09/18/012Benchmark%E7%9A%84%E8%AE%BE%E8%AE%A1%E8%8C%83%E5%BC%8F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/favicon.ico">
+      <meta itemprop="name" content="何晓宇">
+      <meta itemprop="description" content="技术博客，系统优化，编译器，指令集">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="正经人谁写技术博客啊">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          从Go官方Benchmark到Benchmark的设计范式
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2025-09-18 07:45:32" itemprop="dateCreated datePublished" datetime="2025-09-18T07:45:32+08:00">2025-09-18</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2025-09-19 23:42:22" itemprop="dateModified" datetime="2025-09-19T23:42:22+08:00">2025-09-19</time>
+              </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>3.7k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>14 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <center> 分析Go官方源码库总结得出的优质Go基准测试的几个准则 </center>
+
+<span id="more"></span>
+
+<h3 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h3><p>在 Go 语言的持续演进中，基准测试不仅是性能度量工具，更是防止性能退化的防线。在本文中我试图通过对官方源码库中基准测试的分析，了解基准测试的设计哲学，为构建领域特定 Benchmark 提供可复用的方案。</p>
+<p>现有的多份资料中，都提到过基准测试的几条准则，如“可重复性、可观测性、可展示性、真实性、可执行性”，或者“<a target="_blank" rel="noopener" href="https://deeplearning4j.konduit.ai/zhong-wen-v1.0.0/kai-shi/ji-zhun-ce-shi-zhun-ze">多次迭代、结果可复现、硬件相关、需求相关</a>”，比较权威的有“<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Benchmark_(computing)">Relevance, Representativeness, Equity, Repeatability, Cost-effectiveness, Scalability, Transparency</a>”等。在概念上目前没有一个通用的说法。</p>
+<p>作为学习者，在本文中通过对 Go 语言标准库 <code>runtime/rwmutex_test.go</code> 中一组读写锁（RWMutex）基准测试的实证分析，提炼出优质基准测试的两大核心准则：<strong>变量隔离性、目标相关性</strong>，也是我认为一个优质的基准测试两个最基本的准则。进一步地，本文归纳了基准测试应关注的四个层级：语言机制、库与工具、系统行为、实验流程。</p>
+<h3 id="1-基准测试的准则"><a href="#1-基准测试的准则" class="headerlink" title="1. 基准测试的准则"></a>1. 基准测试的准则</h3><p>以Go源代码目录下<code>src/runtime/rwmutex_test.go</code>中的读写锁基准测试为例，分析一个优质的基准测试应该符合什么样的准则。</p>
+<p>首先来看第一个基准测试</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">BenchmarkRWMutexUncontended</span><span class="params">(b *testing.B)</span></span> &#123;</span><br><span class="line">	<span class="keyword">type</span> PaddedRWMutex <span class="keyword">struct</span> &#123;</span><br><span class="line">		RWMutex</span><br><span class="line">		pad [<span class="number">32</span>]<span class="type">uint32</span></span><br><span class="line">	&#125;</span><br><span class="line">	b.RunParallel(<span class="function"><span class="keyword">func</span><span class="params">(pb *testing.PB)</span></span> &#123;</span><br><span class="line">		<span class="keyword">var</span> rwm PaddedRWMutex</span><br><span class="line">		rwm.Init()</span><br><span class="line">		<span class="keyword">for</span> pb.Next() &#123;</span><br><span class="line">			rwm.RLock()</span><br><span class="line">			rwm.RLock()</span><br><span class="line">			rwm.RUnlock()</span><br><span class="line">			rwm.RUnlock()</span><br><span class="line">			rwm.Lock()</span><br><span class="line">			rwm.Unlock()</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>它的测量目标为在<strong>多核并行、无共享变量、无False Sharing</strong>（通过pad [32]uint32进行缓存行隔离）的情况下，RWMutex的基本操作开销。</p>
+<p>在单个Goroutine中，按照顺序执行<strong>读锁-&gt;读锁-&gt;解开读锁-&gt;解开读锁-&gt;写锁-&gt;解开写锁</strong>的操作，它作为一个对照组来控制好可能对RWMutex的操作产生影响的各种变量。经过多次执行该Benchmark，得出以下结果：</p>
+<figure class="highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">hxy@ubu22:~/app/go_1.25.1/src</span><br><span class="line">$ go test -bench ^BenchmarkRWMutexUncontended$ -benchmem -run=^$ runtime</span><br><span class="line">goos: linux</span><br><span class="line">goarch: amd64</span><br><span class="line">pkg: runtime</span><br><span class="line">cpu: AMD Ryzen 7 7840HS w/ Radeon 780M Graphics     </span><br><span class="line">BenchmarkRWMutexUncontended-8   	317417577	         3.834 ns/op	       0 B/op	       0 allocs/op</span><br><span class="line">PASS</span><br><span class="line">ok  	runtime	1.609s</span><br><span class="line">hxy@ubu22:~/app/go_1.25.1/src</span><br><span class="line">$ go test -bench ^BenchmarkRWMutexUncontended$ -benchmem -run=^$ runtime</span><br><span class="line">goos: linux</span><br><span class="line">goarch: amd64</span><br><span class="line">pkg: runtime</span><br><span class="line">cpu: AMD Ryzen 7 7840HS w/ Radeon 780M Graphics     </span><br><span class="line">BenchmarkRWMutexUncontended-8   	316712482	         3.831 ns/op	       0 B/op	       0 allocs/op</span><br><span class="line">PASS</span><br><span class="line">ok  	runtime	1.606s</span><br><span class="line">hxy@ubu22:~/app/go_1.25.1/src</span><br><span class="line">$ go test -bench ^BenchmarkRWMutexUncontended$ -benchmem -run=^$ runtime</span><br><span class="line">goos: linux</span><br><span class="line">goarch: amd64</span><br><span class="line">pkg: runtime</span><br><span class="line">cpu: AMD Ryzen 7 7840HS w/ Radeon 780M Graphics     </span><br><span class="line">BenchmarkRWMutexUncontended-8   	310858947	         3.817 ns/op	       0 B/op	       0 allocs/op</span><br><span class="line">PASS</span><br><span class="line">ok  	runtime	1.589s</span><br><span class="line">hxy@ubu22:~/app/go_1.25.1/src</span><br><span class="line">$ go test -bench ^BenchmarkRWMutexUncontended$ -benchmem -run=^$ runtime</span><br><span class="line">goos: linux</span><br><span class="line">goarch: amd64</span><br><span class="line">pkg: runtime</span><br><span class="line">cpu: AMD Ryzen 7 7840HS w/ Radeon 780M Graphics     </span><br><span class="line">BenchmarkRWMutexUncontended-8   	314629580	         3.864 ns/op	       0 B/op	       0 allocs/op</span><br><span class="line">PASS</span><br><span class="line">ok  	runtime	1.612s</span><br><span class="line">hxy@ubu22:~/app/go_1.25.1/src</span><br><span class="line">$ go test -bench ^BenchmarkRWMutexUncontended$ -benchmem -run=^$ runtime</span><br><span class="line">goos: linux</span><br><span class="line">goarch: amd64</span><br><span class="line">pkg: runtime</span><br><span class="line">cpu: AMD Ryzen 7 7840HS w/ Radeon 780M Graphics     </span><br><span class="line">BenchmarkRWMutexUncontended-8   	289060170	         3.814 ns/op	       0 B/op	       0 allocs/op</span><br><span class="line">PASS</span><br><span class="line">ok  	runtime	1.531s</span><br></pre></td></tr></table></figure>
+
+<p>命令执行了五次，主要输出结果为倒数第三行以及最后一行的执行时长，倒数第三行的含义为该benchmark并行度为8，执行了约3亿次迭代，平均每次迭代耗时稳定在 <strong>3.83±0.02 ns&#x2F;op</strong>，每次操作分配0内存，申请0次堆内存，其中最重要的结果应该是平均每次迭代耗时。</p>
+<p>对结果进行对比可知，RWMutex的性能表现非常稳定，具备统计上的显著性，这个结果完全可以代表读写锁在完全无竞争的情况下，在当前的操作系统与硬件平台上的执行效率。</p>
+<p>此结果构成了后续所有对比实验的<strong>Baseline</strong>。</p>
+<p>我们继续来看它如何通过控制变量来得出读写锁的性能表现。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">benchmarkRWMutex</span><span class="params">(b *testing.B, localWork, writeRatio <span class="type">int</span>)</span></span> &#123;</span><br><span class="line">	<span class="keyword">var</span> rwm RWMutex</span><br><span class="line">	rwm.Init()</span><br><span class="line">	b.RunParallel(<span class="function"><span class="keyword">func</span><span class="params">(pb *testing.PB)</span></span> &#123;</span><br><span class="line">		foo := <span class="number">0</span></span><br><span class="line">		<span class="keyword">for</span> pb.Next() &#123;</span><br><span class="line">			foo++</span><br><span class="line">			<span class="keyword">if</span> foo%writeRatio == <span class="number">0</span> &#123;</span><br><span class="line">				rwm.Lock()</span><br><span class="line">				rwm.Unlock()</span><br><span class="line">			&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">				rwm.RLock()</span><br><span class="line">				<span class="keyword">for</span> i := <span class="number">0</span>; i != localWork; i += <span class="number">1</span> &#123;</span><br><span class="line">					foo *= <span class="number">2</span></span><br><span class="line">					foo /= <span class="number">2</span></span><br><span class="line">				&#125;</span><br><span class="line">				rwm.RUnlock()</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		_ = foo</span><br><span class="line">	&#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">BenchmarkRWMutexWrite100</span><span class="params">(b *testing.B)</span></span> &#123;</span><br><span class="line">	benchmarkRWMutex(b, <span class="number">0</span>, <span class="number">100</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">BenchmarkRWMutexWrite10</span><span class="params">(b *testing.B)</span></span> &#123;</span><br><span class="line">	benchmarkRWMutex(b, <span class="number">0</span>, <span class="number">10</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">BenchmarkRWMutexWorkWrite100</span><span class="params">(b *testing.B)</span></span> &#123;</span><br><span class="line">	benchmarkRWMutex(b, <span class="number">100</span>, <span class="number">100</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">BenchmarkRWMutexWorkWrite10</span><span class="params">(b *testing.B)</span></span> &#123;</span><br><span class="line">	benchmarkRWMutex(b, <span class="number">100</span>, <span class="number">10</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>benchmarkRWMutex</strong>为通用的控制变量用的辅助函数，它的含义是，在不同的读工作量（localwork）与不同的写操作比例（writeRatio）下RWMutex的性能表现，第2-5个函数调用<strong>benchmarkRWMutex</strong>来分别对localwork和writeRatio进行赋值。</p>
+<ul>
+<li>BenchmarkRWMutexWrite100表示每100次操作中有一次写锁</li>
+<li>BenchmarkRWMutexWrite10表示每10次操作中有一次写锁，本地工作（读操作）不需要等待，直接加锁完了就解锁</li>
+<li>BenchmarkRWMutexWorkWrite100表示每100次操作中有一次写锁，同时本地工作（读操作）量较大</li>
+<li>BenchmarkRWMutexWorkWrite10表示每10次操作中有一次写锁，也有很多本地工作，模拟读写锁负载都较高的情况</li>
+</ul>
+<p>我们来看它的结果，由于结果过多，我每一个测试展示了两次执行的结果</p>
+<figure class="highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br></pre></td><td class="code"><pre><span class="line">hxy@ubu22:~/app/go_1.25.1/src</span><br><span class="line">$ go test -benchmem -run=^$ -bench ^BenchmarkRWMutexWrite100$ runtime</span><br><span class="line">goos: linux</span><br><span class="line">goarch: amd64</span><br><span class="line">pkg: runtime</span><br><span class="line">cpu: AMD Ryzen 7 7840HS w/ Radeon 780M Graphics     </span><br><span class="line">BenchmarkRWMutexWrite100-8   	13890078	        91.59 ns/op	       0 B/op	       0 allocs/op</span><br><span class="line">PASS</span><br><span class="line">ok  	runtime	1.370s</span><br><span class="line">hxy@ubu22:~/app/go_1.25.1/src</span><br><span class="line">$ go test -benchmem -run=^$ -bench ^BenchmarkRWMutexWrite100$ runtime</span><br><span class="line">goos: linux</span><br><span class="line">goarch: amd64</span><br><span class="line">pkg: runtime</span><br><span class="line">cpu: AMD Ryzen 7 7840HS w/ Radeon 780M Graphics     </span><br><span class="line">BenchmarkRWMutexWrite100-8   	13798215	       111.6 ns/op	       0 B/op	       0 allocs/op</span><br><span class="line">PASS</span><br><span class="line">ok  	runtime	1.636s</span><br><span class="line"></span><br><span class="line">hxy@ubu22:~/app/go_1.25.1/src</span><br><span class="line">$ go test -benchmem -run=^$ -bench ^BenchmarkRWMutexWrite10$ runtime</span><br><span class="line">goos: linux</span><br><span class="line">goarch: amd64</span><br><span class="line">pkg: runtime</span><br><span class="line">cpu: AMD Ryzen 7 7840HS w/ Radeon 780M Graphics     </span><br><span class="line">BenchmarkRWMutexWrite10-8   	19026660	        54.61 ns/op	       0 B/op	       0 allocs/op</span><br><span class="line">PASS</span><br><span class="line">ok  	runtime	1.111s</span><br><span class="line">hxy@ubu22:~/app/go_1.25.1/src</span><br><span class="line">$ go test -benchmem -run=^$ -bench ^BenchmarkRWMutexWrite10$ runtime</span><br><span class="line">goos: linux</span><br><span class="line">goarch: amd64</span><br><span class="line">pkg: runtime</span><br><span class="line">cpu: AMD Ryzen 7 7840HS w/ Radeon 780M Graphics     </span><br><span class="line">BenchmarkRWMutexWrite10-8   	20960262	        65.37 ns/op	       0 B/op	       0 allocs/op</span><br><span class="line">PASS</span><br><span class="line">ok  	runtime	1.438s</span><br><span class="line"></span><br><span class="line">hxy@ubu22:~/app/go_1.25.1/src</span><br><span class="line">$ go test -benchmem -run=^$ -bench ^BenchmarkRWMutexWorkWrite100$ runtime</span><br><span class="line">goos: linux</span><br><span class="line">goarch: amd64</span><br><span class="line">pkg: runtime</span><br><span class="line">cpu: AMD Ryzen 7 7840HS w/ Radeon 780M Graphics     </span><br><span class="line">BenchmarkRWMutexWorkWrite100-8   	 4638330	       291.0 ns/op	       0 B/op	       0 allocs/op</span><br><span class="line">PASS</span><br><span class="line">ok  	runtime	1.619s</span><br><span class="line">hxy@ubu22:~/app/go_1.25.1/src</span><br><span class="line">$ go test -benchmem -run=^$ -bench ^BenchmarkRWMutexWorkWrite100$ runtime</span><br><span class="line">goos: linux</span><br><span class="line">goarch: amd64</span><br><span class="line">pkg: runtime</span><br><span class="line">cpu: AMD Ryzen 7 7840HS w/ Radeon 780M Graphics     </span><br><span class="line">BenchmarkRWMutexWorkWrite100-8   	 4723968	       293.9 ns/op	       0 B/op	       0 allocs/op</span><br><span class="line">PASS</span><br><span class="line">ok  	runtime	1.654s</span><br><span class="line"></span><br><span class="line">hxy@ubu22:~/app/go_1.25.1/src</span><br><span class="line">$ go test -benchmem -run=^$ -bench ^BenchmarkRWMutexWorkWrite10$ runtime</span><br><span class="line">goos: linux</span><br><span class="line">goarch: amd64</span><br><span class="line">pkg: runtime</span><br><span class="line">cpu: AMD Ryzen 7 7840HS w/ Radeon 780M Graphics     </span><br><span class="line">BenchmarkRWMutexWorkWrite10-8   	 2020388	       661.1 ns/op	       0 B/op	       0 allocs/op</span><br><span class="line">PASS</span><br><span class="line">ok  	runtime	1.945s</span><br><span class="line">hxy@ubu22:~/app/go_1.25.1/src</span><br><span class="line">$ go test -benchmem -run=^$ -bench ^BenchmarkRWMutexWorkWrite10$ runtime</span><br><span class="line">goos: linux</span><br><span class="line">goarch: amd64</span><br><span class="line">pkg: runtime</span><br><span class="line">cpu: AMD Ryzen 7 7840HS w/ Radeon 780M Graphics     </span><br><span class="line">BenchmarkRWMutexWorkWrite10-8   	 1960510	       653.8 ns/op	       0 B/op	       0 allocs/op</span><br><span class="line">PASS</span><br><span class="line">ok  	runtime	1.908s</span><br></pre></td></tr></table></figure>
+
+<p>以上实验通过对读写锁的变量控制，分析了RWMutex的执行性能，我们对其结果进行解读。</p>
+<table>
+<thead>
+<tr>
+<th>Benchmark 名称</th>
+<th>写比例</th>
+<th>local work</th>
+<th>平均耗时 (ns&#x2F;op)</th>
+<th>相对非竞争放大倍数</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>BenchmarkRWMutexUncontended</code></td>
+<td>33%</td>
+<td>极短</td>
+<td>3.8 ns</td>
+<td>1x（基准）</td>
+</tr>
+<tr>
+<td><code>BenchmarkRWMutexWrite100</code></td>
+<td>1%</td>
+<td>无</td>
+<td>100 ns</td>
+<td>26x</td>
+</tr>
+<tr>
+<td><code>BenchmarkRWMutexWrite10</code></td>
+<td>10%</td>
+<td>无</td>
+<td>60 ns</td>
+<td>16x</td>
+</tr>
+<tr>
+<td><code>BenchmarkRWMutexWorkWrite100</code></td>
+<td>1%</td>
+<td>高（100次）</td>
+<td>292 ns</td>
+<td>76x</td>
+</tr>
+<tr>
+<td><code>BenchmarkRWMutexWorkWrite10</code></td>
+<td>10%</td>
+<td>高（100次）</td>
+<td>657 ns</td>
+<td>172x</td>
+</tr>
+</tbody></table>
+<p>我们可以得出几个结论</p>
+<ul>
+<li>锁竞争对性能影响非常大。</li>
+<li>在读锁极短的场景下，适度提高写比例反而能减少写锁等待，提高整体效率。</li>
+<li>读锁较长时，一旦有写锁等待，会把读写锁都阻塞，导致后续所有锁等待。</li>
+<li>读锁较长时，写比例越高，性能越差。</li>
+</ul>
+<p>我们可以将总延迟分解为三个组成部分：</p>
+<ol>
+<li>基底开销：约 3.8 ns，来自原子指令与轻量同步；</li>
+<li>锁争用开销：因 Goroutine 排队、调度介入引发的状态切换；</li>
+<li>公平性代价：长持读锁会阻塞后续写操作，而一旦写请求排队，Go 的 RWMutex 公平性策略会优先唤醒写协程，导致大量正在等待的读协程集体阻塞，为防止写饥饿，系统牺牲读吞吐所付出的成本。</li>
+</ol>
+<p>所以这个结果是由于读写锁在调度器层面的资源争用导致的。</p>
+<p>可以看到，通过对可能影响性能表现的变量的精细化控制，我们得出了一个非常精细的结论，如果没有对于变量的精细控制，我们不可能得出这样的结论。而对于测量锁性能的目标，做到这里已经达成了目标。如果继续深入探寻该结论的底层原因，那并非<strong>基准测试</strong>要做的事，继续执行该benchmark，使用更多的配置组合，再用上梯度下降的算法等手段，也许可以找到一个最佳的读写锁比例，指导程序的编写或优化方向。</p>
+<h3 id="2-基准测试的重要维度"><a href="#2-基准测试的重要维度" class="headerlink" title="2. 基准测试的重要维度"></a>2. 基准测试的重要维度</h3><p>在深入 Go 性能研究时，我们不能只盯着单个函数的 <code>ns/op</code>。真正的性能测试工程需要跨越多个抽象层级进行分析。</p>
+<p>首先我们来看一下<a target="_blank" rel="noopener" href="https://github.com/golang/benchmarks">官方benchmark</a>中都包含哪些内容</p>
+<p>以下是该仓库的文件目录，几个有可能产生歧义的部分含有注释</p>
+<figure class="highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line">├── build</span><br><span class="line">│   └── build.go	// 测试 Go 编译器、链接器的性能与产物大小。</span><br><span class="line">├── cmd</span><br><span class="line">│   ├── bench</span><br><span class="line">│   └── bent        // 两个命令行工具，bent通过toml配置运行的测试集和参数执行测试</span><br><span class="line">├── codereview.cfg</span><br><span class="line">├── driver          // 不同的环境下的驱动，适配多个操作系统 </span><br><span class="line">│   ├── driver_darwin.go </span><br><span class="line">│   ├── driver.go</span><br><span class="line">│   ├── driver_go10.go</span><br><span class="line">│   ├── driver_go12.go</span><br><span class="line">│   ├── driver_go15.go</span><br><span class="line">│   ├── driver_linux.go</span><br><span class="line">│   ├── driver_plan9.go</span><br><span class="line">│   ├── driver_stub.go</span><br><span class="line">│   ├── driver_unix.go</span><br><span class="line">│   ├── driver_wasm.go</span><br><span class="line">│   └── driver_windows.go</span><br><span class="line">├── garbage        </span><br><span class="line">│   ├── garbage.go  // 依赖nethttp.go产生垃圾，考察GC的吞吐和暂停时间。</span><br><span class="line">│   └── nethttp.go  // http产生的短寿命对象，构造大对象和临时内存分配</span><br><span class="line">├── gc_latency      // 产生垃圾、触发GC、测量吞吐性与延迟</span><br><span class="line">│   ├── latency.go  // 测量allocation latency</span><br><span class="line">│   ├── latency_test.go</span><br><span class="line">│   └── main.go</span><br><span class="line">├── go.mod</span><br><span class="line">├── go.sum</span><br><span class="line">├── http</span><br><span class="line">│   └── http.go     // 本地启动server和client，client反复发起请求，测量请求-响应的时延和吞吐。</span><br><span class="line">├── json</span><br><span class="line">│   ├── json_data.go</span><br><span class="line">│   └── json.go     // marshal和unmarshal的速度、内存分配、不同选项的对比</span><br><span class="line">├── stats           // 对结果进行统计输出的组件，处于采集完性能数据的后续位置</span><br><span class="line">│   ├── edm.go</span><br><span class="line">│   ├── edm_test.go</span><br><span class="line">│   ├── edmx.go</span><br><span class="line">│   ├── itree.go</span><br><span class="line">│   └── itree_test.go</span><br><span class="line">├── sweet           // 服务级别的大型benchmark套件</span><br><span class="line">│   ├── benchmarks</span><br><span class="line">│   ├── cli</span><br><span class="line">│   ├── cmd</span><br><span class="line">│   ├── common</span><br><span class="line">│   ├── generators</span><br><span class="line">│   ├── harnesses</span><br><span class="line">│   ├── README.md</span><br><span class="line">│   └── source-assets</span><br><span class="line">└── third_party</span><br><span class="line">    ├── biogo-examples</span><br><span class="line">    └── bleve-bench</span><br></pre></td></tr></table></figure>
+
+<p>总结一下官方这个benchmark套件，来看一下go语言的设计者们如何进行基准测试。</p>
+<p>把这些基准测试按照级别进行分类，会发现它囊括了好几个层级：</p>
+<table>
+<thead>
+<tr>
+<th>Level</th>
+<th>测试内容</th>
+<th>举例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>语言特性</td>
+<td>GC吞吐量，GC延迟</td>
+<td><code>garbage.go, gc_latency.go</code></td>
+</tr>
+<tr>
+<td>标准库与工具</td>
+<td>库函数、编译器、链接器等性能</td>
+<td><code>json.go, http.go, build.go</code></td>
+</tr>
+<tr>
+<td>大型服务</td>
+<td>整体性能</td>
+<td>sweet套件，生物信息学套件，全文检索套件</td>
+</tr>
+<tr>
+<td>测试的基础设施</td>
+<td>跨平台支持、标准化输出工具</td>
+<td><code>driver_*.go</code>, <code>./stats/</code></td>
+</tr>
+</tbody></table>
+<p>同时，在细节上来说：</p>
+<ul>
+<li>基准测试需要在概念上非常严谨，即使吞吐、延迟这样的非常类似但是实际上完全不同的优化点也要完全区分</li>
+<li>基准测试的流程需要比较完善，从不同平台的驱动，到不同级别的性能数据的采集，到数据的标准化输出</li>
+<li>基准测试需要从多个维度贴近真实的负载，比如sweet套件中的服务、bent的配置化运行、对关键的库函数的性能分析、语言特性级别的性能分析，这样的从宏观到微观可以较为方便地进行归因。</li>
+</ul>
+<p>我们可以将上述维度整合为一个<strong>分层性能归因框架</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>层级</th>
+<th>关注问题</th>
+<th>典型指标</th>
+<th>代表测试</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>L1: 语言机制</td>
+<td>“Runtime 是否高效？”</td>
+<td>GC 暂停、调度延迟</td>
+<td><code>gc_latency</code>, <code>garbage</code></td>
+</tr>
+<tr>
+<td>L2: 库与工具</td>
+<td>“常用组件是否够快？”</td>
+<td>ns&#x2F;op, B&#x2F;op, allocs&#x2F;op</td>
+<td><code>json</code>, <code>http</code>, <code>build</code></td>
+</tr>
+<tr>
+<td>L3: 系统行为</td>
+<td>“整体服务是否稳定？”</td>
+<td>QPS, P99 延迟, 错误率</td>
+<td><code>sweet</code> 套件</td>
+</tr>
+<tr>
+<td>L4: 实验流程</td>
+<td>“测量是否可信？”</td>
+<td>结果的可复现性</td>
+<td><code>driver</code>, <code>stats</code></td>
+</tr>
+</tbody></table>
+<p>这个模型的意义在于：<strong>当发现性能问题时，可以自顶向下逐层排查</strong>。</p>
+<p>比如线上服务延迟升高，可以：</p>
+<ol>
+<li>先看 <code>sweet</code> 是否复现（L3）</li>
+<li>再检查 <code>http</code> 或 <code>json</code> 是否退化（L2）</li>
+<li>最后验证 <code>gc_latency</code> 是否异常（L1）</li>
+<li>并确保所有测试在相同 <code>driver</code> 环境下运行（L4）</li>
+</ol>
+<p>我把它叫做<strong>四维性能观测模型</strong>。</p>
+<p>除此之外，这其中的每一个基准测试，包括<strong>GC吞吐量、GC延迟、json解析、http、编译工具链</strong>等，这些内容都是非常具有代表性的性能瓶颈点，可以作为我以后关注go程序性能的参考。</p>
+<p>这个benchmark所选的基准既有可控的微观场景也有逼近真实工作负载的宏观场景，结合完善的驱动、采集、统计分析的流程，提供了一个适合做严谨、可复现性能研究的实验平台。</p>
+<h3 id="3-结论"><a href="#3-结论" class="headerlink" title="3. 结论"></a>3. 结论</h3><p>Go 团队的 Benchmark 设计并非随意而为，而是在丰富经验指导下写出的一套优质的基准测试套件，一定程度上代表了软件工程中遇到的各种经典的、主要的问题。</p>
+<p>Benchmark 即实验设计，每一个性能测试都应像科学实验一样</p>
+<ul>
+<li>有明确的目标指引，即需要有目标相关性；</li>
+<li>也有科学的控制变量排查方法，即变量隔离性；</li>
+<li>也应该建立多层级观测体系，自顶向下地进行测试。</li>
+</ul>
+<h3 id="4-下步计划"><a href="#4-下步计划" class="headerlink" title="4. 下步计划"></a>4. 下步计划</h3><p>按照以下内容继续进行学习。</p>
+<p>接下来的内容是一些完善的官方性能分析工具，与Benchmark互相是很好的补充。</p>
+<pre><code>GO官方性能分析工具：
+1：GO语言内置：pprof， 基于sampling， 需要app内部打开prof
+    用法1：Go app运行时打开一个web网站直接看
+    用法2：脚本访问网站下载数据，然后后处理看
+    第三方工具：https://github.com/jlfwong/speedscope 可以输出pprof火焰图
+    第三方工具：https://github.com/uber/go-torch 可以输出火焰图
+
+2：https://github.com/golang/perf：
+    其中一个工具benchstat：golang.org/x/perf/cmd/benchstat：用于对 Go 基准测试（benchmarks）结果进行统计分析和 A/B 性能比较
+    还有其他工具，例如：benchfilter  benchsave benchfmt benchproc benchmath
+    一个典型的分析流程：
+        go test -bench=. &gt; results.txt - 生成基准测试数据
+        benchfilter &quot;pkg:mypackage&quot; results.txt &gt; filtered.txt - 过滤特定包的结果
+        benchstat filtered.txt - 生成统计分析报告
+        benchsave filtered.txt - 上传到共享存储（可选）
+        通过 Web 界面查看趋势图表和比较分析
+
+3：GO语言内置：Trace：基于完全统计，goroutine ，GC 比prof更容易看
+    trace.Start(f)
+    trace.Stop()
+
+4：GO语言内置：&quot;runtime/metrics&quot;
+    metrics.Read(samples)来读取Goroutine， 内存，GC，调度器，系统CPU等信息
+
+5：https://github.com/golang/telemetry：
+    统计某些事件的数量/分布（需要Go程序内部显示调用counter或者stack counters开始计数）
+
+6：GODEBUG=gctrace=1 编译或者运行开关
+    Go 程序在运行时会在每次 GC 发生时打印出一行详细的摘要信息。（和prof的GC信息不完全相同，互补，但没有没有堆栈分析或函数级别分配信息）
+    https://github.com/davecheney/gcvis 可以可以可视化这样的GC信息 
+</code></pre>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Golang/" rel="tag"># Golang</a>
+              <a href="/tags/SOLE/" rel="tag"># SOLE</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2025/09/10/011Go%E8%AF%AD%E8%A8%80%E5%AF%B9%E6%AF%94CPP%E5%92%8CJava%E7%9A%84%E5%88%9D%E6%AD%A5%E7%90%86%E8%A7%A3/" rel="prev" title="Go 语言并发机制的初步理解">
+      <i class="fa fa-chevron-left"></i> Go 语言并发机制的初步理解
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%91%98%E8%A6%81"><span class="nav-number">1.</span> <span class="nav-text">摘要</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E5%9F%BA%E5%87%86%E6%B5%8B%E8%AF%95%E7%9A%84%E5%87%86%E5%88%99"><span class="nav-number">2.</span> <span class="nav-text">1. 基准测试的准则</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E5%9F%BA%E5%87%86%E6%B5%8B%E8%AF%95%E7%9A%84%E9%87%8D%E8%A6%81%E7%BB%B4%E5%BA%A6"><span class="nav-number">3.</span> <span class="nav-text">2. 基准测试的重要维度</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E7%BB%93%E8%AE%BA"><span class="nav-number">4.</span> <span class="nav-text">3. 结论</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E4%B8%8B%E6%AD%A5%E8%AE%A1%E5%88%92"><span class="nav-number">5.</span> <span class="nav-text">4. 下步计划</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="何晓宇"
+      src="/images/favicon.ico">
+  <p class="site-author-name" itemprop="name">何晓宇</p>
+  <div class="site-description" itemprop="description">技术博客，系统优化，编译器，指令集</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">12</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/hxygmy" title="Github → https:&#x2F;&#x2F;github.com&#x2F;hxygmy" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>Github</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:hexi.aoyu@163.com" title="E-Mail → mailto:hexi.aoyu@163.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">何晓宇</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">28k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">1:41</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+  <script>
+    (function(){
+      var canonicalURL, curProtocol;
+      //Get the <link> tag
+      var x=document.getElementsByTagName("link");
+		//Find the last canonical URL
+		if(x.length > 0){
+			for (i=0;i<x.length;i++){
+				if(x[i].rel.toLowerCase() == 'canonical' && x[i].href){
+					canonicalURL=x[i].href;
+				}
+			}
+		}
+    //Get protocol
+	    if (!canonicalURL){
+	    	curProtocol = window.location.protocol.split(':')[0];
+	    }
+	    else{
+	    	curProtocol = canonicalURL.split(':')[0];
+	    }
+      //Get current URL if the canonical URL does not exist
+	    if (!canonicalURL) canonicalURL = window.location.href;
+	    //Assign script content. Replace current URL with the canonical URL
+      !function(){var e=/([http|https]:\/\/[a-zA-Z0-9\_\.]+\.baidu\.com)/gi,r=canonicalURL,t=document.referrer;if(!e.test(r)){var n=(String(curProtocol).toLowerCase() === 'https')?"https://sp0.baidu.com/9_Q4simg2RQJ8t7jm9iCKT-xh_/s.gif":"//api.share.baidu.com/s.gif";t?(n+="?r="+encodeURIComponent(document.referrer),r&&(n+="&l="+r)):r&&(n+="?l="+r);var i=new Image;i.src=n}}(window);})();
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>
