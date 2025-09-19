@@ -28,7 +28,7 @@
 <meta property="og:description" content="分析Go官方源码库总结得出的优质Go基准测试的几个准则">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2025-09-17T23:45:32.000Z">
-<meta property="article:modified_time" content="2025-09-19T15:42:22.000Z">
+<meta property="article:modified_time" content="2025-09-19T15:51:12.000Z">
 <meta property="article:author" content="何晓宇">
 <meta property="article:tag" content="Golang">
 <meta property="article:tag" content="SOLE">
@@ -183,7 +183,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2025-09-19 23:42:22" itemprop="dateModified" datetime="2025-09-19T23:42:22+08:00">2025-09-19</time>
+                <time title="修改时间：2025-09-19 23:51:12" itemprop="dateModified" datetime="2025-09-19T23:51:12+08:00">2025-09-19</time>
               </span>
 
           <br>
@@ -192,14 +192,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>3.7k</span>
+              <span>3.3k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>14 分钟</span>
+              <span>12 分钟</span>
             </span>
 
         </div>
@@ -224,13 +224,13 @@
 
 <p>它的测量目标为在<strong>多核并行、无共享变量、无False Sharing</strong>（通过pad [32]uint32进行缓存行隔离）的情况下，RWMutex的基本操作开销。</p>
 <p>在单个Goroutine中，按照顺序执行<strong>读锁-&gt;读锁-&gt;解开读锁-&gt;解开读锁-&gt;写锁-&gt;解开写锁</strong>的操作，它作为一个对照组来控制好可能对RWMutex的操作产生影响的各种变量。经过多次执行该Benchmark，得出以下结果：</p>
-<figure class="highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">hxy@ubu22:~/app/go_1.25.1/src</span><br><span class="line">$ go test -bench ^BenchmarkRWMutexUncontended$ -benchmem -run=^$ runtime</span><br><span class="line">goos: linux</span><br><span class="line">goarch: amd64</span><br><span class="line">pkg: runtime</span><br><span class="line">cpu: AMD Ryzen 7 7840HS w/ Radeon 780M Graphics     </span><br><span class="line">BenchmarkRWMutexUncontended-8   	317417577	         3.834 ns/op	       0 B/op	       0 allocs/op</span><br><span class="line">PASS</span><br><span class="line">ok  	runtime	1.609s</span><br><span class="line">hxy@ubu22:~/app/go_1.25.1/src</span><br><span class="line">$ go test -bench ^BenchmarkRWMutexUncontended$ -benchmem -run=^$ runtime</span><br><span class="line">goos: linux</span><br><span class="line">goarch: amd64</span><br><span class="line">pkg: runtime</span><br><span class="line">cpu: AMD Ryzen 7 7840HS w/ Radeon 780M Graphics     </span><br><span class="line">BenchmarkRWMutexUncontended-8   	316712482	         3.831 ns/op	       0 B/op	       0 allocs/op</span><br><span class="line">PASS</span><br><span class="line">ok  	runtime	1.606s</span><br><span class="line">hxy@ubu22:~/app/go_1.25.1/src</span><br><span class="line">$ go test -bench ^BenchmarkRWMutexUncontended$ -benchmem -run=^$ runtime</span><br><span class="line">goos: linux</span><br><span class="line">goarch: amd64</span><br><span class="line">pkg: runtime</span><br><span class="line">cpu: AMD Ryzen 7 7840HS w/ Radeon 780M Graphics     </span><br><span class="line">BenchmarkRWMutexUncontended-8   	310858947	         3.817 ns/op	       0 B/op	       0 allocs/op</span><br><span class="line">PASS</span><br><span class="line">ok  	runtime	1.589s</span><br><span class="line">hxy@ubu22:~/app/go_1.25.1/src</span><br><span class="line">$ go test -bench ^BenchmarkRWMutexUncontended$ -benchmem -run=^$ runtime</span><br><span class="line">goos: linux</span><br><span class="line">goarch: amd64</span><br><span class="line">pkg: runtime</span><br><span class="line">cpu: AMD Ryzen 7 7840HS w/ Radeon 780M Graphics     </span><br><span class="line">BenchmarkRWMutexUncontended-8   	314629580	         3.864 ns/op	       0 B/op	       0 allocs/op</span><br><span class="line">PASS</span><br><span class="line">ok  	runtime	1.612s</span><br><span class="line">hxy@ubu22:~/app/go_1.25.1/src</span><br><span class="line">$ go test -bench ^BenchmarkRWMutexUncontended$ -benchmem -run=^$ runtime</span><br><span class="line">goos: linux</span><br><span class="line">goarch: amd64</span><br><span class="line">pkg: runtime</span><br><span class="line">cpu: AMD Ryzen 7 7840HS w/ Radeon 780M Graphics     </span><br><span class="line">BenchmarkRWMutexUncontended-8   	289060170	         3.814 ns/op	       0 B/op	       0 allocs/op</span><br><span class="line">PASS</span><br><span class="line">ok  	runtime	1.531s</span><br></pre></td></tr></table></figure>
+<figure class="highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">hxy@ubu22:~/app/go_1.25.1/src</span><br><span class="line">$ go test -bench ^BenchmarkRWMutexUncontended$ -benchmem -run=^$ runtime</span><br><span class="line">goos: linux</span><br><span class="line">goarch: amd64</span><br><span class="line">pkg: runtime</span><br><span class="line">cpu: AMD Ryzen 7 7840HS w/ Radeon 780M Graphics     </span><br><span class="line">BenchmarkRWMutexUncontended-8   	310858947	         3.817 ns/op	       0 B/op	       0 allocs/op</span><br><span class="line">PASS</span><br><span class="line">ok  	runtime	1.589s</span><br><span class="line">hxy@ubu22:~/app/go_1.25.1/src</span><br><span class="line">$ go test -bench ^BenchmarkRWMutexUncontended$ -benchmem -run=^$ runtime</span><br><span class="line">goos: linux</span><br><span class="line">goarch: amd64</span><br><span class="line">pkg: runtime</span><br><span class="line">cpu: AMD Ryzen 7 7840HS w/ Radeon 780M Graphics     </span><br><span class="line">BenchmarkRWMutexUncontended-8   	314629580	         3.864 ns/op	       0 B/op	       0 allocs/op</span><br><span class="line">PASS</span><br><span class="line">ok  	runtime	1.612s</span><br><span class="line">hxy@ubu22:~/app/go_1.25.1/src</span><br><span class="line">$ go test -bench ^BenchmarkRWMutexUncontended$ -benchmem -run=^$ runtime</span><br><span class="line">goos: linux</span><br><span class="line">goarch: amd64</span><br><span class="line">pkg: runtime</span><br><span class="line">cpu: AMD Ryzen 7 7840HS w/ Radeon 780M Graphics     </span><br><span class="line">BenchmarkRWMutexUncontended-8   	289060170	         3.814 ns/op	       0 B/op	       0 allocs/op</span><br><span class="line">PASS</span><br><span class="line">ok  	runtime	1.531s</span><br></pre></td></tr></table></figure>
 
 <p>命令执行了五次，主要输出结果为倒数第三行以及最后一行的执行时长，倒数第三行的含义为该benchmark并行度为8，执行了约3亿次迭代，平均每次迭代耗时稳定在 <strong>3.83±0.02 ns&#x2F;op</strong>，每次操作分配0内存，申请0次堆内存，其中最重要的结果应该是平均每次迭代耗时。</p>
 <p>对结果进行对比可知，RWMutex的性能表现非常稳定，具备统计上的显著性，这个结果完全可以代表读写锁在完全无竞争的情况下，在当前的操作系统与硬件平台上的执行效率。</p>
 <p>此结果构成了后续所有对比实验的<strong>Baseline</strong>。</p>
 <p>我们继续来看它如何通过控制变量来得出读写锁的性能表现。</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">benchmarkRWMutex</span><span class="params">(b *testing.B, localWork, writeRatio <span class="type">int</span>)</span></span> &#123;</span><br><span class="line">	<span class="keyword">var</span> rwm RWMutex</span><br><span class="line">	rwm.Init()</span><br><span class="line">	b.RunParallel(<span class="function"><span class="keyword">func</span><span class="params">(pb *testing.PB)</span></span> &#123;</span><br><span class="line">		foo := <span class="number">0</span></span><br><span class="line">		<span class="keyword">for</span> pb.Next() &#123;</span><br><span class="line">			foo++</span><br><span class="line">			<span class="keyword">if</span> foo%writeRatio == <span class="number">0</span> &#123;</span><br><span class="line">				rwm.Lock()</span><br><span class="line">				rwm.Unlock()</span><br><span class="line">			&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">				rwm.RLock()</span><br><span class="line">				<span class="keyword">for</span> i := <span class="number">0</span>; i != localWork; i += <span class="number">1</span> &#123;</span><br><span class="line">					foo *= <span class="number">2</span></span><br><span class="line">					foo /= <span class="number">2</span></span><br><span class="line">				&#125;</span><br><span class="line">				rwm.RUnlock()</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		_ = foo</span><br><span class="line">	&#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">BenchmarkRWMutexWrite100</span><span class="params">(b *testing.B)</span></span> &#123;</span><br><span class="line">	benchmarkRWMutex(b, <span class="number">0</span>, <span class="number">100</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">BenchmarkRWMutexWrite10</span><span class="params">(b *testing.B)</span></span> &#123;</span><br><span class="line">	benchmarkRWMutex(b, <span class="number">0</span>, <span class="number">10</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">BenchmarkRWMutexWorkWrite100</span><span class="params">(b *testing.B)</span></span> &#123;</span><br><span class="line">	benchmarkRWMutex(b, <span class="number">100</span>, <span class="number">100</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">BenchmarkRWMutexWorkWrite10</span><span class="params">(b *testing.B)</span></span> &#123;</span><br><span class="line">	benchmarkRWMutex(b, <span class="number">100</span>, <span class="number">10</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">benchmarkRWMutex</span><span class="params">(b *testing.B, localWork, writeRatio <span class="type">int</span>)</span></span> &#123;</span><br><span class="line">	<span class="keyword">var</span> rwm RWMutex</span><br><span class="line">	rwm.Init()</span><br><span class="line">	b.RunParallel(<span class="function"><span class="keyword">func</span><span class="params">(pb *testing.PB)</span></span> &#123;</span><br><span class="line">		foo := <span class="number">0</span></span><br><span class="line">		<span class="keyword">for</span> pb.Next() &#123;</span><br><span class="line">			foo++</span><br><span class="line">			<span class="keyword">if</span> foo%writeRatio == <span class="number">0</span> &#123;</span><br><span class="line">				rwm.Lock()</span><br><span class="line">				rwm.Unlock()</span><br><span class="line">			&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">				rwm.RLock()</span><br><span class="line">				<span class="keyword">for</span> i := <span class="number">0</span>; i != localWork; i += <span class="number">1</span> &#123;</span><br><span class="line">					foo *= <span class="number">2</span></span><br><span class="line">					foo /= <span class="number">2</span></span><br><span class="line">				&#125;</span><br><span class="line">				rwm.RUnlock()</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		_ = foo</span><br><span class="line">	&#125;)</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">BenchmarkRWMutexWrite100</span><span class="params">(b *testing.B)</span></span> &#123;</span><br><span class="line">	benchmarkRWMutex(b, <span class="number">0</span>, <span class="number">100</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">BenchmarkRWMutexWrite10</span><span class="params">(b *testing.B)</span></span> &#123;</span><br><span class="line">	benchmarkRWMutex(b, <span class="number">0</span>, <span class="number">10</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">BenchmarkRWMutexWorkWrite100</span><span class="params">(b *testing.B)</span></span> &#123;</span><br><span class="line">	benchmarkRWMutex(b, <span class="number">100</span>, <span class="number">100</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">BenchmarkRWMutexWorkWrite10</span><span class="params">(b *testing.B)</span></span> &#123;</span><br><span class="line">	benchmarkRWMutex(b, <span class="number">100</span>, <span class="number">10</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p><strong>benchmarkRWMutex</strong>为通用的控制变量用的辅助函数，它的含义是，在不同的读工作量（localwork）与不同的写操作比例（writeRatio）下RWMutex的性能表现，第2-5个函数调用<strong>benchmarkRWMutex</strong>来分别对localwork和writeRatio进行赋值。</p>
 <ul>
@@ -289,18 +289,18 @@
 <td>172x</td>
 </tr>
 </tbody></table>
-<p>我们可以得出几个结论</p>
+<p><strong>我们可以得出几个结论</strong>：</p>
 <ul>
-<li>锁竞争对性能影响非常大。</li>
-<li>在读锁极短的场景下，适度提高写比例反而能减少写锁等待，提高整体效率。</li>
+<li>锁竞争对性能影响巨大（无锁竞争情况对比有锁竞争）。</li>
+<li>在读锁极短的场景下，适度提高写比例反而能减少写锁等待，提高整体效率（<code>Write100 vs write10</code>  ）。</li>
 <li>读锁较长时，一旦有写锁等待，会把读写锁都阻塞，导致后续所有锁等待。</li>
 <li>读锁较长时，写比例越高，性能越差。</li>
 </ul>
-<p>我们可以将总延迟分解为三个组成部分：</p>
+<p><strong>我们可以将总延迟分解为三个组成部分</strong>：</p>
 <ol>
-<li>基底开销：约 3.8 ns，来自原子指令与轻量同步；</li>
-<li>锁争用开销：因 Goroutine 排队、调度介入引发的状态切换；</li>
-<li>公平性代价：长持读锁会阻塞后续写操作，而一旦写请求排队，Go 的 RWMutex 公平性策略会优先唤醒写协程，导致大量正在等待的读协程集体阻塞，为防止写饥饿，系统牺牲读吞吐所付出的成本。</li>
+<li><strong>基底开销</strong>：约 3.8 ns，来自原子指令与轻量同步；</li>
+<li><strong>锁争用开销</strong>：因 Goroutine 排队、调度介入引发的状态切换；</li>
+<li><strong>公平性代价</strong>：长持读锁会阻塞后续写操作，而一旦写请求排队，Go 的 RWMutex 公平性策略会优先唤醒写协程，导致大量正在等待的读协程集体阻塞，为防止写饥饿，系统牺牲读吞吐所付出的成本。</li>
 </ol>
 <p>所以这个结果是由于读写锁在调度器层面的资源争用导致的。</p>
 <p>可以看到，通过对可能影响性能表现的变量的精细化控制，我们得出了一个非常精细的结论，如果没有对于变量的精细控制，我们不可能得出这样的结论。而对于测量锁性能的目标，做到这里已经达成了目标。如果继续深入探寻该结论的底层原因，那并非<strong>基准测试</strong>要做的事，继续执行该benchmark，使用更多的配置组合，再用上梯度下降的算法等手段，也许可以找到一个最佳的读写锁比例，指导程序的编写或优化方向。</p>
@@ -399,39 +399,7 @@
 <li>也有科学的控制变量排查方法，即变量隔离性；</li>
 <li>也应该建立多层级观测体系，自顶向下地进行测试。</li>
 </ul>
-<h3 id="4-下步计划"><a href="#4-下步计划" class="headerlink" title="4. 下步计划"></a>4. 下步计划</h3><p>按照以下内容继续进行学习。</p>
-<p>接下来的内容是一些完善的官方性能分析工具，与Benchmark互相是很好的补充。</p>
-<pre><code>GO官方性能分析工具：
-1：GO语言内置：pprof， 基于sampling， 需要app内部打开prof
-    用法1：Go app运行时打开一个web网站直接看
-    用法2：脚本访问网站下载数据，然后后处理看
-    第三方工具：https://github.com/jlfwong/speedscope 可以输出pprof火焰图
-    第三方工具：https://github.com/uber/go-torch 可以输出火焰图
-
-2：https://github.com/golang/perf：
-    其中一个工具benchstat：golang.org/x/perf/cmd/benchstat：用于对 Go 基准测试（benchmarks）结果进行统计分析和 A/B 性能比较
-    还有其他工具，例如：benchfilter  benchsave benchfmt benchproc benchmath
-    一个典型的分析流程：
-        go test -bench=. &gt; results.txt - 生成基准测试数据
-        benchfilter &quot;pkg:mypackage&quot; results.txt &gt; filtered.txt - 过滤特定包的结果
-        benchstat filtered.txt - 生成统计分析报告
-        benchsave filtered.txt - 上传到共享存储（可选）
-        通过 Web 界面查看趋势图表和比较分析
-
-3：GO语言内置：Trace：基于完全统计，goroutine ，GC 比prof更容易看
-    trace.Start(f)
-    trace.Stop()
-
-4：GO语言内置：&quot;runtime/metrics&quot;
-    metrics.Read(samples)来读取Goroutine， 内存，GC，调度器，系统CPU等信息
-
-5：https://github.com/golang/telemetry：
-    统计某些事件的数量/分布（需要Go程序内部显示调用counter或者stack counters开始计数）
-
-6：GODEBUG=gctrace=1 编译或者运行开关
-    Go 程序在运行时会在每次 GC 发生时打印出一行详细的摘要信息。（和prof的GC信息不完全相同，互补，但没有没有堆栈分析或函数级别分配信息）
-    https://github.com/davecheney/gcvis 可以可以可视化这样的GC信息 
-</code></pre>
+<h3 id="4-下步计划"><a href="#4-下步计划" class="headerlink" title="4. 下步计划"></a>4. 下步计划</h3><p>接下来的内容是一些完善的官方性能分析工具，与Benchmark互相是很好的补充。</p>
 
     </div>
 
@@ -579,12 +547,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">28k</span>
+    <span title="站点总字数">27k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">1:41</span>
+    <span title="站点阅读时长">1:39</span>
 </div>
 
         
