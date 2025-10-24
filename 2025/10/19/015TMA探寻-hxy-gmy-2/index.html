@@ -23,13 +23,13 @@
   <meta name="description" content="在实际平台上探寻TMAM如何进行计算">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Top-down Micro-architecture Analysis Methodology 实例化学习">
-<meta property="og:url" content="http://www.hxygmy.site/2025/10/19/015TMA%E6%8E%A2%E5%AF%BB-hxy-gmy/index.html">
+<meta property="og:url" content="http://www.hxygmy.site/2025/10/19/015TMA%E6%8E%A2%E5%AF%BB-hxy-gmy-2/index.html">
 <meta property="og:site_name" content="正经人谁写技术博客啊">
 <meta property="og:description" content="在实际平台上探寻TMAM如何进行计算">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/hxygmy/pgo@main/img/image-20251022141331133.png">
 <meta property="article:published_time" content="2025-10-19T03:11:21.000Z">
-<meta property="article:modified_time" content="2025-10-22T15:12:57.000Z">
+<meta property="article:modified_time" content="2025-10-23T15:52:02.000Z">
 <meta property="article:author" content="何晓宇">
 <meta property="article:tag" content="SOLE">
 <meta property="article:tag" content="Intel">
@@ -37,7 +37,7 @@
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/hxygmy/pgo@main/img/image-20251022141331133.png">
 
-<link rel="canonical" href="http://www.hxygmy.site/2025/10/19/015TMA%E6%8E%A2%E5%AF%BB-hxy-gmy/">
+<link rel="canonical" href="http://www.hxygmy.site/2025/10/19/015TMA%E6%8E%A2%E5%AF%BB-hxy-gmy-2/">
 
 
 <script id="page-configurations">
@@ -156,7 +156,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://www.hxygmy.site/2025/10/19/015TMA%E6%8E%A2%E5%AF%BB-hxy-gmy/">
+    <link itemprop="mainEntityOfPage" href="http://www.hxygmy.site/2025/10/19/015TMA%E6%8E%A2%E5%AF%BB-hxy-gmy-2/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/favicon.ico">
@@ -186,7 +186,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2025-10-22 23:12:57" itemprop="dateModified" datetime="2025-10-22T23:12:57+08:00">2025-10-22</time>
+                <time title="修改时间：2025-10-23 23:52:02" itemprop="dateModified" datetime="2025-10-23T23:52:02+08:00">2025-10-23</time>
               </span>
 
           <br>
@@ -195,14 +195,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>1.6k</span>
+              <span>2.1k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>6 分钟</span>
+              <span>8 分钟</span>
             </span>
 
         </div>
@@ -274,30 +274,54 @@
 </tbody></table>
 <p>这是一个典型的低利用率 + 前端受限场景。</p>
 <p>我们来看它是怎么算出来的。</p>
-<p><strong>维度解释：</strong></p>
+<p><strong>采集事件的含义：</strong></p>
 <ol>
-<li><code>CPU_CLK_UNHALTED.THREAD_ANY</code> 表示<strong>所有CPU Clock</strong></li>
-<li><code>IDQ.MS_UOPS</code> 表示<strong>来自 Microcode Sequencer（微码序列器）的 uop 数量</strong></li>
-<li><code>IDQ_UOPS_NOT_DELIVERED.CORE</code> 表示<strong>核心未能接收到 uop 的周期中，缺失的 uop 数量</strong></li>
-<li><code>INT_MISC.RECOVERY_CYCLES_ANY</code> 表示<strong>因推测失败（如分支预测错误）而导致流水线恢复所花的周期</strong></li>
-<li><code>UOPS_RETIRED.RETIRE_SLOTS</code> 表示<strong>成功退休的 uop slot数。每个 slot 最多可退休 4 个 uop</strong></li>
-<li><code>UOPS_ISSUED.ANY</code> 表示<strong>发出的 uop 总数</strong></li>
+<li><code>CPU_CLK_UNHALTED.THREAD_ANY</code> 表示<strong>在所有未停机的CPU周期中，监视的线程所在物理核心在运行的周期</strong></li>
+<li><code>CPU_CLK_UNHALTED.THREAD</code>表示<strong>在所有未停机的CPU周期中，监视的线程在运行的CPU周期数</strong></li>
+<li><code>CPU_CLK_UNHALTED.ONE_THREAD_ACTIVE</code>表示<strong>在所有未停机的CPU周期中，监视的线程未停机且另一个LCPU停机的晶振时钟周期数</strong></li>
+<li><code>CPU_CLK_UNHALTED.REF_XCLK</code>表示<strong>在所有未停机的CPU周期中，晶振时钟周期的数量</strong></li>
+<li><code>UOPS_RETIRED.RETIRE_SLOTS</code> 表示<strong>成功退休的 uop 的 slot 数。每个 slot 最多可退休 4 个 uop</strong></li>
+<li><code>IDQ_UOPS_NOT_DELIVERED.CORE</code> 表示<strong>在后端没有任务时，已经发射的uops没有经过前端传递给后端的uops数量</strong></li>
+<li><code>UOPS_ISSUED.ANY</code> 表示<strong>成功发射的 uop 总数</strong></li>
+<li><code>INT_MISC.RECOVERY_CYCLES_ANY</code> 表示<strong>因分支预测错误触发核弹清空（NUKE）而导致流水线恢复所花的周期，ANY表示物理核心和逻辑核心的区别</strong></li>
+<li><code>IDQ.MS_UOPS</code>表示****</li>
 </ol>
+<blockquote>
+<p>以下解释出自 Intel 官方文档：</p>
+<p>IDQ.MS_UOPS : Increment each cycle # of uops delivered to IDQ from MS by either DSB or MITE. Set Cmask &#x3D; 1 to count cycles.</p>
+<p>CPU_CLK_UNHALTED.REF_XCLK : Counts core crystal clock cycles when the thread is unhalted.</p>
+<p>CPU_CLK_UNHALTED.ONE_THREAD_ACTIVE：Count XClk pulses when this thread is unhalted and the other thread is halted.</p>
+<p>CPU_CLK_UNHALTED.THREAD : Core cycles when the thread is not in halt state.</p>
+<p>CPU_CLK_UNHALTED.THREAD_ANY : Core cycles when at least one thread on the physical core is not in halt state.</p>
+<p>IDQ_UOPS_NOT_DELIVERED.CORE : Count issue pipeline slots where no uop was delivered from the front end to the back end when there is no back-end stall.</p>
+<p>UOPS_ISSUED.ANY : Increments each cycle the # of Uops issued by the RAT to RS. Set Cmask &#x3D; 1, Inv &#x3D; 1, Any&#x3D; 1to count stalled cycles of this core.</p>
+<p>INT_MISC.RECOVERY_CYCLES : Number of cycles waiting for the checkpoints in Resource Allocation Table (RAT) to be recovered after Nuke due to all other cases except JEClear (e.g. whenever a ucode assist is needed like SSE exception, memory disambiguation, etc.)</p>
+<p>INT_MISC.RECOVERY_CYCLES_ANY : Core cycles the allocator was stalled due to recovery from earlier clear event for any thread running on the physical core (e.g. misprediction or memory nuke).</p>
+</blockquote>
 <p><strong>具体计算方法：</strong></p>
-<p>$$<br>\begin{align*}<br>% 1. tma_retiring 指标<br>\text{tma_retiring} &amp;&#x3D; \frac{\text{UOPS_RETIRED.RETIRE_SLOTS}}{\text{tma_info_thread_slots}} \<br>\text{tma_info_thread_slots} &amp;&#x3D; 4 \times \text{tma_info_core_core_clks} \<br>\text{tma_info_core_core_clks} &amp;&#x3D;<br>\begin{cases}<br>\frac{\text{CPU_CLK_UNHALTED.THREAD}}{2} \times \left(1 + \frac{\text{CPU_CLK_UNHALTED.ONE_THREAD_ACTIVE}}{\text{CPU_CLK_UNHALTED.REF_XCLK}}\right) &amp; \text{, core_wide} &lt; 1, \<br>\frac{\text{CPU_CLK_UNHALTED.THREAD_ANY}}{2} &amp; \text{, core_wide} &#x3D; 1 \text{ and SMT_on} &#x3D; 1, \<br>\text{tma_info_thread_clks} &amp; \text{, core_wide} &#x3D; 1 \text{ and SMT_on} &#x3D; 0,<br>\end{cases} \<br>\text{tma_info_thread_clks} &amp;&#x3D; \text{CPU_CLK_UNHALTED.THREAD}. \<br>\</p>
+<p>我用latex写了一个比较方便阅读的公式：<br>$$<br>\begin{align*}<br>% 1. tma_retiring 指标<br>\text{tma_retiring} &amp;&#x3D; \frac{\text{UOPS_RETIRED.RETIRE_SLOTS}}{\text{tma_info_thread_slots}} \<br>\text{tma_info_thread_slots} &amp;&#x3D; 4 \times \text{tma_info_core_core_clks} \<br>\text{tma_info_core_core_clks} &amp;&#x3D;<br>\begin{cases}<br>\frac{\text{CPU_CLK_UNHALTED.THREAD}}{2} \times \left(1 + \frac{\text{CPU_CLK_UNHALTED.ONE_THREAD_ACTIVE}}{\text{CPU_CLK_UNHALTED.REF_XCLK}}\right) &amp; \text{, core_wide} &#x3D; 0 \text{ and SMT_on}, \<br>\frac{\text{CPU_CLK_UNHALTED.THREAD_ANY}}{2} &amp; \text{, core_wide} &#x3D; 1 \text{ and SMT_on}, \<br>\text{CPU_CLK_UNHALTED.THREAD} &amp; \text{, SMT_off},<br>\end{cases} \<br>\</p>
 <p>% 2. tma_frontend_bound 指标<br>\text{tma_frontend_bound} &amp;&#x3D; \frac{\text{IDQ_UOPS_NOT_DELIVERED.CORE}}{\text{tma_info_thread_slots}} \<br>% （tma_info_thread_slots 定义同上，与tma_retiring共享）<br>\</p>
-<p>% 3. tma_bad_speculation 指标<br>\text{tma_bad_speculation} &amp;&#x3D; \frac{<br>    \left( \text{UOPS_ISSUED.ANY} - \text{UOPS_RETIRED.RETIRE_SLOTS} \right) +<br>    4 \times<br>    \begin{cases}<br>    \frac{\text{INT_MISC.RECOVERY_CYCLES_ANY}}{2} &amp; \text{, SMT_on} &#x3D; 1, \<br>    \text{INT_MISC.RECOVERY_CYCLES} &amp; \text{, SMT_on} &#x3D; 0<br>    \end{cases}<br>}{\text{tma_info_thread_slots}} \<br>% （tma_info_thread_slots 定义同上）<br>\</p>
+<p>% 3. tma_bad_speculation 指标<br>\text{tma_bad_speculation} &amp;&#x3D; \frac{<br>    \left( \text{UOPS_ISSUED.ANY} - \text{UOPS_RETIRED.RETIRE_SLOTS} \right) +<br>    4 \times<br>    \begin{cases}<br>    \frac{\text{INT_MISC.RECOVERY_CYCLES_ANY}}{2} &amp; \text{, SMT_on}, \<br>    \text{INT_MISC.RECOVERY_CYCLES} &amp; \text{, SMT_off}<br>    \end{cases}<br>}{\text{tma_info_thread_slots}} \<br>% （tma_info_thread_slots 定义同上）<br>\</p>
 <p>% 4. tma_backend_bound 指标<br>\text{tma_backend_bound} &amp;&#x3D; 1 - \left( \text{tma_frontend_bound} + \text{tma_bad_speculation} + \text{tma_retiring} \right).<br>\end{align*}<br>$$</p>
-<p>借助AI进行一些简单的翻译和排版操作，并人工校正之后，它变成了这样：</p>
-<p>$$<br>\begin{align*}<br>% 1. 有效退休 指标<br>\text{Retired} &amp;&#x3D; \frac{\text{retired uops slots}}{\text{总流水线槽位}} \<br>\text{总流水线槽位} &amp;&#x3D; 4 \times \text{物理核心活跃周期数} \<br>\text{物理核心活跃周期数} &amp;&#x3D;<br>\begin{cases}<br>\frac{\text{本逻辑核活跃周期数}}{2} \times \left(1 + \frac{\text{核心上仅有单线程活跃的周期数}}{\text{参考时钟周期数}}\right) &amp; \text{, 非全局统计}, \<br>\frac{\text{任意逻辑核活跃周期数}}{2} &amp; \text{, 全局统计且超线程开启}, \<br>\text{逻辑核活跃周期数} &amp; \text{, 全局统计且超线程关闭},<br>\end{cases} \<br>\text{逻辑核活跃周期数} &amp;&#x3D; \text{本逻辑核活跃周期数}. \<br>\</p>
-<p>% 2. 前端瓶颈 指标<br>\text{frontend bound} &amp;&#x3D; \frac{\text{前端未能交付的uops数}}{\text{总流水线槽位}} \<br>% （总流水线槽位 定义同上）<br>\</p>
-<p>% 3. 错误推测 指标<br>\text{bad speculation} &amp;&#x3D; \frac{<br>    \left( \text{所有已发射的uops数} - \text{retired uops slots} \right) +<br>    4 \times<br>    \begin{cases}<br>    \frac{\text{恢复周期数(任意线程)}}{2} &amp; \text{, 超线程开启}, \<br>    \text{恢复周期数(本线程)} &amp; \text{, 超线程关闭}<br>    \end{cases}<br>}{\text{总流水线槽位}} \<br>% （总流水线槽位 定义同上）<br>\</p>
-<p>% 4. 后端瓶颈 指标<br>\text{backend bound} &amp;&#x3D; 1 - \left( \text{frontend bound} + \text{Retired} + \text{bad speculation} \right).<br>\end{align*}<br>$$</p>
-<p>下面对这个公式进行更加详细的分析。</p>
-<p>hxy note：为什么有这么多维度可以进行PMU，不是说只有4个可编程PMU吗？它在后面如何进行分配的？</p>
+<p>下面<strong>按照计算的顺序</strong>对这个公式进行更加详细的分析。</p>
+<p>​	<strong>1. 计算<code>tma_retiring</code></strong></p>
+<p>​	<code>UOPS_RETIRED.RETIRE_SLOTS</code>指正常执行完成的微指令，<strong>该事件可以被PMU采集</strong>。在当今的CPU设计中，一个 CPU 周期中包含4个slots，这个 PMU 事件指的是正常执行完成的UOPS的slot的个数。</p>
+<p>​	<code>tma_info_thread_slots</code>指的是<strong>总流水线槽位</strong>，即在采集过程中一共有多少有效的slot。这两个的比值就是正常执行完成的微指令。</p>
+<p>​	<strong>总流水线槽位</strong>指4倍物理核心活跃周期数，4这个系数对应的就是一个CPU cycle中包含4个slot。</p>
+<p>​	<strong>物理核心活跃周期数</strong>的取值取决于工程师的在全局统计方面的需求和超线程的开启情况。全局统计指<strong>当SMT开启时</strong>监控采集线程所在CPU物理核心的执行情况，非全局统计指的是监控指定的程序所在的<strong>逻辑核心</strong>的执行情况。超线程开启情况就是字面意思。</p>
+<p>​	当<code>core_wide = 0</code>且开启超线程时，需要采集的PMU事件有<code>CPU_CLK_UNHALTED.THREAD</code>、<code>CPU_CLK_UNHALTED.ONE_THREAD_ACTIVE</code>、<code>CPU_CLK_UNHALTED.REF_XCLK</code>，这个公式其实经过一些简单的化简。它的含义是，这个程序所在的逻辑核所在的物理核心周期中有一些是该程序独占物理核，有一些是和另一个程序共享物理核，而<code>CPU_CLK_UNHALTED.ONE_THREAD_ACTIVE / CPU_CLK_UNHALTED.REF_XCLK</code>指的是通过晶振时钟来找到独享物理核的时间占运行总时间的比例，然后通过化简就得到了这个公式。</p>
+<p>​	<strong>2. 计算<code>tma_frontend_bound</code></strong></p>
+<p>​	计算前端没有对通过IDQ把uops发射给后端的slots数量，除以总流水线槽位即可。</p>
+<p>​	<strong>3. 计算<code>tma_bad_speculation</code></strong></p>
+<p>​	已经发射的uops，减去正常执行完成的uops，即为分支预测失败的的uops数量。因为分支预测失败，会触发NUKE机制，意思就是核爆掉slots，工程师的硬核起名法，然后重新塞入slot，这个过程需要时间。再加上这个时间内所占的槽位，就是分支预测失败所占全部槽位。除以总槽位得到<code>tma_bad_speculation</code>。</p>
+<p>​	<strong>4. 计算<code>tma_backend_bound</code></strong></p>
+<p>​	1减去以上所有即可。</p>
 <h4 id="2-2-TopdownL2"><a href="#2-2-TopdownL2" class="headerlink" title="2.2 TopdownL2"></a>2.2 TopdownL2</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">hxy@hxy-gmy:~</span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">perf <span class="built_in">stat</span> -a -M TopdownL2 -- <span class="built_in">sleep</span> 60</span></span><br><span class="line"></span><br><span class="line"> Performance counter stats for &#x27;system wide&#x27;:</span><br><span class="line"></span><br><span class="line">     3,959,711,240      INST_RETIRED.ANY                 #      6.9 %  tma_fetch_bandwidth</span><br><span class="line">                                                  #      5.6 %  tma_core_bound</span><br><span class="line">                                                  #     18.7 %  tma_memory_bound         (27.77%)</span><br><span class="line">     1,372,781,339      RESOURCE_STALLS.SB                                                      (27.77%)</span><br><span class="line">    27,547,459,701      CPU_CLK_UNHALTED.THREAD_ANY      #     48.6 %  tma_fetch_latency</span><br><span class="line">                                                  #      7.8 %  tma_heavy_operations</span><br><span class="line">                                                  #      7.4 %  tma_light_operations</span><br><span class="line">                                                  #      4.4 %  tma_branch_mispredicts</span><br><span class="line">                                                  #      0.6 %  tma_machine_clears       (27.78%)</span><br><span class="line">    30,611,525,158      IDQ_UOPS_NOT_DELIVERED.CORE                                             (27.78%)</span><br><span class="line">     4,664,908,277      IDQ.MS_UOPS                                                             (27.78%)</span><br><span class="line">     9,011,996,120      RS_EVENTS.EMPTY_CYCLES                                                  (22.23%)</span><br><span class="line">        73,080,555      BR_MISP_RETIRED.ALL_BRANCHES                                            (22.23%)</span><br><span class="line">     1,043,483,329      INT_MISC.RECOVERY_CYCLES_ANY                                            (22.23%)</span><br><span class="line">    11,924,966,176      CYCLE_ACTIVITY.STALLS_LDM_PENDING                                        (22.22%)</span><br><span class="line">     1,437,479,238      UOPS_EXECUTED.CYCLES_GE_3_UOPS_EXEC                                        (22.22%)</span><br><span class="line">     2,704,205,377      UOPS_EXECUTED.CYCLES_GE_2_UOPS_EXEC                                        (22.22%)</span><br><span class="line">     5,126,419,350      UOPS_EXECUTED.CYCLES_GE_1_UOP_EXEC                                        (22.22%)</span><br><span class="line">    22,487,132,522      CPU_CLK_UNHALTED.THREAD                                                 (22.22%)</span><br><span class="line">    22,813,129,502      CYCLE_ACTIVITY.CYCLES_NO_EXECUTE                                        (22.22%)</span><br><span class="line">     8,377,190,585      UOPS_RETIRED.RETIRE_SLOTS                                               (22.22%)</span><br><span class="line">     6,700,364,585      IDQ_UOPS_NOT_DELIVERED.CYCLES_0_UOPS_DELIV.CORE                                        (22.22%)</span><br><span class="line">        10,736,770      MACHINE_CLEARS.COUNT                                                    (22.22%)</span><br><span class="line">     9,051,453,547      UOPS_ISSUED.ANY                                                         (22.22%)</span><br><span class="line"></span><br><span class="line">      60.002583954 seconds time elapsed</span><br></pre></td></tr></table></figure>
 
 <p>在TMA的L2中，从论文来看其实不太需要把第二层所需要的维度全都进行，只需要把L1中的瓶颈对应的L2进行Profiling即可，但是perf的TopdownL2依然把所有的维度的性能数据都进行计算了。</p>
+<p>L2的瓶颈类别如下：</p>
+<p><strong>采集事件的含义：</strong></p>
+<p><strong>具体计算方法：</strong></p>
 
     </div>
 
@@ -395,7 +419,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
           <a href="/archives">
-          <span class="site-state-item-count">16</span>
+          <span class="site-state-item-count">17</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -446,12 +470,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">36k</span>
+    <span title="站点总字数">42k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">2:11</span>
+    <span title="站点阅读时长">2:32</span>
 </div>
 
         
