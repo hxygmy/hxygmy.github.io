@@ -27,8 +27,11 @@
 <meta property="og:site_name" content="正经人谁写技术博客啊">
 <meta property="og:description" content="DCPerf机制和原理的研究">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/hxygmy/pgo@main/img/image-20251103125703135.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/hxygmy/pgo@main/img/image-20251103130505773.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/hxygmy/pgo@main/img/image-20251103131147312.png">
 <meta property="article:published_time" content="2025-10-26T01:21:43.000Z">
-<meta property="article:modified_time" content="2025-11-02T16:21:35.000Z">
+<meta property="article:modified_time" content="2025-11-03T13:41:09.000Z">
 <meta property="article:author" content="何晓宇">
 <meta property="article:tag" content="SOLE">
 <meta property="article:tag" content="System Optimization">
@@ -36,6 +39,7 @@
 <meta property="article:tag" content="Meta">
 <meta property="article:tag" content="DCPerf">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/hxygmy/pgo@main/img/image-20251103125703135.png">
 
 <link rel="canonical" href="http://www.hxygmy.site/2025/10/26/016DCPerf%E6%A1%86%E6%9E%B6%E7%A0%94%E7%A9%B6/">
 
@@ -186,7 +190,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2025-11-03 00:21:35" itemprop="dateModified" datetime="2025-11-03T00:21:35+08:00">2025-11-03</time>
+                <time title="修改时间：2025-11-03 21:41:09" itemprop="dateModified" datetime="2025-11-03T21:41:09+08:00">2025-11-03</time>
               </span>
 
           <br>
@@ -195,14 +199,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>172</span>
+              <span>783</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
+              <span>3 分钟</span>
             </span>
 
         </div>
@@ -218,8 +222,25 @@
 
 <span id="more"></span>
 
-<h2 id="1-研究背景"><a href="#1-研究背景" class="headerlink" title="1. 研究背景"></a>1. 研究背景</h2><p>当今社会下，分布式集群场景越来越多，云架构的Benchmark比较少，现在的基准测试套件SPEC CPU2017、SPEC CPU2006是针对单机的，而谷歌出品的Cloud Suite，SPEC Cloud IssS等云架构下的基准测试也无法反映真实的集群负载情况。DCPerf框架下测试套件可以适配云场景下的workload，能准确地反映实际工作负载的性能。主要结果是它可以指导CPU选型、CPU微架构优化、对OS Kernel的可扩展性问题进行定位。</p>
-<h2 id="2-研究方法"><a href="#2-研究方法" class="headerlink" title="2. 研究方法"></a>2. 研究方法</h2><h2 id="3-主要优点"><a href="#3-主要优点" class="headerlink" title="3. 主要优点"></a>3. 主要优点</h2><h2 id="4"><a href="#4" class="headerlink" title="4."></a>4.</h2>
+<h2 id="1-研究背景"><a href="#1-研究背景" class="headerlink" title="1. 研究背景"></a>1. 研究背景</h2><p>当今社会下，分布式集群场景越来越多，而针对云架构的基准测试集比较少，现在的基准测试套件如SPEC CPU2017、SPEC CPU2006是针对单机的，而Cloud Suite，SPEC Cloud IssS等云架构下的基准测试也无法反映真实的集群负载情况。云服务厂商需要一个可以准确反映服务器负载的基准测试，以指导CPU选型，降低服务器维护成本，进行微架构或系统内核级别的优化。</p>
+<p>DCPerf 是针对以上问题提出的一套基准测试框架，它从大型工作负载，到微架构级别的性能表现都和生产环境中非常相似，达到以基准测试来反映真实分布式服务器负载的效果。</p>
+<h2 id="2-DCPerf的介绍"><a href="#2-DCPerf的介绍" class="headerlink" title="2. DCPerf的介绍"></a>2. DCPerf的介绍</h2><p>DCPerf框架可以自动化对一些基准测试，如TaoBench、FeedSim、DjangoBench等进行自动化部署并执行，同时，它在基准测试中添加了一些“数据中心税”的模拟，它模拟了云架构中由于节点间通信造成的性能损失。为了测试已有的基准测试在什么程度上反映出真实的负载，DCPerf框架通过一些hook工具对CPU的性能数据进行采集，并将其与生产环境中的节点的性能数据进行对比，以确定它能在多大程度上反映出真实负载。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/hxygmy/pgo@main/img/image-20251103125703135.png" alt="image-20251103125703135"></p>
+<h3 id="2-1-基准测试"><a href="#2-1-基准测试" class="headerlink" title="2.1 基准测试"></a>2.1 基准测试</h3><p>按照分类来说，DCPerf针对当前生产环境中功耗最高的工作负载，包括<strong>Web服务、网页排名、数据缓存、大数据处理、媒体处理</strong>五项，分别提供了对应的基准测试。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/hxygmy/pgo@main/img/image-20251103130505773.png" alt="image-20251103130505773"></p>
+<p>针对每一项的工作负载提供的基准测试如上图，这些基准测试使用的软件栈如下：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/hxygmy/pgo@main/img/image-20251103131147312.png" alt="image-20251103131147312"></p>
+<p>除此之外，DCPerf还建模了一套<strong>微基准测试</strong>。数据中心应用中常用的一些库函数，例如用于RPC、加密、哈希、序列化、并发管理及内存操作的函数，虽然与应用的业务逻辑无关，但却是确保数据中心大规模环境下实现最优性能所必需的。DCPerf称这些功能为<strong>数据中心税</strong>。如果某款服务器SKU在这些数据中心税测试中的表现不佳，那么它很可能会导致多种应用的性能同样不理想。</p>
+<h3 id="2-2-基准测试的推算精度（projection-accuracy）"><a href="#2-2-基准测试的推算精度（projection-accuracy）" class="headerlink" title="2.2 基准测试的推算精度（projection accuracy）"></a>2.2 基准测试的推算精度（projection accuracy）</h3><p>DCPerf 对比了SPEC CPU2017，CloudSuite，真实生产环境的多个维度性能数据，这些维度包括：</p>
+<ul>
+<li>不同的CPU平台</li>
+<li>Topdown Micro-Architecture Methodology下的L1层级的性能数据</li>
+<li>每物理核心的IPC（开启SMT），内存带宽消耗，L1-Cache未命中率，CPU利用率，功耗，CPU核心频率</li>
+<li>功耗</li>
+<li>数据中心税</li>
+</ul>
+<p>在这些维度，基准测试相对SPEC CPU2017和CloudSuite均可以更加精确地反映出真实的负载情况，误差率小于3%。</p>
+<h2 id=""><a href="#" class="headerlink" title=""></a></h2>
     </div>
 
     
@@ -303,7 +324,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E7%A0%94%E7%A9%B6%E8%83%8C%E6%99%AF"><span class="nav-number">1.</span> <span class="nav-text">1. 研究背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E7%A0%94%E7%A9%B6%E6%96%B9%E6%B3%95"><span class="nav-number">2.</span> <span class="nav-text">2. 研究方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E4%B8%BB%E8%A6%81%E4%BC%98%E7%82%B9"><span class="nav-number">3.</span> <span class="nav-text">3. 主要优点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4"><span class="nav-number">4.</span> <span class="nav-text">4.</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E7%A0%94%E7%A9%B6%E8%83%8C%E6%99%AF"><span class="nav-number">1.</span> <span class="nav-text">1. 研究背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-DCPerf%E7%9A%84%E4%BB%8B%E7%BB%8D"><span class="nav-number">2.</span> <span class="nav-text">2. DCPerf的介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-%E5%9F%BA%E5%87%86%E6%B5%8B%E8%AF%95"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 基准测试</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-%E5%9F%BA%E5%87%86%E6%B5%8B%E8%AF%95%E7%9A%84%E6%8E%A8%E7%AE%97%E7%B2%BE%E5%BA%A6%EF%BC%88projection-accuracy%EF%BC%89"><span class="nav-number">2.2.</span> <span class="nav-text">2.2 基准测试的推算精度（projection accuracy）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link"><span class="nav-number">3.</span> <span class="nav-text"></span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -369,12 +390,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">37k</span>
+    <span title="站点总字数">38k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">2:15</span>
+    <span title="站点阅读时长">2:17</span>
 </div>
 
         
